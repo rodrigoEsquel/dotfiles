@@ -1,6 +1,6 @@
 # dotfiles
 
-### Scync with stow:
+### Sync with stow:
 
 ```bash
 stow --target ~/.config .
