@@ -38,7 +38,7 @@ vim.opt.textwidth = 0
 vim.opt.wrapmargin = 0
 
 vim.opt.splitkeep = "screen" -- Keep screen placin on split
-vim.o.splitbelow = true -- Sane split placing
+vim.o.splitbelow = true      -- Sane split placing
 vim.o.splitright = true
 
 vim.opt.laststatus = 3
@@ -52,3 +52,5 @@ vim.opt.fillchars = {
 	diff = "╱",
 	eob = " ",
 }
+
+vim.opt.cursorline = true

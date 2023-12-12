@@ -21,7 +21,8 @@ return {
 			layout_config
 		)
 			local layout =
-				require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines, layout_config)
+			    require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines,
+				    layout_config)
 
 			layout.prompt.title = ""
 			layout.prompt.borderchars = { "▄", "█", "█", "█", "▄", "▄", "█", "█" }
@@ -118,7 +119,8 @@ return {
 			{ desc = "[S]earch current [W]ord" }
 		)
 		vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics,
+			{ desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sh", ":Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon marks" })
 		-- vim.keymap.set("n", "<leader>sm", ":Telescope macros<CR>", { desc = "[S]earch [M]acros" })
 		vim.keymap.set("n", "<leader>ss", ":Telescope git_status<CR>", { desc = "[S]earch git [S]tatus" })
@@ -126,22 +128,22 @@ return {
 		vim.keymap.set("n", "<leader>sb", ":Telescope git_branches<CR>", { desc = "[S]earch git [B]ranches" })
 		vim.keymap.set("n", "<leader>s<space>", ":Telescope resume<CR>", { desc = "Resume [S]earch" })
 
-		local colors = require("onedark.palette").deep
+		local colors = require("kanagawa.colors").setup({ theme = "wave" }).theme.ui
 		local TelescopeColor = {
-			TelescopeMatching = { fg = colors.blue },
-			TelescopeSelection = { fg = colors.fg, bg = colors.bg1, bold = true },
-			TelescopePromptPrefix = { bg = colors.bg0 },
-			TelescopePromptTitle = { bg = colors.purple, fg = colors.bg0 },
-			TelescopePromptNormal = { bg = colors.grey },
-			TelescopePromptBorder = { bg = colors.bg0, fg = colors.grey },
+			TelescopeMatching = { fg = colors.pmenu.fg, bold = true },
+			TelescopeSelection = { fg = colors.fg, bg = colors.bg_visual, bold = true },
+			TelescopePromptPrefix = { bg = colors.bg },
+			TelescopePromptTitle = { bg = colors.fg, fg = colors.bg },
+			TelescopePromptNormal = { bg = colors.fg, fg = colors.bg },
+			TelescopePromptBorder = { bg = colors.bg, fg = colors.fg },
 
-			TelescopeResultsTitle = { fg = colors.bg3 },
-			TelescopeResultsNormal = { bg = colors.bg3 },
-			TelescopeResultsBorder = { bg = colors.grey, fg = colors.bg3 },
+			TelescopeResultsTitle = { fg = colors.bg },
+			TelescopeResultsNormal = { bg = colors.bg_m1 },
+			TelescopeResultsBorder = { bg = colors.fg, fg = colors.bg_m1 },
 
-			TelescopePreviewTitle = { bg = colors.green, fg = colors.black },
-			TelescopePreviewNormal = { bg = colors.black },
-			TelescopePreviewBorder = { bg = colors.bg0, fg = colors.black },
+			TelescopePreviewTitle = { bg = colors.fg, fg = colors.bg_m1 },
+			TelescopePreviewNormal = { bg = colors.bg_m3 },
+			TelescopePreviewBorder = { bg = colors.bg, fg = colors.bg_m3 },
 		}
 
 		for hl, col in pairs(TelescopeColor) do
