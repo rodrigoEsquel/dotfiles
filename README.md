@@ -3,5 +3,5 @@
 ### Sync with stow:
 
 ```bash
-stow --target ~/.config .
+stow -t ~/.config -d ~/.dotfiles .
 ```
