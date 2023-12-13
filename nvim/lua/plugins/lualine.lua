@@ -29,7 +29,7 @@ return {
 		return {
 			options = {
 				globalstatus = true,
-				theme = "onedark",
+				theme = "auto",
 				component_separators = "",
 				section_separators = { left = "", right = "" },
 			},
