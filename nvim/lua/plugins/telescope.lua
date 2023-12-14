@@ -30,7 +30,7 @@ return {
 			layout.results.title = ""
 			layout.results.borderchars = { "▄", "█", "█", "█", "▄", "▄", "█", "█" }
 			layout.results.line = layout.results.line - 1
-			layout.results.height = layout.results.height + 1
+			layout.results.height = layout.results.height + 2
 
 			if layout.preview then
 				layout.preview.title = ""
@@ -139,7 +139,7 @@ return {
 
 			TelescopeResultsTitle = { fg = colors.bg },
 			TelescopeResultsNormal = { bg = colors.bg_m1 },
-			TelescopeResultsBorder = { bg = colors.fg, fg = colors.bg_m1 },
+			TelescopeResultsBorder = { bg = colors.fg, fg = colors.bg },
 
 			TelescopePreviewTitle = { bg = colors.fg, fg = colors.bg_m1 },
 			TelescopePreviewNormal = { bg = colors.bg_m3 },
