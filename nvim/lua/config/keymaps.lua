@@ -28,6 +28,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("x", "<leader>p", '"_dP')
 
+vim.keymap.set('i', '<c-c>', '<ESC>')
+
 vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[C]ode [C]hange" })
 vim.keymap.set("n", "<leader>c<space>", vim.cmd.Format, { desc = "[C]ode Format" })
 
