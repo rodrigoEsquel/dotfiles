@@ -18,5 +18,12 @@ return {
 				change_line = "cS",
 			}, -- Configuration here, or leave empty to use defaults
 		})
+
+		vim.keymap.set("x", "(", "gs)", { remap = true })
+		vim.keymap.set("x", ")", "gs)", { remap = true })
+		vim.keymap.set("x", "[", "gs]", { remap = true })
+		vim.keymap.set("x", "]", "gs]", { remap = true })
+		vim.keymap.set("x", "{", "gs}", { remap = true })
+		vim.keymap.set("x", "}", "gs}", { remap = true })
 	end,
 }
