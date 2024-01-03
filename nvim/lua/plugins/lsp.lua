@@ -43,7 +43,8 @@ return {
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
-			nmap("<leader>sy", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+			nmap("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
+				"[W]orkspace [S]ymbols")
 
 			-- See `:help K` for why this keymap
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -67,7 +68,12 @@ return {
 			-- gopls = {},
 			-- pyright = {},
 			-- rust_analyzer = {},
-			tsserver = {},
+			tsserver = {
+				completion = { completeFunctionCalls = true },
+				preferences = {
+					importModuleSpecifier = "non-relative",
+				},
+			},
 
 			lua_ls = {
 				Lua = {
