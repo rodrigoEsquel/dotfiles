@@ -132,7 +132,7 @@ return {
 		local TelescopeColor = {
 			TelescopeMatching = { fg = colors.pmenu.fg, bold = true },
 			TelescopeSelection = { fg = colors.fg, bg = colors.bg_visual, bold = true },
-			TelescopePromptPrefix = { bg = colors.bg },
+			TelescopePromptPrefix = { bg = colors.fg },
 			TelescopePromptTitle = { bg = colors.fg, fg = colors.bg },
 			TelescopePromptNormal = { bg = colors.fg, fg = colors.bg },
 			TelescopePromptBorder = { bg = colors.bg, fg = colors.fg },
