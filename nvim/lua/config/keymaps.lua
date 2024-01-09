@@ -4,7 +4,7 @@
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Buffer handling
-vim.keymap.set("n", "<leader>bc", ":bp<bar>sp<bar>bn<bar>bd<CR>", { desc = "[C]lose [B]uffer" })
+vim.keymap.set("n", "<leader>bc", ":bp<bar>sp<bar>bn<bar>bd<CR>", { desc = "[C]lose [B]uffer", silent = true })
 vim.keymap.set("n", "<leader>bl", ":bnext<CR>", { desc = "Next [B]uffer" })
 vim.keymap.set("n", "<leader>bh", ":bprev<CR>", { desc = "Previous [B]uffer" })
 vim.keymap.set("n", "<leader>bb", ":b#<CR>", { desc = "[B]uffer [B]ack" })
@@ -26,9 +26,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("x", "<leader>p", '"_dP')
+vim.keymap.set("x", "<leader>p", '"_dP', { desc = "[P]aste without yank" })
 
-vim.keymap.set('i', '<c-c>', '<ESC>')
+vim.keymap.set("i", "<c-c>", "<ESC>")
 
 vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[C]ode [C]hange" })
 vim.keymap.set("n", "<leader>c<space>", vim.cmd.Format, { desc = "[C]ode Format" })
