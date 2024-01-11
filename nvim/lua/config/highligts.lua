@@ -1,29 +1,28 @@
 local diag = require("kanagawa.colors").setup({ theme = "wave" }).theme.diag
-paco = "o"
 
-local DiagnosticColor = {
-	DiagnosticUnderlineError = {
-		sp = diag.error,
-		underline = true,
-	},
-	DiagnosticUnderlineWarn = {
-		sp = diag.warning,
-		underline = true,
-	},
-	DiagnosticUnderlineInfo = {
-		sp = diag.info,
-		underline = true,
-	},
-	DiagnosticUnderlineHint = {
-		sp = diag.hint,
-		underline = true,
-	},
-	DiagnosticUnderlineOk = {
-		sp = diag.ok,
-		underline = true,
-	},
-}
-
+-- local DiagnosticColor = {
+-- 	DiagnosticUnderlineError = {
+-- 		sp = diag.error,
+-- 		underline = true,
+-- 	},
+-- 	DiagnosticUnderlineWarn = {
+-- 		sp = diag.warning,
+-- 		underline = true,
+-- 	},
+-- 	DiagnosticUnderlineInfo = {
+-- 		sp = diag.info,
+-- 		underline = true,
+-- 	},
+-- 	DiagnosticUnderlineHint = {
+-- 		sp = diag.hint,
+-- 		underline = true,
+-- 	},
+-- 	DiagnosticUnderlineOk = {
+-- 		sp = diag.ok,
+-- 		underline = true,
+-- 	},
+-- }
+--
 -- for hl, col in pairs(DiagnosticColor) do
 -- 	vim.api.nvim_set_hl(0, hl, col)
 -- end
