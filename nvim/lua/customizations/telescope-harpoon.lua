@@ -11,75 +11,25 @@ local make_entry = require("telescope.make_entry")
 local telescope_utils = require("telescope.utils")
 local themes = require("telescope.themes")
 
-local harpoon = require("harpoon")
-
-local function printTable(table)
-	for key, value in pairs(table) do
-		if type(value) == "table" then
-			printTable(value)
-		else
-			print(key, value)
-		end
-	end
-end
-
-local function get_file_from_buffer(bufnr)
-	local file = Path:new(vim.api.nvim_buf_get_name(bufnr)):make_relative(vim.loop.cwd())
-	return file
-end
-
-local function has_value(table, targetValue)
-	for _, value in ipairs(table) do
-		if value == targetValue then
-			return true
-		end
-	end
-	return false
-end
-
-local function buf_is_harpooned(bufnr)
-	local harpoon_files = harpoon:list()
-	local bufrn_file = get_file_from_buffer(bufnr)
-	local file_paths = {}
-
-	for _, item in ipairs(harpoon_files.items) do
-		table.insert(file_paths, item.value)
-	end
-	local is_harpooned = has_value(file_paths, bufrn_file)
-	return is_harpooned
-end
-
-local function get_harpoon_index(bufnr)
-	local harpoon_files = harpoon:list()
-	local bufrn_file = get_file_from_buffer(bufnr)
-	local file_index = 0
-
-	for index, item in ipairs(harpoon_files.items) do
-		if bufrn_file == item.value then
-			file_index = index
-		end
-	end
-
-	return file_index
-end
+local harpoon_utils = require("customizations.harpoon-utils")
 
 local function toggle_buffer_mark(prompt_bufnr)
 	local current_picker = action_state.get_current_picker(prompt_bufnr)
 	local entry = action_state.get_selected_entry()
 	local mark = " "
 	local old = " "
-	if not buf_is_harpooned(entry.bufnr) then
-		local config = harpoon:list().config
-		local file_path = get_file_from_buffer(entry.bufnr)
+	if not harpoon_utils:buf_is_harpooned(entry.bufnr) then
+		local config = harpoon_utils.list.config
+		local file_path = harpoon_utils:get_file_from_buffer(entry.bufnr)
 		local item = config.create_list_item(config, file_path)
-		harpoon:list():append(item)
-		local index = tostring(get_harpoon_index(entry.bufnr))
+		harpoon_utils.list:append(item)
+		local index = tostring(harpoon_utils:get_harpoon_index(entry.bufnr))
 		mark = index
 		old = " "
 	else
-		-- local harpoon_item = harpoon:list():get(index)
-		local index = get_harpoon_index(entry.bufnr)
-		harpoon:list():removeAt(index)
+		-- local harpoon_item = harpoon_utils.list:get(index)
+		local index = harpoon_utils:get_harpoon_index(entry.bufnr)
+		harpoon_utils.list:removeAt(index)
 		old = tostring(index)
 		mark = " "
 	end
@@ -112,7 +62,7 @@ local entry_from_buffer = function(opts)
 		opts.__prefix = 1 + opts.bufnr_width + 4 + icon_width + 4 + 1 + #tostring(entry.lnum)
 		local display_file_name = entry.filename
 		local display_icon, hl_group = telescope_utils.get_devicons(entry.filename, false)
-		local index = tostring(get_harpoon_index(entry.bufnr))
+		local index = tostring(harpoon_utils:get_harpoon_index(entry.bufnr))
 		local mark = index
 
 		return displayer({
@@ -154,7 +104,7 @@ local entry_from_buffer = function(opts)
 			filename = bufname,
 			indicator = indicator,
 			lnum = lnum,
-			marked = buf_is_harpooned(entry.bufnr),
+			marked = harpoon_utils:buf_is_harpooned(entry.bufnr),
 			ordinal = entry.bufnr .. " : " .. bufname,
 			value = bufname,
 		}, opts)
@@ -165,9 +115,8 @@ local buffer_sorter = function()
 	local sorter = sorters.get_fzy_sorter()
 	sorter.internal = sorter.scoring_function
 	sorter.scoring_function = function(s, prompt, line, entry)
-		if buf_is_harpooned(entry.bufnr) then
-			local index = get_harpoon_index(entry.bufnr)
-
+		if harpoon_utils:buf_is_harpooned(entry.bufnr) then
+			local index = harpoon_utils:get_harpoon_index(entry.bufnr)
 			return 2 ^ (1 - (20 / index))
 		end
 		return sorter.internal(s, prompt, line, entry)
@@ -200,15 +149,15 @@ local function bufferpick(opts)
 	end
 
 	table.sort(bufnrs, function(a, b)
-		if buf_is_harpooned(a) and buf_is_harpooned(b) then
+		if harpoon_utils:buf_is_harpooned(a) and harpoon_utils:buf_is_harpooned(b) then
 			return vim.fn.getbufinfo(a)[1].lastused > vim.fn.getbufinfo(b)[1].lastused
 		end
 
-		if buf_is_harpooned(a) then
+		if harpoon_utils:buf_is_harpooned(a) then
 			return true
 		end
 
-		if buf_is_harpooned(b) then
+		if harpoon_utils:buf_is_harpooned(b) then
 			return false
 		end
 
@@ -257,7 +206,7 @@ end
 local my_dropdown = get_dropdown({})
 
 vim.keymap.set("n", "<leader>bm", function()
-	harpoon:list():remove()
+	harpoon_utils.list:remove()
 end, { desc = "[M]ark [B]uffer" })
 
 vim.keymap.set("n", "<leader><space>", function()
