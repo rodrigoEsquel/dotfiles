@@ -6,26 +6,37 @@ return {
 		local harpoon = require("harpoon")
 
 		-- REQUIRED
-		harpoon:setup()
+		harpoon:setup({
+			settings = {
+				save_on_toggle = true,
+				sync_on_ui_close = true,
+				enter_on_sendcmd = true,
+			},
+		})
 		-- REQUIRED
 
 		vim.keymap.set("n", "<leader>ha", function()
 			harpoon:list():append()
 		end, { desc = "[H]arpoon [A]dd mark to file" })
+
+		vim.keymap.set("n", "<leader>hc", function()
+			harpoon:list():clear()
+		end, { desc = "[H]arpoon [C]lear all" })
+
 		vim.keymap.set("n", "<leader>hl", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end)
 
-		vim.keymap.set("n", "<leader>hh>", function()
+		vim.keymap.set("n", "<leader>hh", function()
 			harpoon:list():select(1)
 		end)
-		vim.keymap.set("n", "<leader>ht>", function()
+		vim.keymap.set("n", "<leader>ht", function()
 			harpoon:list():select(2)
 		end)
-		vim.keymap.set("n", "<leader>hn>", function()
+		vim.keymap.set("n", "<leader>hn", function()
 			harpoon:list():select(3)
 		end)
-		vim.keymap.set("n", "<leader>hs>", function()
+		vim.keymap.set("n", "<leader>hs", function()
 			harpoon:list():select(4)
 		end)
 
