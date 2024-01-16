@@ -19,6 +19,10 @@ return {
 			harpoon:list():append()
 		end, { desc = "[H]arpoon [A]dd mark to file" })
 
+		vim.keymap.set("n", "<leader>hd", function()
+			harpoon:list():remove()
+		end, { desc = "[H]arpoon [D]elete file" })
+
 		vim.keymap.set("n", "<leader>hc", function()
 			harpoon:list():clear()
 		end, { desc = "[H]arpoon [C]lear all" })
