@@ -1,8 +1,18 @@
 local M = require("lualine.component"):extend()
 
+local Path = require("plenary.path")
 local harpoon_utils = require("customizations.harpoon-utils")
 local web_devicons = require("nvim-web-devicons")
 local highlights = require("lualine.highlight")
+
+local function is_current_file(file_path)
+	local root_dir = vim.loop.cwd()
+	local current_file = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+
+	local current_file_normalized = Path:new(current_file):make_relative(root_dir)
+
+	return current_file_normalized == file_path
+end
 
 local function create_item(index, file_path)
 	local item = ""
@@ -27,10 +37,6 @@ function M:init(options)
 end
 
 function M:update_status()
-	local function is_current_file(file_path)
-		return vim.fn.expand("%") == file_path
-	end
-
 	local state = ""
 	local harpoon_files = harpoon_utils.list.items
 	for index, item in ipairs(harpoon_files) do
