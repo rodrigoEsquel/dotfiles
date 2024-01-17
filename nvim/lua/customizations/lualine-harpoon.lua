@@ -5,6 +5,8 @@ local harpoon_utils = require("customizations.harpoon-utils")
 local web_devicons = require("nvim-web-devicons")
 local highlights = require("lualine.highlight")
 
+local component_icon = ""
+
 local function is_current_file(file_path)
 	local root_dir = vim.loop.cwd()
 	local current_file = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
@@ -33,11 +35,12 @@ local function apply_highlights(is_current, item)
 end
 
 function M:init(options)
+	component_icon = options.component_icon or ""
 	M.super.init(self, options)
 end
 
 function M:update_status()
-	local state = ""
+	local state = "%#lualine_a_inactive#" .. component_icon .. " "
 	local harpoon_files = harpoon_utils.list.items
 	for index, item in ipairs(harpoon_files) do
 		local value = item.value
@@ -46,7 +49,7 @@ function M:update_status()
 		new_item = apply_highlights(is_current, new_item)
 		state = state .. new_item
 	end
-	return state
+	return state .. "%##"
 end
 
 return M
