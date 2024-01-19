@@ -5,7 +5,6 @@ return {
 		-- Automatically install LSPs to stdpath for neovim
 		{ "williamboman/mason.nvim", config = true },
 		"williamboman/mason-lspconfig.nvim",
-
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{
@@ -43,8 +42,7 @@ return {
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
-			nmap("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
-				"[W]orkspace [S]ymbols")
+			nmap("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
 			-- See `:help K` for why this keymap
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -159,12 +157,7 @@ return {
 							return
 						end
 
-						vim.lsp.buf.format({
-							async = false,
-							filter = function(c)
-								return c.id == client.id
-							end,
-						})
+						require("customizations.format-file-saving-marks")()
 					end,
 				})
 			end,

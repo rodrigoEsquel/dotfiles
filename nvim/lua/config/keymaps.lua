@@ -31,7 +31,7 @@ vim.keymap.set("x", "<leader>p", '"_dP', { desc = "[P]aste without yank" })
 vim.keymap.set("i", "<c-c>", "<ESC>")
 
 vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[C]ode [C]hange" })
-vim.keymap.set("n", "<leader>c<space>", vim.cmd.Format, { desc = "[C]ode Format" })
+vim.keymap.set("n", "<leader>c<space>", require("customizations.format-file-saving-marks"), { desc = "[C]ode Format" })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
