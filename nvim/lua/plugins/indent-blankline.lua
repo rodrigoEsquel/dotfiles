@@ -7,20 +7,20 @@ local highlight = {
 }
 
 return {
-	{
-		"HiPhish/rainbow-delimiters.nvim",
-		config = function()
-			vim.g.rainbow_delimiters = {
-				highlight = highlight,
-			}
-		end,
-	},
+	-- {
+	-- 	"HiPhish/rainbow-delimiters.nvim",
+	-- 	config = function()
+	-- 		vim.g.rainbow_delimiters = {
+	-- 			highlight = highlight,
+	-- 		}
+	-- 	end,
+	-- },
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {
 			indent = {
-				highlight = highlight,
+				-- highlight = highlight,
 			},
 			-- whitespace = { highlight = highlight },
 		},
