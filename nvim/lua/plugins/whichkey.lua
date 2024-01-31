@@ -9,6 +9,7 @@ return {
 			["<leader>b"] = { name = "+[B]uffer" },
 			["<leader>c"] = { name = "+[C]ode" },
 			["<leader>d"] = { name = "+[D]iagnostic" },
+			["<leader>e"] = { name = "+[E]dgy" },
 			["<leader>g"] = { name = "+[G]it" },
 			["<leader>h"] = { name = "+[H]arpoon" },
 			["<leader>n"] = { name = "+[N]otes" },
