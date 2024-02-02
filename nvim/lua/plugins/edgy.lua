@@ -7,6 +7,8 @@ return {
 	init = function()
 		vim.opt.laststatus = 3
 		vim.opt.splitkeep = "screen"
+
+		vim.keymap.set("n", "<leader>ee", require("edgy").toggle, { desc = "Open [E]dgy" })
 	end,
 	opts = {
 		options = {
@@ -20,10 +22,6 @@ return {
 		bottom = {
 			"Trouble",
 			{ ft = "qf", title = "QuickFix" },
-			{
-				title = "Telescope",
-				ft = "Telescope",
-			},
 		},
 		right = {
 			{
