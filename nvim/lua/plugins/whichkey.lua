@@ -14,6 +14,7 @@ return {
 			["<leader>h"] = { name = "+[H]arpoon" },
 			["<leader>n"] = { name = "+[N]otes" },
 			["<leader>s"] = { name = "+[S]earch" },
+			["<leader>t"] = { name = "+[T]est" },
 			["<leader>w"] = { name = "+[w]indow" },
 		})
 	end,

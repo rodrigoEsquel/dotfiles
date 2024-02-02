@@ -42,7 +42,8 @@ return {
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
-			nmap("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+			nmap("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
+				"[W]orkspace [S]ymbols")
 
 			-- See `:help K` for why this keymap
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -82,7 +83,9 @@ return {
 		}
 
 		-- Setup neovim lua configuration
-		require("neodev").setup()
+		require("neodev").setup({
+			library = { plugins = { "neotest" }, types = true },
+		})
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
