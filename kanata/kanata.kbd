@@ -52,33 +52,33 @@
 
 (defalias
 
-  _a (multi f24 (tap-hold 100 200 a lmet) )
-  _s (multi f24 (tap-hold 100 200 s lalt) )
-  _d (multi f24 (tap-hold 100 200 d lctl) )
-  _f (multi f24 (tap-hold 100 200 f lsft) )
-;;  _g (multi f24 (tap-hold 100 200 g (layer-toggle L_num)) )
+  _a (multi f24 (tap-hold 50 200 a lmet) )
+  _s (multi f24 (tap-hold 50 200 s lalt) )
+  _d (multi f24 (tap-hold 50 200 d lctl) )
+  _f (multi f24 (tap-hold 50 200 f lsft) )
+  _g (multi f24 (tap-hold 50 200 g (layer-toggle L_num)) )
 
- ;; _spc (multi f24 (tap-hold 100 200 spc (layer-toggle L_symb)) )
+  _spc (multi f24 (tap-hold 50 200 spc (layer-toggle L_symb)) )
 
-;;_h (multi f24 (tap-hold 100 200 h (layer-toggle L_symb)) )
-  _j (multi f24 (tap-hold 100 200 j rsft) )
-  _k (multi f24 (tap-hold 100 200 k rctl) )
-  _l (multi f24 (tap-hold 100 200 l lalt) )
-  _p (multi f24 (tap-hold 100 200 p rmet) )
+;;_h (multi f24 (tap-hold 50 200 h (layer-toggle L_symb)) )
+  _j (multi f24 (tap-hold 50 200 j rsft) )
+  _k (multi f24 (tap-hold 50 200 k rctl) )
+  _l (multi f24 (tap-hold 50 200 l lalt) )
+  _p (multi f24 (tap-hold 50 200 p rmet) )
 
 ;;  sym (layer-toggle L_symb)
 ;;  hme (layer-toggle L_home)
 ;;  num (layer-switch L_num)
 
-  _6 (multi f24 (tap-hold 100 200 6 lmet) )
-  _5 (multi f24 (tap-hold 100 200 5 lalt) )
-  _3 (multi f24 (tap-hold 100 200 3 lctl) )
-  _2 (multi f24 (tap-hold 100 200 2 lsft) )
+  _6 (multi f24 (tap-hold 50 200 6 lmet) )
+  _5 (multi f24 (tap-hold 50 200 5 lalt) )
+  _3 (multi f24 (tap-hold 50 200 3 lctl) )
+  _2 (multi f24 (tap-hold 50 200 2 lsft) )
 
-  _left (multi f24 (tap-hold 100 200 left rsft) )
-  _qte  (multi f24 (tap-hold 100 200 ' rctl) )
-  _dqte (multi f24 (tap-hold 100 200 S-' lalt) )
-  _rght (multi f24 (tap-hold 100 200 rght rmet) )
+  _left (multi f24 (tap-hold 50 200 left rsft) )
+  _qte  (multi f24 (tap-hold 50 200 ' rctl) )
+  _dqte (multi f24 (tap-hold 50 200 S-' lalt) )
+  _rght (multi f24 (tap-hold 50 200 rght rmet) )
 )
 
 ;; pongo   ' w v z / @ - \\ q w " W V Z ? ^ \_ | Q W e E & [ { } \( = * \) + ] % 7 5 3 1 9 0 2 4 6 $ ~ ! 8 # ` , < . >
