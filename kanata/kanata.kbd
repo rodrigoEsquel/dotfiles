@@ -9,47 +9,47 @@
        q w e r t y u i o p
        a s d f g h j k l ;
        z x c v b n m , . /
-;;               spc
+               spc
 )
 
 
 (deflayer L_home
 
-;;   ;      ,      .      p      y           f      g      c      r      s
-;;   a      o      e      u      i           d      h      t      n      l
-;;   '      q      j      k      x           b      m      w      v      z
-                                                                         
-     q      w      e      r      t           y      u      i      o      ;
-     @_a    @_s    @_d    @_f    g         h      @_j    @_k    @_l    @_p
-     z      x      c      v      b           n      m      ,      .      /
-;;                                  @_spc
+;;   ;           ,           .           p           y                f           g           c           r           s
+;;   a           o           e           u           i                d           h           t           n           l
+;;   '           q           j           k           x                b           m           w           v           z
+                                                                                                                      
+     q           w           e           r           t                y           u           i           o           ;
+     @_a         @_s         @_d         @_f         @_g              h           @_j         @_k         @_l         @_p
+     z           x           c           v           b                n           m           ,           .           /
+                                                            @_spc
 )                                                        
-#|
+
 (deflayer L_symb                                      
                                                          
-;;   tab    \)     }      ]      ^           \      %      +      *      /
-;;   =      \(     {      [      @           ret    left   -      _      rght
-;;   `      ~      down   up     #           $      ?      !      &      |
-                                                                          
-     tab    8      4      0      }           \      S-1    9      7      [        
-     @_6    @_5    @_3    @_2    ]           ret    @_left @_qte  @_dqte @_rght        
-     +      S-`    down   up     =           `      {      -      1      S-\     
-                                   ;; spc
+;;   tab         \)          }           ]           ^                \           %           +           *           /
+;;   =           \(          {           [           @                ret         left        -           _           rght
+;;   `           ~           down        up          #                $           ?           !           &           |
+                                                                                                                       
+     tab         8           4           0           S-]              \           S-1         9           7           [        
+     @_6         @_5         @_3         @_2         ]                ret         @_left      @_qte       @_dqte      @_rght        
+     S-=         S-`         down        up          =                `           S-[         -           1           S-\     
+                                                             spc
 
 )          
 
 (deflayer L_num                                       
                                                          
-;;                                           bspc   1      2      3      del
-;;                                           ret    4      5      6      0
-;;                                           esc    7      8      9      XX
-                                                                         
-     XX     XX     XX     XX     XX          bspc   S-1    *      $      del
-     lmet   lalt   lctl   lsft   XX          ret    S-9    #      S-0    S-7
-     XX     XX     XX     XX     XX          esc    @      \_     ^      XX
-                                   ;; spc
+;;                                                                    bspc        1           2           3           del
+;;                                                                    ret         4           5           6           0
+;;                                                                    esc         7           8           9           XX
+                                                                                                                      
+     XX          XX          XX          XX          XX               bspc        S-5         S-8         S-4         del
+     lmet        lalt        lctl        lsft        XX               ret         S-9         S-3         S-0         S-7
+     XX          XX          XX          XX          XX               esc         S-2         S--         S-6         XX
+                                                             spc
 )
-|#
+
 (defalias
 
   _a (multi f24 (tap-hold 100 200 a lmet) )
