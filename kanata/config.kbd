@@ -83,11 +83,11 @@
 
   _spc (multi f24 (tap-hold 50 200 spc (layer-toggle L_symb)) )
 
-  _h (multi f24 (tap-hold-release-keys 50 200 (multi h @tap) (layer-toggle L_num) $left-hand-keys) )
-  _j (multi f24 (tap-hold-release-keys 50 200 (multi j @tap) rsft $left-hand-keys) )
-  _k (multi f24 (tap-hold-release-keys 50 200 (multi k @tap) rctl $left-hand-keys) )
-  _l (multi f24 (tap-hold-release-keys 50 200 (multi l @tap) lalt $left-hand-keys) )
-  _p (multi f24 (tap-hold-release-keys 50 200 (multi p @tap) rmet $left-hand-keys) )
+  _h (multi f24 (tap-hold-release-keys 50 200 (multi h @tap) (layer-toggle L_num) $right-hand-keys) )
+  _j (multi f24 (tap-hold-release-keys 50 200 (multi j @tap) rsft $right-hand-keys) )
+  _k (multi f24 (tap-hold-release-keys 50 200 (multi k @tap) rctl $right-hand-keys) )
+  _l (multi f24 (tap-hold-release-keys 50 200 (multi l @tap) lalt $right-hand-keys) )
+  _p (multi f24 (tap-hold-release-keys 50 200 (multi p @tap) rmet $right-hand-keys) )
 
   _6 (multi f24 (tap-hold 50 200 6 lmet) )
   _5 (multi f24 (tap-hold 50 200 5 lalt) )
