@@ -61,35 +61,8 @@ return {
 			end,
 		})
 
-		local function create_centered_floating_window()
-			local width = math.min(80,math.floor(vim.o.columns * 0.8))
-			local height = math.floor(vim.o.lines * 0.8)
-
-			local opts = {
-				relative = "editor",
-				width = width,
-				height = height,
-				col = math.floor((vim.o.columns - width) / 2),
-				row = math.floor((vim.o.lines - height) / 2) - 1,
-				style = "minimal",
-			}
-
-			local opts_new = {
-				relative = opts.relative,
-				width = opts.width - 4,
-				height = opts.height - 2,
-				col = opts.col + 2,
-				row = opts.row + 1,
-				style = opts.style,
-			}
-
-			vim.api.nvim_win_set_config(0, opts_new)
-			-- vim.api.nvim_open_win(buf, true, opts)
-		end
-
 		vim.keymap.set("n", "<leader>gc", function()
 			vim.cmd("Git commit")
-			create_centered_floating_window()
 		end, { noremap = false, desc = "[G]it [C]ommit" })
 		vim.api.nvim_set_keymap(
 			"n",

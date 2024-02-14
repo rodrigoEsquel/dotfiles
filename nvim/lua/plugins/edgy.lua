@@ -15,10 +15,12 @@ return {
 			left = { size = 40 },
 			bottom = { size = 10 },
 			right = { size = 80 },
-			top = { size = 100 },
+			top = { size = 20 },
 		},
 		exit_when_last = true,
-		top = {},
+		top = {
+			{ title = "Git Commit", ft = "gitcommit" },
+		},
 		bottom = {
 			"Trouble",
 			{ ft = "qf", title = "QuickFix" },
