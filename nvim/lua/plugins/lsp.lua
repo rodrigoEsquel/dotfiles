@@ -42,8 +42,7 @@ return {
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
-			nmap("<leader>sS", require("telescope.builtin").lsp_dynamic_workspace_symbols,
-				"[W]orkspace [S]ymbols")
+			nmap("<leader>sS", "[W]orkspace [S]ymbols", require("telescope.builtin").lsp_dynamic_workspace_symbols)
 
 			-- See `:help K` for why this keymap
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")

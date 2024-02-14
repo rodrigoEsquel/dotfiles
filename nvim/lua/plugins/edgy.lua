@@ -24,6 +24,7 @@ return {
 		bottom = {
 			"Trouble",
 			{ ft = "qf", title = "QuickFix" },
+			{ title = "Diff panel", ft = "diff" },
 		},
 		right = {
 			{
@@ -36,17 +37,7 @@ return {
 		},
 		left = {
 			{
-				title = "Oil",
-				ft = "oil",
-			},
-			{
-				title = "Fugitive",
-				ft = "fugitive",
-			},
-			{
-				title = "Undo-Tree",
-				ft = "undotree",
-			},
+			{ title = "Undo-Tree", ft = "undotree" },
 			{
 				title = "Neo-Tree Git",
 				ft = "neo-tree",
