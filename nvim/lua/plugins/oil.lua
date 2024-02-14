@@ -25,7 +25,7 @@ return {
 				concealcursor = "nvic",
 			},
 		})
-		vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
-		vim.keymap.set("n", "_", "<CMD>Oil --float .<CR>", { desc = "Open root directory" })
+		vim.keymap.set("n", "-", "<CMD>Oil <CR>", { desc = "Open parent directory" })
+		vim.keymap.set("n", "_", "<CMD>Oil .<CR>", { desc = "Open root directory" })
 	end,
 }

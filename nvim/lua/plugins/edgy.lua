@@ -36,7 +36,7 @@ return {
 			},
 		},
 		left = {
-			{
+			{ title = "Fugitive", ft = "fugitive" },
 			{ title = "Undo-Tree", ft = "undotree" },
 			{
 				title = "Neo-Tree Git",
