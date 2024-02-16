@@ -22,6 +22,7 @@ return {
 			{ title = "Git Commit", ft = "gitcommit" },
 		},
 		bottom = {
+			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			"Trouble",
 			{ ft = "qf", title = "QuickFix" },
 			{ title = "Diff panel", ft = "diff" },
@@ -36,6 +37,9 @@ return {
 			},
 		},
 		left = {
+			-- keep showing floating window
+			-- { title = "Telescope", ft = "TelescopePrompt" },
+			-- { title = "Telescope", ft = "TelescopeResults" },
 			{ title = "Fugitive", ft = "fugitive" },
 			{ title = "Undo-Tree", ft = "undotree" },
 			{
