@@ -42,7 +42,8 @@ return {
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
-			nmap("<leader>sS", "[W]orkspace [S]ymbols", require("telescope.builtin").lsp_dynamic_workspace_symbols)
+			nmap("<leader>sS", "[W]orkspace [S]ymbols",
+				require("telescope.builtin").lsp_dynamic_workspace_symbols)
 
 			-- See `:help K` for why this keymap
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -67,9 +68,10 @@ return {
 			-- pyright = {},
 			-- rust_analyzer = {},
 			tsserver = {
-				completion = { completeFunctionCalls = true },
-				preferences = {
-					importModuleSpecifier = "non-relative",
+				init_options = {
+					preferences = {
+						importModuleSpecifier = "non-relative",
+					},
 				},
 			},
 
