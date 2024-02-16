@@ -24,6 +24,12 @@ return {
 				conceallevel = 3,
 				concealcursor = "nvic",
 			},
+			keymaps = {
+				["<C-s>"] = "actions.select_split",
+				["<C-v>"] = "actions.select_vsplit",
+				["<C-h>"] = false,
+				["<C-l>"] = false,
+			},
 		})
 		vim.keymap.set("n", "-", "<CMD>Oil <CR>", { desc = "Open parent directory" })
 		vim.keymap.set("n", "_", "<CMD>Oil .<CR>", { desc = "Open root directory" })
