@@ -25,16 +25,14 @@ return {
 				    layout_config)
 
 			layout.prompt.title = ""
-			layout.prompt.borderchars = { "▄", "█", "█", "█", "▄", "▄", "█", "█" }
 
 			layout.results.title = ""
-			layout.results.borderchars = { "▄", "█", "█", "█", "▄", "▄", "█", "█" }
+			layout.results.borderchars = { "─", "│", "─", "│", "├", "┤", "┘", "└" }
 			layout.results.line = layout.results.line - 1
-			layout.results.height = layout.results.height + 2
+			layout.results.height = layout.results.height + 1
 
 			if layout.preview then
 				layout.preview.title = ""
-				layout.preview.borderchars = { "▄", "▌", "█", "▐", "▗", "▖", "▌", "▐" }
 			end
 
 			return layout
@@ -52,8 +50,9 @@ return {
 				entry_prefix = "  ",
 				results_title = false,
 				layout_strategy = "horizontal_merged",
+				-- layout_strategy = "horizontal",
 				prompt_title = false,
-				dynamic_preview_title = true,
+				-- dynamic_preview_title = true,
 				borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 				initial_mode = "insert",
 				sorting_strategy = "ascending",
@@ -65,12 +64,7 @@ return {
 						prompt_position = "top",
 					},
 				},
-				mappings = {
-					i = {
-						["<C-j>"] = require("telescope.actions").move_selection_next,
-						["<C-k>"] = require("telescope.actions").move_selection_previous,
-					},
-				},
+				mappings = {},
 
 				path_display = { "smart" },
 			},
@@ -122,32 +116,10 @@ return {
 		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics,
 			{ desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sh", ":Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon marks" })
-		-- vim.keymap.set("n", "<leader>sm", ":Telescope macros<CR>", { desc = "[S]earch [M]acros" })
+		vim.keymap.set("n", "<leader>sm", ":Telescope macros<CR>", { desc = "[S]earch [M]acros" })
 		vim.keymap.set("n", "<leader>ss", ":Telescope git_status<CR>", { desc = "[S]earch git [S]tatus" })
 		vim.keymap.set("n", "<leader>sc", ":Telescope git_commits<CR>", { desc = "[S]earch git [C]ommits" })
 		vim.keymap.set("n", "<leader>sb", ":Telescope git_branches<CR>", { desc = "[S]earch git [B]ranches" })
 		vim.keymap.set("n", "<leader>s<space>", ":Telescope resume<CR>", { desc = "Resume [S]earch" })
-
-		local colors = require("kanagawa.colors").setup({ theme = "wave" }).theme.ui
-		local TelescopeColor = {
-			TelescopeMatching = { fg = colors.pmenu.fg, bold = true },
-			TelescopeSelection = { fg = colors.fg, bg = colors.bg_visual, bold = true },
-			TelescopePromptPrefix = { bg = colors.fg },
-			TelescopePromptTitle = { bg = colors.fg, fg = colors.bg },
-			TelescopePromptNormal = { bg = colors.fg, fg = colors.bg },
-			TelescopePromptBorder = { bg = colors.bg, fg = colors.fg },
-
-			TelescopeResultsTitle = { fg = colors.bg },
-			TelescopeResultsNormal = { bg = colors.bg_m1 },
-			TelescopeResultsBorder = { bg = colors.fg, fg = colors.bg },
-
-			TelescopePreviewTitle = { bg = colors.fg, fg = colors.bg_m1 },
-			TelescopePreviewNormal = { bg = colors.bg_m3 },
-			TelescopePreviewBorder = { bg = colors.bg, fg = colors.bg_m3 },
-		}
-
-		for hl, col in pairs(TelescopeColor) do
-			vim.api.nvim_set_hl(0, hl, col)
-		end
 	end,
 }

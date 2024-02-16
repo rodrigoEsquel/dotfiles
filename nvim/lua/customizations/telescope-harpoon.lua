@@ -36,7 +36,7 @@ local function toggle_buffer_mark(prompt_bufnr)
 
 	local row = current_picker:get_selection_row()
 	local col = current_picker:is_multi_selected(entry) and #current_picker.multi_icon
-	    or #current_picker.selection_caret
+		or #current_picker.selection_caret
 	vim.api.nvim_buf_set_text(current_picker.results_bufnr, row, col, row, col + #old, { mark })
 end
 
@@ -71,7 +71,7 @@ local entry_from_buffer = function(opts)
 				"TelescopeResultsConstant",
 			},
 			{ entry.indicator, "TelescopeResultsIdentifier" },
-			{ display_icon,    hl_group },
+			{ display_icon, hl_group },
 			display_file_name .. ":" .. entry.lnum,
 		})
 	end
@@ -174,29 +174,29 @@ local function bufferpick(opts)
 	end
 
 	pickers
-	    .new(opts, {
-		    finder = finders.new_table({
-			    results = buffers,
-			    entry_maker = entry_from_buffer(opts),
-		    }),
-		    previewer = conf.grep_previewer(opts),
-		    sorter = buffer_sorter(),
-		    default_selection_index = 1,
-		    attach_mappings = function(_, map)
-			    map("i", "<tab>", toggle_buffer_mark)
-			    map("i", "<C-d>", require("telescope.actions").delete_buffer)
-			    return true
-		    end,
-	    })
-	    :find()
+		.new(opts, {
+			finder = finders.new_table({
+				results = buffers,
+				entry_maker = entry_from_buffer(opts),
+			}),
+			previewer = conf.grep_previewer(opts),
+			sorter = buffer_sorter(),
+			default_selection_index = 1,
+			attach_mappings = function(_, map)
+				map("i", "<tab>", toggle_buffer_mark)
+				map("i", "<C-d>", require("telescope.actions").delete_buffer)
+				return true
+			end,
+		})
+		:find()
 end
 local get_dropdown = function(opts)
 	opts = vim.tbl_extend("force", {}, opts or {})
 	local dropdown = themes.get_dropdown({
 		previewer = false,
 		borderchars = {
-			prompt = { "▄", "█", "█", "█", "▄", "▄", "█", "█" },
-			results = { "▄", "█", "█", "█", "▄", "▄", "█", "█" },
+			prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+			results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
 			preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 		},
 	})
