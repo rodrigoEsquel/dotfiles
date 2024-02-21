@@ -47,7 +47,7 @@
   to-base (layer-switch L_home)
 )
 
-(deflayer L_symb                      
+(deflayer L_symb_old                      
 ;;   tab   \)    }     ]     ^                \     %     +     *     /
 ;;   =     \(    {     [     @                ret   left  -     _     rght
 ;;   `     ~     down  up    #                $     ?     !     &     |
@@ -55,6 +55,17 @@
      tab   8     4     0     S-]              \     S-1   9     7     [        
      @_6   @_5   @_3   @_2   ]                ret   @_lft @_qt  @_dqt @_rgt        
      S-=   S-`   down  up    =                `     S-[   -     1     S-\     
+     spc
+)          
+
+(deflayer L_symb                      
+;;   tab   #     *     %     @                !     ?     {     }     /
+;;   $     -     _     &     ^                ret   left  \(    \)    rght
+;;   `     ~     down  up    |                =     +     [     ]     \
+                                                                       
+     tab   =     7     S-1   ]                -     S-[   3     4     [        
+     @_cqt @_qt  @_dqt @_1   S-]              ret   @_lft @_5   @_8   @_rgt        
+     S-=   S-`   down  up    S-\              6     9     2     0     \     
      spc
 )          
 
@@ -90,14 +101,25 @@
   _p (multi f24 (tap-hold-release-keys 50 200 (multi p @tap) rmet $right-hand-keys) )
 
   _6 (multi f24 (tap-hold 50 200 6 lmet) )
-  _5 (multi f24 (tap-hold 50 200 5 lalt) )
+;;  _5 (multi f24 (tap-hold 50 200 5 lalt) )
   _3 (multi f24 (tap-hold 50 200 3 lctl) )
   _2 (multi f24 (tap-hold 50 200 2 lsft) )
 
+;; _lft (multi f24 (tap-hold 50 200 left rsft) )
+;; _qt  (multi f24 (tap-hold 50 200 '    rctl) )
+;; _dqt (multi f24 (tap-hold 50 200 S-'  ralt) )
+;; _rgt (multi f24 (tap-hold 50 200 rght rmet) )
+
+  _cqt (multi f24 (tap-hold 50 200 `   lmet) )
+  _qt  (multi f24 (tap-hold 50 200 '   lalt) )
+  _dqt (multi f24 (tap-hold 50 200 S-' lctl) )
+  _1   (multi f24 (tap-hold 50 200 1   lsft) )
+
   _lft (multi f24 (tap-hold 50 200 left rsft) )
-  _qt  (multi f24 (tap-hold 50 200 ' rctl) )
-  _dqt (multi f24 (tap-hold 50 200 S-' lalt) )
+  _5   (multi f24 (tap-hold 50 200 5    rctl) )
+  _8   (multi f24 (tap-hold 50 200 8    ralt) )
   _rgt (multi f24 (tap-hold 50 200 rght rmet) )
+
 )
 
 ;; pongo   ' w v z / @ - \\ q w " W V Z ? ^ \_ | Q W e E & [ { } \( = * \) + ] % 7 5 3 1 9 0 2 4 6 $ ~ ! 8 # ` , < . >
