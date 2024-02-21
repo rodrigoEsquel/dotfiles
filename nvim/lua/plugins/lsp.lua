@@ -92,9 +92,7 @@ return {
 		}
 
 		-- Setup neovim lua configuration
-		require("neodev").setup({
-			library = { plugins = { "neotest" }, types = true },
-		})
+		require("neodev").setup({})
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
