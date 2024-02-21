@@ -36,13 +36,13 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
 vim.keymap.set(
 	"n",
 	"<leader>ts",
-	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>",
+	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>i",
 	{ desc = "[T]erminal [S]plit", silent = true }
 )
 vim.keymap.set(
 	"n",
 	"<leader>tv",
-	"<C-w>v:terminal<CR>:set filetype=terminal-vsplit<CR>",
+	"<C-w>v:terminal<CR>:set filetype=terminal-vsplit<CR>i",
 	{ desc = "[T]erminal [V]ertical Split", silent = true }
 )
 vim.keymap.set(
