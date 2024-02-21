@@ -47,15 +47,15 @@ return {
 			TypeParameter = "󰅲",
 			Codeium = "󰌵",
 		}
-		local formatting_style = {
+
+		local formatting = {
 			-- default fields order i.e completion word + item.kind + item.kind icons
-			fields = { "abbr", "kind", "menu" },
+			fields = { "abbr", "kind" },
 			format = function(entry, item)
 				item.menu = entry:get_completion_item().detail
-
 				item.abbr = item.abbr:gsub("^%s*", "")
 				if #item.abbr > 50 then
-					item.abbr = item.abbr:sub(1, 60)
+					item.abbr = item.abbr:sub(1, 50)
 				end
 
 				local icon = (" " .. kind_icons[item.kind] .. " ")
@@ -65,30 +65,16 @@ return {
 			end,
 		}
 
-		local function border(hl_name)
-			return {
-				{ "┌", hl_name },
-				{ "─", hl_name },
-				{ "┐", hl_name },
-				{ "│", hl_name },
-				{ "┘", hl_name },
-				{ "─", hl_name },
-				{ "└", hl_name },
-				{ "│", hl_name },
-			}
-		end
-
 		cmp.setup({
 			window = {
 				completion = {
 					scrollbar = false,
 				},
 				documentation = {
-					border = border("CmpDocBorder"),
 					winhighlight = "Normal:CmpDoc",
 				},
 			},
-			formatting = formatting_style,
+			formatting = formatting,
 			snippet = {
 				expand = function(args)
 					luasnip.lsp_expand(args.body)
