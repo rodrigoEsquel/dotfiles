@@ -160,23 +160,22 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<C-Space>", cmp.mapping.complete())
-
-		local color = require("onedark.palette").deep
+		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.term
 		-- gray
-		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color.grey })
+		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color[6] })
 		-- blue
-		vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = color.cyan })
+		vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = color[7] })
 		vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
-		-- light blue
-		vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = color.blue })
+
+		vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = color[17] })
 		vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "CmpItemKindVariable" })
-		vim.api.nvim_set_hl(0, "CmpItemKindText", { link = "CmpItemKindVariable" })
+
+		vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "NONE", fg = color[3] })
 		-- pink
-		vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = color.purple })
+		vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = color[5] })
 		vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
 		-- front
-		vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = color.fg })
+		vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = color[2] })
 		vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
 		vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
 	end,
