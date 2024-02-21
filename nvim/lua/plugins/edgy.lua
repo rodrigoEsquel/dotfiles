@@ -13,7 +13,7 @@ return {
 	opts = {
 		options = {
 			left = { size = 40 },
-			bottom = { size = 10 },
+			bottom = { size = 15 },
 			right = { size = 80 },
 			top = { size = 20 },
 		},
@@ -24,10 +24,12 @@ return {
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			"Trouble",
+			{ ft = "terminal-split", title = "Terminal" },
 			{ ft = "qf", title = "QuickFix" },
 			{ title = "Diff panel", ft = "diff" },
 		},
 		right = {
+			{ ft = "terminal-vsplit", title = "Terminal" },
 			{
 				ft = "help",
 				-- only show help buffers
