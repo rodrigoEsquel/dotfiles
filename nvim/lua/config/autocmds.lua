@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 		local first_arg = vim.v.argv[3]
 		if first_arg and vim.fn.isdirectory(first_arg) == 1 then
 			-- Vim creates a buffer for folder. Close it.
-			vim.cmd(":bd 1")
+			vim.cmd(":Alpha")
 			-- require("telescope.builtin").find_files()
 		end
 	end,
