@@ -68,7 +68,15 @@ return {
 			-- pyright = {},
 			-- rust_analyzer = {},
 			tsserver = {
-				init_options = {
+				preferences = {
+					importModuleSpecifier = "non-relative",
+				},
+				typescript = {
+					preferences = {
+						importModuleSpecifier = "non-relative",
+					},
+				},
+				javascript = {
 					preferences = {
 						importModuleSpecifier = "non-relative",
 					},
