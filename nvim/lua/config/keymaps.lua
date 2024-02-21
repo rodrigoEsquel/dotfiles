@@ -33,12 +33,22 @@ vim.keymap.set("x", "<leader>p", '"_dP', { desc = "[P]aste without yank" })
 vim.keymap.set("i", "<c-c>", "<ESC>")
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
 
-vim.keymap.set("n", "<leader>ts", "<C-w>s:terminal<CR>", { desc = "[T]erminal [S]plit", silent = true })
-vim.keymap.set("n", "<leader>tv", "<C-w>v:terminal<CR>", { desc = "[T]erminal [V]ertical Split", silent = true })
+vim.keymap.set(
+	"n",
+	"<leader>ts",
+	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>",
+	{ desc = "[T]erminal [S]plit", silent = true }
+)
+vim.keymap.set(
+	"n",
+	"<leader>tv",
+	"<C-w>v:terminal<CR>:set filetype=terminal-vsplit<CR>",
+	{ desc = "[T]erminal [V]ertical Split", silent = true }
+)
 vim.keymap.set(
 	"n",
 	"<leader>tt",
-	"<C-w>v:terminal<CR>inpm run test<CR>",
+	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>inpm run test<CR>",
 	{ desc = "[T]erminal Run [T]est", silent = true }
 )
 
