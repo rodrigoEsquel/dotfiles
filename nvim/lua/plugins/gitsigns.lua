@@ -64,11 +64,6 @@ return {
 		vim.keymap.set("n", "<leader>gc", function()
 			vim.cmd("Git commit")
 		end, { noremap = false, desc = "[G]it [C]ommit" })
-		vim.api.nvim_set_keymap(
-			"n",
-			"<leader>gp",
-			":Git push -u origin HEAD<CR>",
-			{ noremap = false, desc = "[G]it [P]ush" }
-		)
+		vim.api.nvim_set_keymap("n", "<leader>gp", ":Git pull<CR>", { noremap = false, desc = "[G]it [P]ull" })
 	end,
 }
