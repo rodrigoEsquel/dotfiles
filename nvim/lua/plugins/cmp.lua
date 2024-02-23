@@ -9,6 +9,7 @@ return {
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-cmdline",
 		"Exafunction/codeium.nvim",
+		"chrisgrieser/cmp_yanky",
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -146,6 +147,25 @@ return {
 			},
 		})
 
+		cmp.setup({
+			mapping = {
+				["<C-p>"] = cmp.mapping.complete({
+					config = {
+						sources = {
+							{ name = "cmp_yanky" },
+						},
+					},
+				}),
+			},
+		})
+
+		vim.keymap.set(
+			"i",
+			"<C-p>",
+			"<Cmd>lua require('cmp').complete({ config = { sources = { { name = 'cmp_yanky' } } } })<CR>",
+			{ desc = "Open completion with yanky registers" }
+		)
+
 		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.term
 		-- gray
 		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color[6] })
@@ -155,6 +175,7 @@ return {
 
 		vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = color[17] })
 		vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "CmpItemKindVariable" })
+		vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindVariable" })
 
 		vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "NONE", fg = color[3] })
 		-- pink
@@ -162,7 +183,6 @@ return {
 		vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
 		-- front
 		vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = color[2] })
-		vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
 		vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
 	end,
 }
