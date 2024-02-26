@@ -6,6 +6,7 @@ else
 fi
 
 export PATH=$PATH:~/.local/bin
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 export PATH=$PATH:/home/rodrigo/Android/Sdk/platform-tools
 export PATH=$PATH:$HOME/.maestro/bin
 
