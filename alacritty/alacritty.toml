@@ -30,7 +30,7 @@ y = 0
 hide_when_typing = true
 
 [scrolling]
-history = 1000000
+history = 100000
 multiplier = 3
 
 [shell]
