@@ -14,6 +14,11 @@ fi
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
+
+setopt hist_ignore_all_dups
+
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
