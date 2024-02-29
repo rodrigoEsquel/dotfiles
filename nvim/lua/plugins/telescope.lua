@@ -21,8 +21,7 @@ return {
 			layout_config
 		)
 			local layout =
-			    require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines,
-				    layout_config)
+				require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines, layout_config)
 
 			layout.prompt.title = ""
 
@@ -65,11 +64,11 @@ return {
 					},
 				},
 				mappings = {},
-
 				path_display = { "smart" },
 			},
 			pickers = {
 				find_files = {
+					no_ignore = true,
 					hidden = true,
 				},
 			},
@@ -113,8 +112,7 @@ return {
 			{ desc = "[S]earch current [W]ord" }
 		)
 		vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics,
-			{ desc = "[S]earch [D]iagnostics" })
+		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sh", ":Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon marks" })
 		vim.keymap.set("n", "<leader>sm", ":Telescope macros<CR>", { desc = "[S]earch [M]acros" })
 		vim.keymap.set("n", "<leader>ss", ":Telescope git_status<CR>", { desc = "[S]earch git [S]tatus" })
