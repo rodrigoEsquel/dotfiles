@@ -68,7 +68,6 @@ return {
 			},
 			pickers = {
 				find_files = {
-					no_ignore = true,
 					hidden = true,
 				},
 			},
