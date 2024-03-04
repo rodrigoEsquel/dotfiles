@@ -15,5 +15,10 @@ return {
 			{ noremap = true, desc = "Dismiss notifications" }
 		),
 	},
-	opts = {},
+	config = function()
+		require("noice").setup()
+		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.ui
+		vim.cmd("highlight NoiceCmdlinePopupBorderCmdline guibg=" .. color.bg)
+		vim.cmd("highlight NoiceCmdlinePopupBorderSearch guibg=" .. color.bg)
+	end,
 }
