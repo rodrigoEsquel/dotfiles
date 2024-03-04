@@ -51,9 +51,12 @@ return {
 
 		local formatting = {
 			-- default fields order i.e completion word + item.kind + item.kind icons
-			fields = { "abbr", "kind" },
+			fields = { "abbr", "kind", "menu" },
 			format = function(entry, item)
-				item.menu = entry:get_completion_item().detail
+				local entry_item = entry:get_completion_item()
+				if entry_item ~= nil and entry_item.detail ~= nil then
+					item.menu = entry:get_completion_item().detail
+				end
 				item.abbr = item.abbr:gsub("^%s*", "")
 				if #item.abbr > 50 then
 					item.abbr = item.abbr:sub(1, 50)
@@ -76,6 +79,13 @@ return {
 				},
 			},
 			formatting = formatting,
+			completion = {
+				autocomplete = {
+					cmp.TriggerEvent.TextChanged,
+					cmp.TriggerEvent.InsertEnter,
+				},
+				keyword_length = 0,
+			},
 			snippet = {
 				expand = function(args)
 					luasnip.lsp_expand(args.body)
