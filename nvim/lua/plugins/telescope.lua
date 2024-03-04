@@ -26,7 +26,7 @@ return {
 			layout.prompt.title = ""
 
 			layout.results.title = ""
-			layout.results.borderchars = { "─", "│", "─", "│", "├", "┤", "┘", "└" }
+			layout.results.borderchars = { "─", "│", "─", "│", "├", "┤", "╯", "╰" }
 			layout.results.line = layout.results.line - 1
 			layout.results.height = layout.results.height + 1
 
@@ -52,7 +52,7 @@ return {
 				-- layout_strategy = "horizontal",
 				prompt_title = false,
 				-- dynamic_preview_title = true,
-				borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+				borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 				initial_mode = "insert",
 				sorting_strategy = "ascending",
 				layout_config = {

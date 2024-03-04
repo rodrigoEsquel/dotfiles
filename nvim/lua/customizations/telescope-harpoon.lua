@@ -195,9 +195,9 @@ local get_dropdown = function(opts)
 	local dropdown = themes.get_dropdown({
 		previewer = false,
 		borderchars = {
-			prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-			results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-			preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+			prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+			results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+			preview = { "─", "│", "─", "│", "┌", "┐", "╯", "╰" },
 		},
 	})
 	return vim.tbl_extend("force", dropdown, opts)
