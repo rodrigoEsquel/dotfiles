@@ -73,13 +73,16 @@ return {
 			window = {
 				completion = {
 					scrollbar = false,
+					border = "rounded",
 				},
 				documentation = {
 					winhighlight = "Normal:CmpDoc",
+					border = "rounded",
 				},
 			},
 			formatting = formatting,
 			completion = {
+				completeopt = "menu,menuone,preview,noselect",
 				autocomplete = {
 					cmp.TriggerEvent.TextChanged,
 					cmp.TriggerEvent.InsertEnter,
