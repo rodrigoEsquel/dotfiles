@@ -53,7 +53,12 @@ vim.keymap.set(
 	{ desc = "[T]erminal Run [T]est", silent = true }
 )
 
-vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[C]ode [C]hange" })
+vim.keymap.set(
+	"n",
+	"<leader>cc",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left><C-f>]],
+	{ desc = "[C]ode [C]hange" }
+)
 vim.keymap.set("n", "<leader>c<space>", require("customizations.format-file-saving-marks"), { desc = "[C]ode Format" })
 
 -- Diagnostic keymaps
