@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
 		vim.cmd.checktime()
 	end,
 	group = read_group,
-	pattern = "*",
+	pattern = "*.*",
 })
 
 local ts_group = vim.api.nvim_create_augroup("OnNvimEnter", { clear = true })
