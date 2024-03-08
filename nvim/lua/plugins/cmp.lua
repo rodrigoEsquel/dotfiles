@@ -53,10 +53,7 @@ return {
 			-- default fields order i.e completion word + item.kind + item.kind icons
 			fields = { "abbr", "kind", "menu" },
 			format = function(entry, item)
-				local entry_item = entry:get_completion_item()
-				if entry_item ~= nil and entry_item.detail ~= nil then
-					item.menu = entry:get_completion_item().detail
-				end
+				item.menu = entry:get_completion_item().detail
 				item.abbr = item.abbr:gsub("^%s*", "")
 				if #item.abbr > 50 then
 					item.abbr = item.abbr:sub(1, 50)
@@ -96,11 +93,10 @@ return {
 			},
 			mapping = cmp.mapping.preset.insert({
 				["<C-p>"] = cmp.mapping.select_prev_item(),
-				["<C-n>"] = cmp.mapping.select_next_item(),
-				["<C-h>"] = cmp.mapping({
+				["<C-n>"] = cmp.mapping({
 					i = function()
 						if cmp.visible() then
-							cmp.abort()
+							cmp.select_next_item()
 						else
 							cmp.complete()
 						end
@@ -113,7 +109,7 @@ return {
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.confirm({
-							behavior = cmp.ConfirmBehavior.Replace,
+							behavior = cmp.SelectBehavior.Insert,
 							select = true,
 						})
 					elseif luasnip.expand_or_jumpable() then
