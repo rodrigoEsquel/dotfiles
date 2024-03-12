@@ -57,6 +57,24 @@ return {
 			end, { desc = "Format current buffer with LSP" })
 		end
 
+		local border = {
+			{ "╭", "FloatBorder" },
+			{ "─", "FloatBorder" },
+			{ "╮", "FloatBorder" },
+			{ "│", "FloatBorder" },
+			{ "╯", "FloatBorder" },
+			{ "─", "FloatBorder" },
+			{ "╰", "FloatBorder" },
+			{ "│", "FloatBorder" },
+		}
+
+		-- LSP settings (for overriding per client)
+		local handlers = {
+			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
+				{ border = border }),
+		}
+
 		-- Enable the following language servers
 		--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 		--
@@ -111,6 +129,7 @@ return {
 					capabilities = capabilities,
 					on_attach = on_attach,
 					settings = servers[server_name],
+					handlers = handlers,
 				})
 			end,
 		})
