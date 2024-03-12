@@ -61,7 +61,6 @@ local function get_marks()
 	end
 	return filtered_mark_list
 end
-
 local function get_mark_lines(marks)
 	local mark_lines = {}
 	for _, mark_item in pairs(marks) do
@@ -137,10 +136,10 @@ local config = require("treesitter-context.config")
 local ns = api.nvim_create_namespace("nvim-treesitter-context")
 
 -- Don't access directly, use get_bufs()
-local gutter_bufnr  --- @type integer?
+local gutter_bufnr --- @type integer?
 local context_bufnr --- @type integer?
 
-local gutter_winid  --- @type integer?
+local gutter_winid --- @type integer?
 local context_winid --- @type integer?
 
 --- @param buf integer?
@@ -280,8 +279,7 @@ local function highlight_contexts(bufnr, ctx_bufnr, contexts)
 					local merow = offset + (nerow - start_row)
 
 					local hl = buf_query.hl_cache[capture]
-					local priority = tonumber(metadata.priority) or
-					vim.highlight.priorities.treesitter
+					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
 					add_extmark(ctx_bufnr, msrow, nscol, {
 						end_row = merow,
 						end_col = necol,
