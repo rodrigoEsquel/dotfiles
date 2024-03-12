@@ -156,18 +156,6 @@ return {
 			},
 		})
 
-		cmp.setup({
-			mapping = {
-				["<C-p>"] = cmp.mapping.complete({
-					config = {
-						sources = {
-							{ name = "cmp_yanky" },
-						},
-					},
-				}),
-			},
-		})
-
 		vim.keymap.set(
 			"i",
 			"<C-p>",
