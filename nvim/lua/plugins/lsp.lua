@@ -42,8 +42,11 @@ return {
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
-			nmap("<leader>sS", "[W]orkspace [S]ymbols",
-				require("telescope.builtin").lsp_dynamic_workspace_symbols)
+			-- nmap(
+			-- 	"<leader>sS",
+			-- 	require("telescope.builtin").lsp_dynamic_workspace_symbols,
+			-- 	"[W]orkspace [S]ymbols",
+			-- )
 
 			-- See `:help K` for why this keymap
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -56,23 +59,11 @@ return {
 				vim.lsp.buf.format()
 			end, { desc = "Format current buffer with LSP" })
 		end
-
-		local border = {
-			{ "╭", "FloatBorder" },
-			{ "─", "FloatBorder" },
-			{ "╮", "FloatBorder" },
-			{ "│", "FloatBorder" },
-			{ "╯", "FloatBorder" },
-			{ "─", "FloatBorder" },
-			{ "╰", "FloatBorder" },
-			{ "│", "FloatBorder" },
-		}
-
 		-- LSP settings (for overriding per client)
 		local handlers = {
-			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
 			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
-				{ border = border }),
+				{ border = "rounded" }),
 		}
 
 		-- Enable the following language servers
