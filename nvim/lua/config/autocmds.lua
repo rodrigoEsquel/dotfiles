@@ -40,3 +40,18 @@ vim.api.nvim_exec(
 ]],
 	false
 )
+
+local term_group = vim.api.nvim_create_augroup("OnTerm", { clear = true })
+vim.api.nvim_create_autocmd("TermOpen", {
+	callback = function()
+		vim.opt_local.relativenumber = false
+		vim.opt_local.number = false
+		local nsp = vim.api.nvim_create_namespace("Terminal")
+		local colors = require("kanagawa.colors").setup({ theme = "wave" }).theme
+		vim.api.nvim_set_hl(nsp, "Normal", { bg = colors.ui.bg_m2 })
+		vim.api.nvim_win_set_hl_ns(0, nsp)
+		-- vim.cmd("startinsert!")
+	end,
+	group = term_group,
+	desc = "Terminal Options",
+})
