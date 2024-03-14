@@ -17,8 +17,9 @@ return {
 				local theme = colors.theme
 				return {
 					NormalFloat = { bg = "none" },
-					FloatBorder = { bg = "none" },
+					FloatBorder = { fg = theme.ui.fg_dim, bg = "none" },
 					FloatTitle = { bg = "none" },
+					WinSeparator = { fg = theme.ui.fg_dim },
 
 					-- Save an hlgroup with dark background and dimmed foreground
 					-- so that you can use it where your still want darker windows.
@@ -29,6 +30,12 @@ return {
 					-- set their background accordingly if you wish to keep them dark and borderless
 					LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
 					MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+					NoiceCmdlinePopupBorderCmdline = { fg = theme.ui.fg_dim },
+					NoiceCmdlinePopupBorderSearch = { fg = theme.ui.fg_dim },
+					TelescopeBorder = { fg = theme.ui.fg_dim },
+					TelescopePromptBorder = { fg = theme.ui.fg_dim },
+					TelescopePreviewBorder = { fg = theme.ui.fg_dim },
+					TelescopeResultsBorder = { fg = theme.ui.fg_dim },
 					-- vim.cmd("highlight NoiceCmdlinePopupBorderCmdline guibg=" .. color.bg)
 					-- vim.cmd("highlight NoiceCmdlinePopupBorderSearch guibg=" .. color.bg)
 				}
