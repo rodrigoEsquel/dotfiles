@@ -54,3 +54,7 @@ vim.opt.fillchars = {
 }
 
 vim.opt.cursorline = true
+
+vim.diagnostic.config({
+	float = { border = "rounded" },
+})
