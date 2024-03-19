@@ -9,6 +9,8 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 export PATH=$PATH:/home/rodrigo/Android/Sdk/platform-tools
 export PATH=$PATH:$HOME/.maestro/bin
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/rodrigo/go/bin
 
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ZK_NOTEBOOK_DIR="$HOME/Code/Personal/notes/"
