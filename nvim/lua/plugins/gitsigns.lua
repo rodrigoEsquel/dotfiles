@@ -42,8 +42,10 @@ return {
 				-- map("v", "<leader>gr", function()
 				--   gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 				-- end, { desc = "[G]it [R]eset hunk" })
-				-- map("n", "<leader>gu", gs.undo_stage, { desc = "[G]it [U]ndo stage buffer" })
-				-- map("v", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]it [U]ndo stage hunk" })
+				map("n", "<leader>gu", function()
+					gs.undo_stage_hunk({ 1, vim.fn.line("$") })
+				end, { desc = "[G]it [U]ndo stage hunk" })
+				map("v", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]it [U]ndo stage hunk" })
 				-- map("n", "<leader>gr", gs.reset_buffer_index, { desc = "[G]it [R]eset buffer" })
 				-- map("v", "<leader>gd", gs.preview_hunk, { desc = "[G]it [P]review hunk" })
 				map("n", "<leader>gb", function()
@@ -57,7 +59,8 @@ return {
 				-- map('n', '<leader>td', gs.toggle_deleted)
 
 				-- Text object
-				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+				map({ "o", "x" }, "ig", ":<C-U>Gitsigns select_hunk<CR>")
+				map({ "o", "x" }, "ag", ":<C-U>Gitsigns select_hunk<CR>")
 			end,
 		})
 
