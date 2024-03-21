@@ -33,6 +33,7 @@ vim.keymap.set("x", "<leader>p", '"_dP', { desc = "[P]aste without yank" })
 vim.keymap.set("i", "<c-c>", "<ESC>")
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
 vim.keymap.set({ "t", "i" }, "jk", "<C-\\><C-n>")
+vim.keymap.set("i", "<c-l>", "<del>")
 
 vim.keymap.set(
 	"n",
