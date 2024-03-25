@@ -28,8 +28,6 @@ vim.keymap.set("n", "<C-f>", "<C-f>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("x", "<leader>p", '"_dP', { desc = "[P]aste without yank" })
-
 vim.keymap.set("i", "<c-c>", "<ESC>")
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
 vim.keymap.set({ "t", "i" }, "jk", "<C-\\><C-n>")
