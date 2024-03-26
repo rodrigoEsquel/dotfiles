@@ -18,7 +18,19 @@ return {
 		local luasnip = require("luasnip")
 
 		require("codeium").setup({})
-		luasnip.config.setup({})
+		local lua_types = require("luasnip.util.types")
+		luasnip.config.setup({
+			history = true,
+			updateevents = "TextChanged,TextChangedI",
+			enable_autosnippets = true,
+			ext_opts = {
+				[lua_types.choiceNode] = {
+					active = {
+						virt_text = { { "", "error" } },
+					},
+				},
+			},
+		})
 
 		vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 
