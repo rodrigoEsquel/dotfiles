@@ -144,9 +144,9 @@ return {
 				end, { "i", "s" }),
 			}),
 			sources = {
+				{ name = "luasnip" },
 				{ name = "nvim_lsp" },
 				{ name = "codeium" },
-				{ name = "luasnip" },
 				{ name = "vim-dadbod-completion" },
 				{ name = "path" },
 				{ name = "buffer" },
