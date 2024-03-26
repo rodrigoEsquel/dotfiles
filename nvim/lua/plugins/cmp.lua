@@ -11,6 +11,7 @@ return {
 		"hrsh7th/cmp-cmdline",
 		"Exafunction/codeium.nvim",
 		"chrisgrieser/cmp_yanky",
+		"luckasRanarison/tailwind-tools.nvim",
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -37,7 +38,7 @@ return {
 			Enum = "",
 			Keyword = "󰌋",
 			Snippet = "",
-			Color = "󰏘",
+			Color = "■",
 			File = "󰈙",
 			Reference = "",
 			Folder = "󰉋",
@@ -50,10 +51,20 @@ return {
 			Codeium = "󰌵",
 		}
 
+		local utils = require("tailwind-tools.utils")
 		local formatting = {
 			-- default fields order i.e completion word + item.kind + item.kind icons
 			fields = { "abbr", "kind", "menu" },
 			format = function(entry, item)
+				local doc = entry.completion_item.documentation
+
+				if item.kind == "Color" and type(doc) == "string" then
+					local _, _, r, g, b = doc:find("rgba?%((%d+), (%d+), (%d+)")
+					if r then
+						item.kind_hl_group = utils.set_hl_from(r, g, b, "foreground")
+					end
+				end
+
 				item.menu = entry:get_completion_item().detail
 				item.abbr = item.abbr:gsub("^%s*", "")
 				if #item.abbr > 50 then
