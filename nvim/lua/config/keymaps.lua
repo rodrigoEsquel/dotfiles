@@ -16,6 +16,8 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Exit to normal mode and save file
 vim.keymap.set({ "v", "i" }, "<C-s>", "<cmd>w<cr><esc>")
 
+vim.keymap.set("n", "Q", "@q")
+
 -- Move lines of text with ease
 vim.keymap.set("v", "<c-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<c-k>", ":m '<-2<CR>gv=gv")
