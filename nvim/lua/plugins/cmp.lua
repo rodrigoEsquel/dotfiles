@@ -180,12 +180,12 @@ return {
 			},
 		})
 
-		vim.keymap.set(
-			"i",
-			"<C-p>",
-			"<Cmd>lua require('cmp').complete({ config = { sources = { { name = 'cmp_yanky' } } } })<CR>",
-			{ desc = "Open completion with yanky registers" }
-		)
+		-- vim.keymap.set(
+		-- 	"i",
+		-- 	"<C-p>",
+		-- 	"<Cmd>lua require('cmp').complete({ config = { sources = { { name = 'cmp_yanky' } } } })<CR>",
+		-- 	{ desc = "Open completion with yanky registers" }
+		-- )
 
 		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.term
 		-- gray
