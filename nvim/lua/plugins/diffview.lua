@@ -5,27 +5,33 @@ return {
 		{
 			"<leader>gq",
 			":DiffviewClose<cr>:bdelete gitsigns<tab><cr>",
-			{ silent = true, desc = "[G]it diff [Q]uit" },
+			desc = "[G]it diff [Q]uit",
+			silent = true,
+
 		},
 		{
 			"<leader>gw",
 			":DiffviewFileHistory % -G<c-r><c-w><CR>",
-			{ noremap = true, desc = "[G]it [W]ord file history" },
+			desc = "[G]it [W]ord file history",
+			noremap = true,
 		},
 		{
 			"<leader>gD",
 			":DiffviewOpen origin/HEAD<CR>",
-			{ noremap = true, desc = "[G]it open [D]iff " },
+			desc = "[G]it open [D]iff ",
+			noremap = true,
 		},
 		{
 			"<leader>gh",
 			":DiffviewFileHistory %<CR>",
-			{ noremap = true, desc = "[G]it [F]ile history" },
+			desc = "[G]it [F]ile history",
+			noremap = true,
 		},
 		{
 			"<leader>gH",
 			":DiffviewFileHistory<CR>",
-			{ noremap = true, desc = "[G]it [H]istory" },
+			desc = "[G]it [H]istory",
+			noremap = true,
 		},
 	},
 }
