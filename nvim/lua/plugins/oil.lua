@@ -10,10 +10,13 @@ return {
 				show_hidden = true,
 			},
 			delete_to_trash = true,
-			lsp_rename_autosave = true,
 			float = {
 				border = "none",
 			},
+			lsp_file_methods = {
+				autosave_changes = true,
+			},
+			constrain_cursor = "name",
 			win_options = {
 				wrap = false,
 				signcolumn = "no",
