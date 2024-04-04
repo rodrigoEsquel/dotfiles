@@ -144,9 +144,9 @@ return {
 				end, { "i", "s" }),
 			}),
 			sources = {
-				{ name = "luasnip" },
 				{ name = "nvim_lsp" },
 				{ name = "codeium" },
+				{ name = "luasnip" },
 				{ name = "vim-dadbod-completion" },
 				{ name = "path" },
 				{ name = "buffer" },
@@ -187,23 +187,25 @@ return {
 		-- 	{ desc = "Open completion with yanky registers" }
 		-- )
 
-		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.term
+		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.syn
 		-- gray
-		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color[6] })
+		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color.deprecated })
 		-- blue
-		vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = color[5] })
+		vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = color.fun })
 		vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
 
-		vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = color[17] })
-		vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "CmpItemKindVariable" })
-		vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindVariable" })
+		vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = color.variable })
 
-		vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "NONE", fg = color[3] })
+		vim.api.nvim_set_hl(0, "CmpItemKindProperty", { bg = "NONE", fg = color.parameter })
+
+		vim.api.nvim_set_hl(0, "CmpItemKindInterface", { bg = "NONE", fg = color.type })
+
+		vim.api.nvim_set_hl(0, "CmpItemKindText", { bg = "NONE", fg = color.string })
 		-- pink
-		vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = color[5] })
+		vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = color.fun })
 		vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
 		-- front
-		vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = color[2] })
+		vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = color.keyword })
 		vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
 	end,
 }
