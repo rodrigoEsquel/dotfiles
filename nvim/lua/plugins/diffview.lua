@@ -7,7 +7,6 @@ return {
 			":DiffviewClose<cr>:bdelete gitsigns<tab><cr>",
 			desc = "[G]it diff [Q]uit",
 			silent = true,
-
 		},
 		{
 			"<leader>gw",
