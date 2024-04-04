@@ -189,7 +189,8 @@ return {
 
 		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.syn
 		-- gray
-		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color.deprecated })
+		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated",
+			{ bg = "NONE", strikethrough = true, fg = color.deprecated })
 		-- blue
 		vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = color.fun })
 		vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
