@@ -5,6 +5,7 @@ return {
 		-- Automatically install LSPs to stdpath for neovim
 		{ "williamboman/mason.nvim", config = true },
 		"williamboman/mason-lspconfig.nvim",
+		"folke/neoconf.nvim",
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{
@@ -62,8 +63,7 @@ return {
 		-- LSP settings (for overriding per client)
 		local handlers = {
 			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
-				{ border = "rounded" }),
+			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 		}
 
 		-- Enable the following language servers
@@ -102,6 +102,8 @@ return {
 
 		-- Setup neovim lua configuration
 		require("neodev").setup({})
+
+		require("neoconf").setup({})
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
