@@ -3,9 +3,25 @@ return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		-- Automatically install LSPs to stdpath for neovim
-		{ "williamboman/mason.nvim", config = true },
+		{
+			"williamboman/mason.nvim",
+			opts = {
+				registries = {
+					"github:nvim-java/mason-registry",
+					"github:mason-org/mason-registry",
+				},
+			},
+		},
 		"williamboman/mason-lspconfig.nvim",
 		"folke/neoconf.nvim",
+		"nvim-java/lua-async-await",
+		"nvim-java/nvim-java-core",
+		"nvim-java/nvim-java-test",
+		"nvim-java/nvim-java-dap",
+		"MunifTanjim/nui.nvim",
+		"mfussenegger/nvim-dap",
+		"nvim-java/nvim-java",
+
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{
@@ -72,7 +88,7 @@ return {
 		--  Add any additional override configuration in the following tables. They will be passed to
 		--  the `settings` field of the server config. You must look up that documentation yourself.
 		local servers = {
-			-- clangd = {},
+			jdtls = {},
 			-- gopls = {},
 			-- pyright = {},
 			-- rust_analyzer = {},
@@ -102,7 +118,7 @@ return {
 
 		-- Setup neovim lua configuration
 		require("neodev").setup({})
-
+		require("java").setup()
 		require("neoconf").setup({})
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
