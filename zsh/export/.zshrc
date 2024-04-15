@@ -11,7 +11,9 @@ export PATH=$PATH:/home/rodrigo/Android/Sdk/platform-tools
 export PATH=$PATH:$HOME/.maestro/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/home/rodrigo/go/bin
+export PATH=$PATH:/usr/local/apache-maven-3.9.6/bin
 
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ZK_NOTEBOOK_DIR="$HOME/Code/Personal/notes/"
 
