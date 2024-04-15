@@ -27,7 +27,7 @@ return {
 			harpoon:list():clear()
 		end, { desc = "[H]arpoon [C]lear all" })
 
-		vim.keymap.set("n", "<leader>hl", function()
+		vim.keymap.set("n", "<leader>hs", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end, { desc = "[H]arpoon [L]ist" })
 
@@ -40,7 +40,7 @@ return {
 		vim.keymap.set("n", "<leader>hn", function()
 			harpoon:list():select(3)
 		end, { desc = "[H]arpoon file 3" })
-		vim.keymap.set("n", "<leader>hs", function()
+		vim.keymap.set("n", "<leader>hl", function()
 			harpoon:list():select(4)
 		end, { desc = "[H]arpoon file 4" })
 
