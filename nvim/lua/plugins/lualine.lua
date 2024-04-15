@@ -17,15 +17,6 @@ return {
 			end
 		end
 
-		local function pin()
-			local bufnr = vim.api.nvim_get_current_buf()
-			if GlobalState.marked_buffers[bufnr] then
-				return "󰤱"
-			else
-				return ""
-			end
-		end
-
 		local buffers = require("customizations.lualine-harpoon")
 
 		return {
@@ -69,7 +60,6 @@ return {
 				},
 				lualine_c = {
 					"filename",
-					pin,
 				},
 				lualine_x = {},
 				lualine_y = {},
@@ -80,7 +70,6 @@ return {
 				lualine_b = {},
 				lualine_c = {
 					"filename",
-					pin,
 				},
 
 				lualine_x = {},
