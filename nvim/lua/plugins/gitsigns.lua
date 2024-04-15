@@ -35,7 +35,7 @@ return {
 					return "<Ignore>"
 				end, { expr = true })
 				-- Actions
-				map("n", "<leader>gs", gs.stage_buffer, { desc = "[G]it [S]tage buffer" })
+				-- map("n", "<leader>gs", gs.stage_buffer, { desc = "[G]it [S]tage buffer" })
 				map("v", "<leader>gs", function()
 					gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 				end, { desc = "[G]it [S]tage hunk" })

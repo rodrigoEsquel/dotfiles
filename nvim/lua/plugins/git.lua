@@ -11,6 +11,13 @@ return {
 				end,
 				desc = "Toggle [G]it sidebar",
 			},
+			{
+				"<leader>gs",
+				function()
+					vim.cmd("Git add %")
+				end,
+				desc = "[G]it [S]tage buffer",
+			},
 		},
 	},
 	"tpope/vim-rhubarb",
