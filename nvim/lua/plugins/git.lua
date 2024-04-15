@@ -18,6 +18,13 @@ return {
 				end,
 				desc = "[G]it [S]tage buffer",
 			},
+			{
+				"<leader>ga",
+				function()
+					vim.cmd("Git add .")
+				end,
+				desc = "[G]it Stage [A]ll Files",
+			},
 		},
 	},
 	"tpope/vim-rhubarb",

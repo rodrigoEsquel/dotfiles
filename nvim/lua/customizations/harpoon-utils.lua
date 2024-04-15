@@ -20,7 +20,11 @@ function M:has_value(table, targetValue)
 end
 
 function M:buf_is_harpooned(bufnr)
-	local harpoon_files = M.list
+	if bufnr == nil then
+		return false
+	end
+
+	local harpoon_files = harpoon:list()
 	local bufrn_file = M:get_file_from_buffer(bufnr)
 	local file_paths = {}
 
@@ -32,7 +36,11 @@ function M:buf_is_harpooned(bufnr)
 end
 
 function M:get_harpoon_index(bufnr)
-	local harpoon_files = M.list
+	if bufnr == nil then
+		return false
+	end
+
+	local harpoon_files = harpoon:list()
 	local bufrn_file = M:get_file_from_buffer(bufnr)
 	local file_index = 0
 
@@ -42,7 +50,10 @@ function M:get_harpoon_index(bufnr)
 		end
 	end
 
-	return file_index
+	if file_index then
+		return file_index
+	end
+	return false
 end
 
 return M
