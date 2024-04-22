@@ -53,11 +53,11 @@
 
   _cqt (tap-hold-next-release 200 `   lmet)
   _qt  (tap-hold-next-release 200 '   lalt)
-  _dqt (tap-hold-next-release 200 S-' lctl)
+  _dqt (tap-hold-next-release 200 "   lctl)
   _1   (tap-hold-next-release 200 1   lsft)
 
   _lft (tap-hold-next-release 200 left rsft)
-  _5   (tap-hold-next-release 200 ' rctl)
+  _5   (tap-hold-next-release 200 5 rctl)
   _8   (tap-hold-next-release 200 8 ralt)
   _rgt (tap-hold-next-release 200 rght rmet)
 )
