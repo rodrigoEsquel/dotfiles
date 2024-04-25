@@ -81,7 +81,7 @@
 ;;   `      ~      down   up     #           $      ?      !      &      |
                                                                           
      tab   =     7     S-1   ]                -     S-[   3     4     [        
-     @_cqt @_qt  @_dqt @_1   S-]              ret   @_lft @_5   @_8   @_rgt        
+     @_cqt @_qt  "     @_1   S-]              ret   @_lft @_5   @_8   @_rgt        
      S-=   S-`   down  up    S-\              6     9     2     0     \     
      spc
 
