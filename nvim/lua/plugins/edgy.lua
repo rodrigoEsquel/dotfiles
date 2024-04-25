@@ -25,8 +25,10 @@ return {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			"Trouble",
 			{ ft = "terminal-split", title = "Terminal" },
-			{ ft = "qf", title = "QuickFix" },
-			{ title = "Diff panel", ft = "diff" },
+			{ ft = "qf",             title = "QuickFix" },
+			{ title = "Diff panel",  ft = "diff" },
+			{ title = "Repl",        ft = "dap-repl" },
+			{ title = "Console",     ft = "dapui_console" },
 		},
 		right = {
 			{ ft = "terminal-vsplit", title = "Terminal" },
@@ -42,8 +44,12 @@ return {
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },
-			{ title = "Fugitive", ft = "fugitive" },
-			{ title = "Undo-Tree", ft = "undotree" },
+			{ title = "Fugitive",    ft = "fugitive" },
+			{ title = "Undo-Tree",   ft = "undotree" },
+			{ title = "Scopes",      ft = "dapui_scopes" },
+			{ title = "Breakpoints", ft = "dapui_breakpoints" },
+			{ title = "Stacks",      ft = "dapui_stacks" },
+			{ title = "Watches",     ft = "dapui_watches" },
 			{
 				title = "Neo-Tree Git",
 				ft = "neo-tree",
