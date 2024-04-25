@@ -48,24 +48,24 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
 vim.keymap.set({ "t", "i" }, "jk", "<C-\\><C-n>")
 vim.keymap.set("i", "<c-l>", "<del>")
 
-vim.keymap.set(
-	"n",
-	"<leader>ts",
-	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>i",
-	{ desc = "[T]erminal [S]plit", silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>tv",
-	"<C-w>v:terminal<CR>:set filetype=terminal-vsplit<CR>i",
-	{ desc = "[T]erminal [V]ertical Split", silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>tt",
-	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>inpm run test<CR>",
-	{ desc = "[T]erminal Run [T]est", silent = true }
-)
+-- vim.keymap.set(
+-- 	"n",
+-- 	"<leader>ts",
+-- 	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>i",
+-- 	{ desc = "[T]erminal [S]plit", silent = true }
+-- )
+-- vim.keymap.set(
+-- 	"n",
+-- 	"<leader>tv",
+-- 	"<C-w>v:terminal<CR>:set filetype=terminal-vsplit<CR>i",
+-- 	{ desc = "[T]erminal [V]ertical Split", silent = true }
+-- )
+-- vim.keymap.set(
+-- 	"n",
+-- 	"<leader>tt",
+-- 	"<C-w>s:terminal<CR>:set filetype=terminal-split<CR>inpm run test<CR>",
+-- 	{ desc = "[T]erminal Run [T]est", silent = true }
+-- )
 
 vim.keymap.set(
 	"n",
