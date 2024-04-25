@@ -12,6 +12,7 @@ export PATH=$PATH:$HOME/.maestro/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/home/rodrigo/go/bin
 export PATH=$PATH:/usr/local/apache-maven-3.9.6/bin
+export PATH=$PATH:/home/rodrigo/idea/bin
 
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export ANDROID_HOME="$HOME/Android/Sdk"
