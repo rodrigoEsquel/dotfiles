@@ -16,6 +16,16 @@ vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "[W]indow" })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+vim.keymap.set("n", "ef", function()
+	local filetypes = ""
+	local buffers = vim.api.nvim_list_bufs()
+	for index, buffer in ipairs(buffers) do
+		local filetype = vim.api.nvim_get_option_value("filetype", { buf = buffer })
+		filetypes = filetypes .. " %" .. filetype .. "@"
+	end
+	print(filetypes)
+end, { desc = "Print filetype" })
+
 -- Exit to normal mode and save file
 vim.keymap.set({ "v", "i" }, "<C-s>", "<cmd>w<cr><esc>")
 
