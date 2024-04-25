@@ -29,6 +29,7 @@ return {
 			{ title = "Diff panel",  ft = "diff" },
 			{ title = "Repl",        ft = "dap-repl" },
 			{ title = "Console",     ft = "dapui_console" },
+			{ title = "Test",        ft = "neotest-output-panel" },
 		},
 		right = {
 			{ ft = "terminal-vsplit", title = "Terminal" },
@@ -44,6 +45,7 @@ return {
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },
+			{ title = "Test",        ft = "neotest-summary" },
 			{ title = "Fugitive",    ft = "fugitive" },
 			{ title = "Undo-Tree",   ft = "undotree" },
 			{ title = "Scopes",      ft = "dapui_scopes" },
