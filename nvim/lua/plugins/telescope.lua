@@ -21,7 +21,8 @@ return {
 			layout_config
 		)
 			local layout =
-				require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines, layout_config)
+			    require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines,
+				    layout_config)
 
 			layout.prompt.title = ""
 
@@ -48,19 +49,19 @@ return {
 				selection_caret = "  ",
 				entry_prefix = "  ",
 				results_title = false,
-				layout_strategy = "horizontal_merged",
-				-- layout_strategy = "horizontal",
+				-- layout_strategy = "horizontal_merged",
+				layout_strategy = "horizontal",
 				prompt_title = false,
 				-- dynamic_preview_title = true,
 				borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 				initial_mode = "insert",
-				sorting_strategy = "ascending",
+				-- sorting_strategy = "ascending",
 				layout_config = {
 					horizontal = {
 						height = { padding = 2 },
 						preview_width = 0.7,
 						width = { padding = 5 },
-						prompt_position = "top",
+						-- prompt_position = "top",
 					},
 				},
 				mappings = {},
@@ -111,7 +112,8 @@ return {
 			{ desc = "[S]earch current [W]ord" }
 		)
 		vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics,
+			{ desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sh", ":Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon marks" })
 		vim.keymap.set("n", "<leader>sm", ":Telescope macros<CR>", { desc = "[S]earch [M]acros" })
 		vim.keymap.set("n", "<leader>ss", ":Telescope git_status<CR>", { desc = "[S]earch git [S]tatus" })
