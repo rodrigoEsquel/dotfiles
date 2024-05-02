@@ -24,12 +24,13 @@ return {
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			"Trouble",
-			{ ft = "terminal-split", title = "Terminal" },
-			{ ft = "qf",             title = "QuickFix" },
-			{ title = "Diff panel",  ft = "diff" },
-			{ title = "Repl",        ft = "dap-repl" },
-			{ title = "Console",     ft = "dapui_console" },
-			{ title = "Test",        ft = "neotest-output-panel" },
+			{ title = "Terminal", ft = "terminal-split" },
+			{ title = "QuickFix", ft = "qf" },
+			{ title = "Diff panel", ft = "diff" },
+			{ title = "Scopes", ft = "dapui_scopes", size = { width = 0.7 } },
+			{ title = "Repl", ft = "dap-repl" },
+			{ title = "Console", ft = "dapui_console" },
+			{ title = "Test", ft = "neotest-output-panel" },
 		},
 		right = {
 			{ ft = "terminal-vsplit", title = "Terminal" },
@@ -45,13 +46,12 @@ return {
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },
-			{ title = "Test",        ft = "neotest-summary" },
-			{ title = "Fugitive",    ft = "fugitive" },
-			{ title = "Undo-Tree",   ft = "undotree" },
-			{ title = "Scopes",      ft = "dapui_scopes" },
+			{ title = "Test", ft = "neotest-summary" },
+			{ title = "Fugitive", ft = "fugitive" },
+			{ title = "Undo-Tree", ft = "undotree" },
 			{ title = "Breakpoints", ft = "dapui_breakpoints" },
-			{ title = "Stacks",      ft = "dapui_stacks" },
-			{ title = "Watches",     ft = "dapui_watches" },
+			{ title = "Stacks", ft = "dapui_stacks" },
+			{ title = "Watches", ft = "dapui_watches" },
 			{
 				title = "Neo-Tree Git",
 				ft = "neo-tree",
