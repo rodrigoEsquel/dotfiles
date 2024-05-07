@@ -59,7 +59,7 @@ return {
 				layout_config = {
 					horizontal = {
 						height = { padding = 2 },
-						preview_width = 0.7,
+						preview_width = 0.5,
 						width = { padding = 5 },
 						-- prompt_position = "top",
 					},
