@@ -2,6 +2,7 @@ return {
 	"ggandor/leap.nvim",
 	config = function()
 		require("leap").setup({
+			safe_labels = {},
 			vim.keymap.set("n", "s", function()
 				require("leap").leap({})
 			end),
