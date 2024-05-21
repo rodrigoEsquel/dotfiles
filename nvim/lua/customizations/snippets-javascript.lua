@@ -10,7 +10,8 @@ local d = ls.dynamic_node
 local r = ls.restore_node
 
 local M = {
-	ls.parser.parse_snippet({ trig = "log" }, "console.log($0)"),
+	ls.parser.parse_snippet({ trig = "clog" }, "console.log(JSON.stringify($0, null, 2))"),
+	ls.parser.parse_snippet({ trig = "flog" }, "import fs from 'fs'\nfs.writeFileSync('${1:log}.json',(JSON.stringify(${1:log}, null, 2)))"),
 	ls.parser.parse_snippet({ trig = "ter" }, "${1:cond} ? ${2:then} : ${3:else}"),
 
 	ls.parser.parse_snippet({ trig = "af" }, "(${1:params}) => {\n\t$0\n}"),
