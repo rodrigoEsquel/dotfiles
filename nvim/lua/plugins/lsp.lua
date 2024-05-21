@@ -93,16 +93,28 @@ return {
 			-- pyright = {},
 			-- rust_analyzer = {},
 			tsserver = {
+				maxTsServerMemory = 5000,
+				log = "verbose",
 				preferences = {
+					maxTsServerMemory = 5000,
+					log = "verbose",
 					importModuleSpecifier = "non-relative",
 				},
 				typescript = {
+					maxTsServerMemory = 5000,
+					log = "verbose",
 					preferences = {
+						maxTsServerMemory = 5000,
+						log = "verbose",
 						importModuleSpecifier = "non-relative",
 					},
 				},
 				javascript = {
+					maxTsServerMemory = 5000,
+					log = "verbose",
 					preferences = {
+						maxTsServerMemory = 5000,
+						log = "verbose",
 						importModuleSpecifier = "non-relative",
 					},
 				},
