@@ -4,6 +4,7 @@ return {
 	config = function()
 		require("kanagawa").setup({
 			theme = "lotus",
+			dimInactive = true, -- dim inactive window `:h hl-NormalNC`
 			colors = {
 				theme = {
 					all = {
@@ -20,7 +21,7 @@ return {
 					FloatBorder = { fg = theme.ui.fg_dim, bg = "none" },
 					FloatTitle = { bg = "none" },
 					WinSeparator = { fg = theme.ui.fg_dim },
-
+					-- NormalNC = { bg = theme.ui.fg_dim },
 					-- Save an hlgroup with dark background and dimmed foreground
 					-- so that you can use it where your still want darker windows.
 					-- E.g.: autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
@@ -33,9 +34,9 @@ return {
 					NoiceCmdlinePopupBorderCmdline = { fg = theme.ui.fg_dim },
 					NoiceCmdlinePopupBorderSearch = { fg = theme.ui.fg_dim },
 					TelescopeBorder = { fg = theme.ui.fg_dim },
-					TelescopePromptBorder = { fg = theme.ui.fg_dim },
-					TelescopePreviewBorder = { fg = theme.ui.fg_dim },
-					TelescopeResultsBorder = { fg = theme.ui.fg_dim },
+					-- TelescopePromptBorder = { fg = theme.ui.fg_dim },
+					-- TelescopePreviewBorder = { fg = theme.ui.fg_dim },
+					-- TelescopeResultsBorder = { fg = theme.ui.fg_dim },
 					-- vim.cmd("highlight NoiceCmdlinePopupBorderCmdline guibg=" .. color.bg)
 					-- vim.cmd("highlight NoiceCmdlinePopupBorderSearch guibg=" .. color.bg)
 				}
