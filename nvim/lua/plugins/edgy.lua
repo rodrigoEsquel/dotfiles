@@ -25,6 +25,7 @@ return {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			"Trouble",
 			{ title = "Fugitive", ft = "fugitive" },
+			{ title = "Harpoon", ft = "harpoon" },
 			{ title = "Terminal", ft = "terminal-split" },
 			{ title = "QuickFix", ft = "qf" },
 			{ title = "Diff panel", ft = "diff" },
