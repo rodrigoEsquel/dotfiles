@@ -24,6 +24,7 @@ return {
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			"Trouble",
+			{ title = "Fugitive", ft = "fugitive" },
 			{ title = "Terminal", ft = "terminal-split" },
 			{ title = "QuickFix", ft = "qf" },
 			{ title = "Diff panel", ft = "diff" },
@@ -47,7 +48,6 @@ return {
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },
 			{ title = "Test", ft = "neotest-summary" },
-			{ title = "Fugitive", ft = "fugitive" },
 			{ title = "Undo-Tree", ft = "undotree" },
 			{ title = "Breakpoints", ft = "dapui_breakpoints" },
 			{ title = "Stacks", ft = "dapui_stacks" },
