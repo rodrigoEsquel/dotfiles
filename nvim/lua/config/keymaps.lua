@@ -16,7 +16,7 @@ vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "[W]indow" })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set("n", "ef", function()
+vim.keymap.set("n", "<leader>ef", function()
 	local filetypes = ""
 	local buffers = vim.api.nvim_list_bufs()
 	for index, buffer in ipairs(buffers) do
