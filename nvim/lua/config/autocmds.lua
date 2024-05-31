@@ -31,6 +31,13 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	group = ts_group,
 })
 
+local harpoon_group = vim.api.nvim_create_augroup("harpoon_group", { clear = true })
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	callback = function()
+		vim.g.harpoon_has_changed = true
+	end,
+	group = harpoon_group,
+})
 vim.api.nvim_exec(
 	[[
   augroup FileExplorer

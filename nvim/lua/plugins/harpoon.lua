@@ -17,14 +17,17 @@ return {
 
 		vim.keymap.set("n", "<leader>ha", function()
 			harpoon:list():append()
+			vim.g.harpoon_has_changed = true
 		end, { desc = "[H]arpoon [A]dd mark to file" })
 
 		vim.keymap.set("n", "<leader>hd", function()
 			harpoon:list():remove()
+			vim.g.harpoon_has_changed = true
 		end, { desc = "[H]arpoon [D]elete file" })
 
 		vim.keymap.set("n", "<leader>hc", function()
 			harpoon:list():clear()
+			vim.g.harpoon_has_changed = true
 		end, { desc = "[H]arpoon [C]lear all" })
 
 		vim.keymap.set("n", "<leader>hs", function()
