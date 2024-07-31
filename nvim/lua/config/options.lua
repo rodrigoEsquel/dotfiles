@@ -28,8 +28,8 @@ vim.o.completeopt = "menu,menuone,noselect,preview" -- Set completeopt to have a
 
 vim.o.termguicolors = true -- NOTE: You should make sure your terminal supports this
 
-vim.o.scrolloff = 8 -- Scroll off
-vim.o.sidescrolloff = 8
+vim.o.scrolloff = 20 -- Scroll off
+vim.o.sidescrolloff = 20
 
 -- vim.opt.colorcolumn = "80"
 
