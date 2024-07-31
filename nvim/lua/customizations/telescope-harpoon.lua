@@ -117,7 +117,7 @@ local buffer_sorter = function()
 	sorter.scoring_function = function(s, prompt, line, entry)
 		if harpoon_utils:buf_is_harpooned(entry.bufnr) then
 			local index = harpoon_utils:get_harpoon_index(entry.bufnr)
-			return index * 1e-5
+			return 1 / (sorter.internal(s, prompt, line, entry) * (1 - index * 1e-5))
 		end
 		return sorter.internal(s, prompt, line, entry)
 	end
