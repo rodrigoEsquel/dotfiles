@@ -9,7 +9,7 @@ return {
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-cmdline",
-		"Exafunction/codeium.nvim",
+		-- "Exafunction/codeium.nvim",
 		"chrisgrieser/cmp_yanky",
 		"luckasRanarison/tailwind-tools.nvim",
 	},
@@ -17,7 +17,7 @@ return {
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
 
-		require("codeium").setup({})
+		-- require("codeium").setup({})
 		local lua_types = require("luasnip.util.types")
 		luasnip.config.setup({
 			history = true,
@@ -60,7 +60,7 @@ return {
 			Event = "",
 			Operator = "󰆕",
 			TypeParameter = "󰅲",
-			Codeium = "󰌵",
+			-- Codeium = "󰌵",
 		}
 
 		local utils = require("tailwind-tools.utils")
@@ -145,17 +145,17 @@ return {
 			}),
 			sources = {
 				{ name = "nvim_lsp" },
-				{ name = "codeium" },
+				-- { name = "codeium" },
 				{ name = "luasnip" },
 				{ name = "vim-dadbod-completion" },
 				{ name = "path" },
 				{ name = "buffer" },
 			},
-			experimental = {
-				ghost_text = {
-					hl_group = "CmpGhostText",
-				},
-			},
+			-- experimental = {
+			-- 	ghost_text = {
+			-- 		hl_group = "CmpGhostText",
+			-- 	},
+			-- },
 		})
 
 		cmp.setup.cmdline(":", {
