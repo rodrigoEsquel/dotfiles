@@ -9,6 +9,10 @@ return {
 			view_options = {
 				show_hidden = true,
 			},
+			columns = {
+				"icon",
+				"permissions",
+			},
 			delete_to_trash = true,
 			float = {
 				border = "none",
@@ -16,7 +20,7 @@ return {
 			lsp_file_methods = {
 				autosave_changes = true,
 			},
-			constrain_cursor = "name",
+			constrain_cursor = "editable",
 			win_options = {
 				wrap = false,
 				signcolumn = "no",
