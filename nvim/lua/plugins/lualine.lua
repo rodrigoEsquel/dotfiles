@@ -11,11 +11,27 @@ return {
 			local str = vim.fn.expand("%:.")
 			local lastSlashIndex = str:match(".*/()")
 			if lastSlashIndex then
+				-- return str:sub(1, lastSlashIndex - 1)
+				return str
+			else
+				return str:gsub("/$", "")
+			end
+		end
+
+		local function bufferName()
+			local str = vim.fn.expand("%:.")
+			local lastSlashIndex = str:match(".*/()")
+			if lastSlashIndex then
 				return str:sub(1, lastSlashIndex - 1)
 			else
 				return str:gsub("/$", "")
 			end
 		end
+
+		local function emptyString()
+			return ' '
+		end
+
 
 		local buffers = require("customizations.lualine-harpoon")
 
@@ -35,7 +51,8 @@ return {
 					{ "fancy_diff" },
 				},
 				lualine_c = {
-					{ "fancy_cwd", substitute_home = true },
+					filepath,
+					-- { "fancy_cwd", substitute_home = true },
 				},
 				lualine_x = {
 					{ "fancy_macro" },
@@ -44,34 +61,31 @@ return {
 				},
 				lualine_y = {
 					{ "fancy_filetype", ts_icon = "" },
-				},
-				lualine_z = {
 					{ "fancy_lsp_servers" },
 				},
+				lualine_z = { "location" },
 			},
 			winbar = {
-				lualine_a = {},
-				lualine_b = {
+				lualine_a = { "filename" },
+				lualine_b = { emptyString},
+				lualine_c = {},
+				lualine_x = {},
+				lualine_y = {
+
+					filepath,
+				},
+				lualine_z = {
 					{
 						"filetype",
 						icon_only = true, -- Display only an icon for filetype
 					},
-					filepath,
-				},
-				lualine_c = {
 					"filename",
 				},
-				lualine_x = {},
-				lualine_y = {},
-				lualine_z = {},
 			},
 			inactive_winbar = {
 				lualine_a = {},
 				lualine_b = {},
-				lualine_c = {
-					"filename",
-				},
-
+				lualine_c = {"filename"},
 				lualine_x = {},
 				lualine_y = {},
 				lualine_z = {},
