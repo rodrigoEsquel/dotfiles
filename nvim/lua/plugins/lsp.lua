@@ -21,7 +21,20 @@ return {
 		"MunifTanjim/nui.nvim",
 		"mfussenegger/nvim-dap",
 		"nvim-java/nvim-java",
+	 	{
+			"kevinhwang91/nvim-ufo",
+			dependencies = "kevinhwang91/promise-async",
+			config = function()
+				vim.o.foldcolumn = "0" -- '0' is not bad
+				vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+				vim.o.foldlevelstart = 99
+				vim.o.foldenable = true
 
+				-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
+				vim.keymap.set("n", "zR", require("ufo").openAllFolds)
+				vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+			end,
+		},
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{
@@ -88,7 +101,7 @@ return {
 		--  Add any additional override configuration in the following tables. They will be passed to
 		--  the `settings` field of the server config. You must look up that documentation yourself.
 		local servers = {
-			jdtls = {},
+			-- jdtls = {},
 			-- gopls = {},
 			-- pyright = {},
 			-- rust_analyzer = {},
@@ -130,12 +143,18 @@ return {
 
 		-- Setup neovim lua configuration
 		require("neodev").setup({})
-		require("java").setup()
+		-- require("java").setup()
 		require("neoconf").setup({})
+		require("ufo").setup()
 
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+		capabilities.textDocument.foldingRange = {
+			dynamicRegistration = false,
+			lineFoldingOnly = true,
+		}
 
 		-- Ensure the servers above are installed
 		local mason_lspconfig = require("mason-lspconfig")
