@@ -18,21 +18,22 @@ return {
 			top = { size = 20 },
 		},
 		exit_when_last = true,
+
+  close_when_all_hidden = false,
 		top = {
 			{ title = "Git Commit", ft = "gitcommit" },
 		},
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
-			"Trouble",
-			{ title = "Fugitive", ft = "fugitive" },
-			{ title = "Harpoon", ft = "harpoon" },
-			{ title = "Terminal", ft = "terminal-split" },
-			{ title = "QuickFix", ft = "qf" },
+			{ title = "Fugitive",   ft = "fugitive" },
+			{ title = "Harpoon",    ft = "harpoon" },
+			{ title = "Terminal",   ft = "terminal-split" },
+			{ title = "QuickFix",   ft = "qf" },
 			{ title = "Diff panel", ft = "diff" },
-			{ title = "Scopes", ft = "dapui_scopes", size = { width = 0.7 } },
-			{ title = "Repl", ft = "dap-repl" },
-			{ title = "Console", ft = "dapui_console" },
-			{ title = "Test", ft = "neotest-output-panel" },
+			{ title = "Scopes",     ft = "dapui_scopes",        size = { width = 0.7 } },
+			{ title = "Repl",       ft = "dap-repl" },
+			{ title = "Console",    ft = "dapui_console" },
+			{ title = "Test",       ft = "neotest-output-panel" },
 		},
 		right = {
 			{ ft = "terminal-vsplit", title = "Terminal" },
@@ -45,14 +46,16 @@ return {
 			},
 		},
 		left = {
+			{ title = "Trouble",    ft = "trouble" },
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },
-			{ title = "Test", ft = "neotest-summary" },
-			{ title = "Undo-Tree", ft = "undotree" },
+			-- { title = "Oil", ft = "oil" },
+			{ title = "Test",        ft = "neotest-summary" },
+			{ title = "Undo-Tree",   ft = "undotree" },
 			{ title = "Breakpoints", ft = "dapui_breakpoints" },
-			{ title = "Stacks", ft = "dapui_stacks" },
-			{ title = "Watches", ft = "dapui_watches" },
+			{ title = "Stacks",      ft = "dapui_stacks" },
+			{ title = "Watches",     ft = "dapui_watches" },
 			{
 				title = "Neo-Tree Git",
 				ft = "neo-tree",
