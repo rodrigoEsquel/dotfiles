@@ -25,3 +25,4 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 source ~/.config/zsh/alias/.zshrc
 source ~/.config/zsh/export/.zshrc
+source ~/.config/zsh/aider/.zshrc
