@@ -4,13 +4,13 @@
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Buffer handling
-vim.keymap.set("n", "<leader>bc", ":bp<bar>sp<bar>bn<bar>bd<CR>", { desc = "[C]lose [B]uffer", silent = true })
-vim.keymap.set("n", "<leader>br", ":%bd|e#|bd#<CR>", { desc = "[C]lose [R]eset", silent = true })
-vim.keymap.set("n", "<leader>bl", ":bnext<CR>", { desc = "Next [B]uffer" })
-vim.keymap.set("n", "<leader>bh", ":bprev<CR>", { desc = "Previous [B]uffer" })
+vim.keymap.set("n", "<leader>bd", ":bp<bar>sp<bar>bn<bar>bd<CR>", { desc = "[D]elete [B]uffer", silent = true })
+vim.keymap.set("n", "<leader>bc", ":%bd|e#|bd#<CR>", { desc = "[C]lear [B]uffers", silent = true })
+-- vim.keymap.set("n", "<leader>bl", ":bnext<CR>", { desc = "Next [B]uffer" })
+-- vim.keymap.set("n", "<leader>bh", ":bprev<CR>", { desc = "Previous [B]uffer" })
 vim.keymap.set("n", "<leader>bb", ":b#<CR>", { desc = "[B]uffer [B]ack", silent = true })
 
-vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "[W]indow" })
+vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "+[W]indow" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
