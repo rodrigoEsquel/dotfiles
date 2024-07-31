@@ -1,0 +1,25 @@
+return {
+	-- "pappasam/nvim-repl",
+	-- config = function()
+	-- 	vim.g["repl_filetype_commands"] = {
+	-- 		javascript = "node",
+	-- 		python = "ipython --no-autoindent",
+	-- 	}
+	-- 	local function openReplWindow()
+	-- 		vim.cmd.new()
+	-- 		vim.opt_local.relativenumber = false
+	-- 		vim.opt_local.number = false
+	-- 		vim.cmd.setfiletype("")
+	-- 		vim.api.nvim_create_autocmd("InsertLeave", {
+	-- 			callback = function()
+	-- 				vim.cmd("ReplClear")
+	-- 				vim.cmd("Repl node")
+	-- 			end,
+	-- 			buffer = 0,
+	-- 			desc = "Terminal Options",
+	-- 		})
+	-- 	end
+	--
+	-- 	vim.keymap.set("n", "<leader>cr", openReplWindow)
+	-- end,
+}
