@@ -47,6 +47,12 @@ return {
 			harpoon:list():select(4)
 		end, { desc = "[H]arpoon file 4" })
 
+		vim.keymap.set("n", "<leader>h(", function()
+			harpoon:list():prev()
+		end, { desc = "[H]arpoon Previous" })
+		vim.keymap.set("n", "<leader>h)", function()
+			harpoon:list():next()
+		end, { desc = "[H]arpoon Next" })
 		-- vim.keymap.set("n", "<leader>ha", mark.add_file, { desc = "[H]arpoon [M]ark file" })
 		-- vim.keymap.set("n", "<leader>hc", mark.rm_file, { desc = "[H]arpoon [C]lear marked file" })
 		-- vim.keymap.set("n", "<leader>hr", mark.clear_all, { desc = "[H]arpoon [R]eset" })
