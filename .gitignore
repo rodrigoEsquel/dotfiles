@@ -1,4 +1,6 @@
 tmux/plugins/
 nvim/db_ui/
 alacritty/themes/
+zsh/aider/
 gobang/config.toml
+.aider*
