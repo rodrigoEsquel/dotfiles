@@ -13,9 +13,10 @@ return {
 			["<leader>g"] = { name = "+[G]it" },
 			["<leader>h"] = { name = "+[H]arpoon" },
 			["<leader>n"] = { name = "+[N]otes" },
+			["<leader>r"] = { name = "+[R]un" },
 			["<leader>s"] = { name = "+[S]earch" },
 			["<leader>t"] = { name = "+[T]est" },
-			["<leader>w"] = { name = "+[w]indow" },
+			["<leader>w"] = { name = "+[W]indow" },
 		})
 	end,
 }
