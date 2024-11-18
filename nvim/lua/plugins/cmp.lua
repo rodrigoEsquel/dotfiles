@@ -65,10 +65,13 @@ return {
 
 		local utils = require("tailwind-tools.utils")
 		local formatting = {
-			-- default fields order i.e completion word + item.kind + item.kind icons
 			fields = { "abbr", "kind", "menu" },
 			format = function(entry, item)
 				local doc = entry.completion_item.documentation
+				local icons = kind_icons
+				if icons[item.kind] then
+					item.kind = icons[item.kind] .. " " .. item.kind
+				end
 
 				if item.kind == "Color" and type(doc) == "string" then
 					local _, _, r, g, b = doc:find("rgba?%((%d+), (%d+), (%d+)")
@@ -77,14 +80,17 @@ return {
 					end
 				end
 
-				item.menu = entry:get_completion_item().detail
-				item.abbr = item.abbr:gsub("^%s*", "")
-				if #item.abbr > 50 then
-					item.abbr = item.abbr:sub(1, 50)
-				end
+				local widths = {
+					abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+					menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+				}
 
-				local icon = (" " .. kind_icons[item.kind] .. " ")
-				item.kind = string.format("%s %s", icon, item.kind or "")
+
+				for key, width in pairs(widths) do
+					if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+						item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
+					end
+				end
 
 				return item
 			end,
@@ -189,8 +195,7 @@ return {
 
 		local color = require("kanagawa.colors").setup({ theme = "wave" }).theme.syn
 		-- gray
-		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated",
-			{ bg = "NONE", strikethrough = true, fg = color.deprecated })
+		vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = color.deprecated })
 		-- blue
 		vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = color.fun })
 		vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
