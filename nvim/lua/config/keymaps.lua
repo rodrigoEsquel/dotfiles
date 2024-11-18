@@ -31,6 +31,9 @@ vim.keymap.set({ "v", "i" }, "<C-s>", "<cmd>w<cr><esc>")
 
 vim.keymap.set("n", "Q", "@q")
 
+-- Sort selection
+vim.keymap.set("v", "<leader><space>", ":sort<cr>")
+
 -- Move lines of text with ease
 vim.keymap.set("v", "<c-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<c-k>", ":m '<-2<CR>gv=gv")
