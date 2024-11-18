@@ -1,5 +1,6 @@
 -- See `:help vim.o`
 vim.opt.autoread = true
+vim.opt.swapfile = false
 vim.opt.autowrite = true -- Enable auto write
 vim.opt.confirm = true -- Confirm to save changes before exiting
 
