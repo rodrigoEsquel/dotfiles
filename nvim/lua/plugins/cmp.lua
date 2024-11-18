@@ -10,7 +10,7 @@ return {
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-cmdline",
 		-- "Exafunction/codeium.nvim",
-		"chrisgrieser/cmp_yanky",
+		-- "chrisgrieser/cmp_yanky",
 		"luckasRanarison/tailwind-tools.nvim",
 	},
 	config = function()
