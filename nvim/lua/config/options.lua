@@ -59,3 +59,9 @@ vim.opt.cursorline = true
 vim.diagnostic.config({
 	float = { border = "rounded" },
 })
+
+vim.filetype.add({
+	extension = {
+		["http"] = "http",
+	},
+})
