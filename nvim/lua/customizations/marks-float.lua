@@ -14,7 +14,7 @@ local function copy_option(name, from_buf, to_buf)
 	end
 end
 
-local function highlight_marks(buf, bufnr, marks, content_ns)
+local function highlight_marks(buf, bufnr, marks, content_ns, padding_width)
 	vim.api.nvim_buf_clear_namespace(bufnr, content_ns, 0, -1)
 
 	local buf_highlighter = highlighter.active[buf]
@@ -22,7 +22,6 @@ local function highlight_marks(buf, bufnr, marks, content_ns)
 	copy_option("tabstop", buf, bufnr)
 
 	if not buf_highlighter then
-		-- Use standard highlighting when TS highlighting is not available
 		copy_option("filetype", buf, bufnr)
 		return
 	end
@@ -31,7 +30,6 @@ local function highlight_marks(buf, bufnr, marks, content_ns)
 
 	parser:for_each_tree(function(tstree, ltree)
 		local buf_query = buf_highlighter:get_query(ltree:lang())
-		-- local query = query.get(ltree:lang(), 'highlights')
 		local query = buf_query:query()
 		if not query then
 			return
@@ -40,13 +38,14 @@ local function highlight_marks(buf, bufnr, marks, content_ns)
 		local p = 0
 		local offset = 0
 		for _, context in ipairs(marks) do
-			local start_row, end_row, end_col = context.line_nr, context.line_nr, -1
+			local start_row, end_row = context.line_nr - 1, context.line_nr - 1
+			local line_start = #context.name + padding_width - 2
 
 			for capture, node, metadata in query:iter_captures(tstree:root(), buf, start_row, end_row + 1) do
 				local range = vim.treesitter.get_range(node, buf, metadata[capture])
 				local nsrow, nscol, nerow, necol = range[1], range[2], range[4], range[5]
 
-				if nerow > end_row or (nerow == end_row and necol > end_col and end_col ~= -1) then
+				if nerow > end_row or (nerow == end_row and necol > #context.content) then
 					break
 				end
 
@@ -54,13 +53,16 @@ local function highlight_marks(buf, bufnr, marks, content_ns)
 					local msrow = offset + (nsrow - start_row)
 					local merow = offset + (nerow - start_row)
 
-					local hl = buf_query.hl_cache[capture]
-					local priority = tonumber(metadata.priority) or
-					vim.highlight.priorities.treesitter
+					-- Adjust column offsets to account for line_start
+					local adj_nscol = nscol + line_start
+					local adj_necol = math.min(necol + line_start, #context.content + line_start)
 
-					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, nscol, {
+					local hl = buf_query.hl_cache[capture]
+					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
+
+					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, adj_nscol, {
 						end_row = merow,
-						end_col = necol,
+						end_col = adj_necol,
 						priority = priority + p,
 						hl_group = hl,
 					})
@@ -201,8 +203,7 @@ function M.show_marks()
 			end_col = line_start,
 			hl_group = "CursorLineNr",
 		})
-
-		highlight_marks(bufnr, buf, marks, content_ns)
+		highlight_marks(bufnr, buf, marks, content_ns, padding_width + 1)
 	end
 end
 
