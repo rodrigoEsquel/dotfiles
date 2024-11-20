@@ -76,9 +76,12 @@ local function highlight_marks(buf, bufnr, marks, content_ns, padding_width)
 end
 
 function M.show_marks()
-	-- Close existing marks window if it exists
-	if M.marks_win and vim.api.nvim_win_is_valid(M.marks_win) then
-		vim.api.nvim_win_close(M.marks_win, true)
+	-- Close existing marks windows if they exist
+	if M.top_marks_win and vim.api.nvim_win_is_valid(M.top_marks_win) then
+		vim.api.nvim_win_close(M.top_marks_win, true)
+	end
+	if M.bottom_marks_win and vim.api.nvim_win_is_valid(M.bottom_marks_win) then
+		vim.api.nvim_win_close(M.bottom_marks_win, true)
 	end
 
 	-- Get current window and buffer details
@@ -149,61 +152,92 @@ function M.show_marks()
 		return
 	end
 
-	-- Create buffer for floating window
-	local buf = vim.api.nvim_create_buf(false, true)
-
-	-- Create namespaces for highlights
-	local mark_ns = vim.api.nvim_create_namespace("MarksPlugin_MarkName")
-	local content_ns = vim.api.nvim_create_namespace("MarksPlugin_Content")
-
-	-- Prepare content for floating window
-	local content = {}
+	-- Separate marks into top and bottom groups
+	local top_marks = {}
+	local bottom_marks = {}
 	for _, mark in ipairs(marks) do
-		table.insert(
-			content,
-			string.format(
-				"%s%s%s%s",
-				string.rep(" ", math.floor((padding_width - 1) / 2)),
-				mark.name,
-				string.rep(" ", math.ceil((padding_width - 1) / 2)),
-				mark.content
-			)
-		)
+		if mark.line_nr < win_first_line then
+			table.insert(top_marks, mark)
+		else
+			table.insert(bottom_marks, mark)
+		end
 	end
 
-	-- Set buffer content
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
+	-- Create namespaces for highlights
+	local mark_ns_top = vim.api.nvim_create_namespace("MarksPlugin_MarkName_Top")
+	local content_ns_top = vim.api.nvim_create_namespace("MarksPlugin_Content_Top")
+	local mark_ns_bottom = vim.api.nvim_create_namespace("MarksPlugin_MarkName_Bottom")
+	local content_ns_bottom = vim.api.nvim_create_namespace("MarksPlugin_Content_Bottom")
 
-	-- Get current window width
-	local win_width = vim.api.nvim_win_get_width(0)
-	local win_height = #marks
+	-- Function to create marks window
+	local function create_marks_window(marks, position)
+		if #marks == 0 then
+			return nil, nil
+		end
 
-	local opts = {
-		relative = "win",
-		width = win_width,
-		height = win_height,
-		row = 0, -- Top of the window
-		col = 0, -- Left side of the window
-		style = "minimal",
-		focusable = false,
-		noautocmd = true,
-		zindex = 50, -- Ensure it's above other windows
-	}
+		-- Create buffer for floating window
+		local buf = vim.api.nvim_create_buf(false, true)
 
-	-- Create floating window
-	M.marks_win = vim.api.nvim_open_win(buf, false, opts)
-	M.marks_buf = buf
+		-- Prepare content for floating window
+		local content = {}
+		for _, mark in ipairs(marks) do
+			table.insert(
+				content,
+				string.format(
+					"%s%s%s%s",
+					string.rep(" ", math.floor((padding_width - 1) / 2)),
+					mark.name,
+					string.rep(" ", math.ceil((padding_width - 1) / 2)),
+					mark.content
+				)
+			)
+		end
 
-	-- Add highlights using extmarks
-	for i, mark in ipairs(marks) do
-		-- Highlight content
-		local line_start = #mark.name + padding_width - 2
-		-- Highlight mark name with CursorLineNr
-		vim.api.nvim_buf_set_extmark(buf, mark_ns, i - 1, 0, {
-			end_col = line_start,
-			hl_group = "CursorLineNr",
-		})
-		highlight_marks(bufnr, buf, marks, content_ns, padding_width + 1)
+		-- Set buffer content
+		vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
+
+		-- Get current window width
+		local win_width = vim.api.nvim_win_get_width(0)
+
+		local opts = {
+			relative = "win",
+			width = win_width,
+			height = #marks,
+			row = position == "top" and 0 or (vim.api.nvim_win_get_height(0) - #marks - 1),
+			col = 0, -- Left side of the window
+			style = "minimal",
+			focusable = false,
+			noautocmd = true,
+			zindex = 50, -- Ensure it's above other windows
+		}
+
+		-- Create floating window
+		local win = vim.api.nvim_open_win(buf, false, opts)
+
+		-- Add highlights
+		local mark_ns = position == "top" and mark_ns_top or mark_ns_bottom
+		local content_ns = position == "top" and content_ns_top or content_ns_bottom
+		for i, mark in ipairs(marks) do
+			-- Highlight mark name
+			local line_start = #mark.name + padding_width - 2
+			vim.api.nvim_buf_set_extmark(buf, mark_ns, i - 1, 0, {
+				end_col = line_start,
+				hl_group = "MarkSignHL",
+			})
+
+			-- Highlight content
+			highlight_marks(bufnr, buf, marks, content_ns, padding_width + 1)
+		end
+
+		return win, buf
+	end
+
+	-- Create windows
+	if #top_marks > 0 then
+		M.top_marks_win, M.top_marks_buf = create_marks_window(top_marks, "top")
+	end
+	if #bottom_marks > 0 then
+		M.bottom_marks_win, M.bottom_marks_buf = create_marks_window(bottom_marks, "bottom")
 	end
 end
 
