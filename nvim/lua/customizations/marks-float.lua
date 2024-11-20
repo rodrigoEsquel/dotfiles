@@ -80,10 +80,14 @@ function M.show_marks()
     -- Create buffer for floating window
     local buf = vim.api.nvim_create_buf(false, true)
 
+    -- Create namespaces for highlights
+    local mark_ns = vim.api.nvim_create_namespace("MarksPlugin_MarkName")
+    local content_ns = vim.api.nvim_create_namespace("MarksPlugin_Content")
+
     -- Prepare content for floating window
     local content = {}
     for _, mark in ipairs(marks) do
-        table.insert(content, string.format("%s%s%s", mark.name, string.rep(" ", padding_width), mark.content))
+        table.insert(content, string.format("%s%s%s%s", string.rep(" ", math.floor(padding_width/2)), mark.name, string.rep(" ", math.ceil(padding_width/2) ), mark.content))
     end
 
     -- Set buffer content
@@ -109,10 +113,21 @@ function M.show_marks()
     M.marks_win = vim.api.nvim_open_win(buf, false, opts)
     M.marks_buf = buf
 
-    -- Add highlights for mark labels
+    -- Add highlights using extmarks
     for i, mark in ipairs(marks) do
-        -- Highlight mark label with CursorLineNr
-        vim.api.nvim_buf_add_highlight(buf, -1, "CursorLineNr", i - 1, 0, #mark.name)
+        -- Highlight content
+        local line_start = #mark.name + padding_width - 1
+        -- Highlight mark name with CursorLineNr
+        vim.api.nvim_buf_set_extmark(buf, mark_ns, i - 1, 0, {
+            end_col = line_start,
+            hl_group = "CursorLineNr",
+        })
+
+        vim.api.nvim_buf_set_extmark(buf, content_ns, i - 1, line_start, {
+            end_col = #content[i],
+            hl_group = "Normal", -- Using Normal highlight as a fallback
+            priority = 100,
+        })
     end
 end
 
