@@ -5,7 +5,6 @@ local M = {
 	marks_buf = nil,
 }
 
-
 local function copy_option(name, from_buf, to_buf)
 	--- @cast name any
 	local current = vim.bo[from_buf][name]
@@ -15,7 +14,7 @@ local function copy_option(name, from_buf, to_buf)
 	end
 end
 
-local function highlight_marks(buf, bufnr, marks)
+local function highlight_marks(buf, bufnr, marks, content_ns)
 	vim.api.nvim_buf_clear_namespace(bufnr, content_ns, 0, -1)
 
 	local buf_highlighter = highlighter.active[buf]
@@ -56,7 +55,8 @@ local function highlight_marks(buf, bufnr, marks)
 					local merow = offset + (nerow - start_row)
 
 					local hl = buf_query.hl_cache[capture]
-					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
+					local priority = tonumber(metadata.priority) or
+					vim.highlight.priorities.treesitter
 
 					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, nscol, {
 						end_row = merow,
@@ -202,11 +202,7 @@ function M.show_marks()
 			hl_group = "CursorLineNr",
 		})
 
-		vim.api.nvim_buf_set_extmark(buf, content_ns, i - 1, line_start, {
-			end_col = #content[i],
-			hl_group = "Normal", -- Using Normal highlight as a fallback
-			priority = 100,
-		})
+		highlight_marks(bufnr, buf, marks, content_ns)
 	end
 end
 
