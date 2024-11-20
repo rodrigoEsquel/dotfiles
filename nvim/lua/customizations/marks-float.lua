@@ -1,7 +1,77 @@
+local highlighter = vim.treesitter.highlighter
+
 local M = {
 	marks_win = nil,
 	marks_buf = nil,
 }
+
+
+local function copy_option(name, from_buf, to_buf)
+	--- @cast name any
+	local current = vim.bo[from_buf][name]
+	-- Only set when necessary to avoid OptionSet events
+	if current ~= vim.bo[to_buf][name] then
+		vim.bo[to_buf][name] = current
+	end
+end
+
+local function highlight_marks(buf, bufnr, marks)
+	vim.api.nvim_buf_clear_namespace(bufnr, content_ns, 0, -1)
+
+	local buf_highlighter = highlighter.active[buf]
+
+	copy_option("tabstop", buf, bufnr)
+
+	if not buf_highlighter then
+		-- Use standard highlighting when TS highlighting is not available
+		copy_option("filetype", buf, bufnr)
+		return
+	end
+
+	local parser = buf_highlighter.tree
+
+	parser:for_each_tree(function(tstree, ltree)
+		local buf_query = buf_highlighter:get_query(ltree:lang())
+		-- local query = query.get(ltree:lang(), 'highlights')
+		local query = buf_query:query()
+		if not query then
+			return
+		end
+
+		local p = 0
+		local offset = 0
+		for _, context in ipairs(marks) do
+			local start_row, end_row, end_col = context.line_nr, context.line_nr, -1
+
+			for capture, node, metadata in query:iter_captures(tstree:root(), buf, start_row, end_row + 1) do
+				local range = vim.treesitter.get_range(node, buf, metadata[capture])
+				local nsrow, nscol, nerow, necol = range[1], range[2], range[4], range[5]
+
+				if nerow > end_row or (nerow == end_row and necol > end_col and end_col ~= -1) then
+					break
+				end
+
+				if nsrow >= start_row then
+					local msrow = offset + (nsrow - start_row)
+					local merow = offset + (nerow - start_row)
+
+					local hl = buf_query.hl_cache[capture]
+					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
+
+					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, nscol, {
+						end_row = merow,
+						end_col = necol,
+						priority = priority + p,
+						hl_group = hl,
+					})
+
+					p = p + 1
+				end
+			end
+			offset = offset + 1
+		end
+	end)
+end
 
 function M.show_marks()
 	-- Close existing marks window if it exists
