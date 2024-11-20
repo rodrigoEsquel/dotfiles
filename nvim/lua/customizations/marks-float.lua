@@ -161,9 +161,9 @@ function M.show_marks()
 			content,
 			string.format(
 				"%s%s%s%s",
-				string.rep(" ", math.floor(padding_width / 2)),
+				string.rep(" ", math.floor((padding_width - 1) / 2)),
 				mark.name,
-				string.rep(" ", math.ceil(padding_width / 2)),
+				string.rep(" ", math.ceil((padding_width - 1) / 2)),
 				mark.content
 			)
 		)
@@ -195,7 +195,7 @@ function M.show_marks()
 	-- Add highlights using extmarks
 	for i, mark in ipairs(marks) do
 		-- Highlight content
-		local line_start = #mark.name + padding_width - 1
+		local line_start = #mark.name + padding_width - 2
 		-- Highlight mark name with CursorLineNr
 		vim.api.nvim_buf_set_extmark(buf, mark_ns, i - 1, 0, {
 			end_col = line_start,
