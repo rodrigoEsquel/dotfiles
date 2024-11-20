@@ -148,7 +148,6 @@ function M.show_marks()
 
 	-- If no marks, exit
 	if #marks == 0 then
-		print("No marks found outside visible window")
 		return
 	end
 
@@ -243,5 +242,14 @@ end
 
 -- Create command to trigger marks display
 vim.api.nvim_create_user_command("ShowMarks", M.show_marks, {})
+
+local events = {'CursorMoved'}
+
+for _, event in ipairs(events) do
+	vim.api.nvim_create_autocmd(event, {
+		callback = M.show_marks,
+		group = vim.api.nvim_create_augroup("ShowMarksAutoCmd", { clear = true })
+	})
+end
 
 return M
