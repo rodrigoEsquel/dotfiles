@@ -3,6 +3,10 @@ local highlighter = vim.treesitter.highlighter
 local M = {
 	marks_win = nil,
 	marks_buf = nil,
+	top_marks_win = nil,
+	top_marks_buf = nil,
+	bottom_marks_win = nil,
+	bottom_marks_buf = nil,
 	last_render_time = 0,
 	render_debounce_ms = 300,
 }
@@ -60,8 +64,7 @@ local function highlight_marks(buf, bufnr, marks, content_ns, padding_width)
 					local adj_necol = math.min(necol + line_start, #context.content + line_start)
 
 					local hl = buf_query.hl_cache[capture]
-					local priority = tonumber(metadata.priority) or
-					vim.highlight.priorities.treesitter
+					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
 
 					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, adj_nscol, {
 						end_row = merow,
@@ -141,7 +144,9 @@ function M.show_marks()
 		},
 
 		-- Other special marks
-		{ "'", "`", "^", "[", "]" },
+		{
+			-- "'",
+		},
 	}
 
 	-- Collect marks
