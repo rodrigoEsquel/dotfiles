@@ -3,6 +3,8 @@ local highlighter = vim.treesitter.highlighter
 local M = {
 	marks_win = nil,
 	marks_buf = nil,
+	last_render_time = 0,
+	render_debounce_ms = 300,
 }
 
 local function copy_option(name, from_buf, to_buf)
@@ -76,6 +78,14 @@ local function highlight_marks(buf, bufnr, marks, content_ns, padding_width)
 end
 
 function M.show_marks()
+	local current_time = vim.loop.now()
+	if current_time - M.last_render_time < M.render_debounce_ms then
+		return
+	end
+
+	-- Update last render time
+	M.last_render_time = current_time
+
 	-- Close existing marks windows if they exist
 	if M.top_marks_win and vim.api.nvim_win_is_valid(M.top_marks_win) then
 		vim.api.nvim_win_close(M.top_marks_win, true)
