@@ -107,47 +107,67 @@ function M.show_marks()
 	local numbercolumn_width = vim.o.number and #tostring(vim.fn.line("$")) + 1 or 0
 	local padding_width = signcolumn_width + numbercolumn_width
 
-	-- Get all marks from a to z for current buffer
-	local marks = {}
-	for _, mark in ipairs({
-		"a",
-		"b",
-		"c",
-		"d",
-		"e",
-		"f",
-		"g",
-		"h",
-		"i",
-		"j",
-		"k",
-		"l",
-		"m",
-		"n",
-		"o",
-		"p",
-		"q",
-		"r",
-		"s",
-		"t",
-		"u",
-		"v",
-		"w",
-		"x",
-		"y",
-		"z",
-	}) do
-		local mark_pos = vim.fn.getpos("'" .. mark)
-		local line_nr = mark_pos[2]
+	-- Define mark types with priority
+	local mark_types = {
+		-- Lowercase letters (highest priority)
+		{
+			"a",
+			"b",
+			"c",
+			"d",
+			"e",
+			"f",
+			"g",
+			"h",
+			"i",
+			"j",
+			"k",
+			"l",
+			"m",
+			"n",
+			"o",
+			"p",
+			"q",
+			"r",
+			"s",
+			"t",
+			"u",
+			"v",
+			"w",
+			"x",
+			"y",
+			"z",
+		},
 
-		-- Only add mark if it's outside current visible window
-		if line_nr > 0 and (line_nr < win_first_line or line_nr > win_last_line) then
-			local line = vim.fn.getline(line_nr)
-			table.insert(marks, {
-				name = mark,
-				line_nr = line_nr,
-				content = line,
-			})
+		-- Other special marks
+		{ "'", "`", "^", "[", "]" },
+	}
+
+	-- Collect marks
+	local marks = {}
+	local processed_lines = {}
+
+	-- Iterate through mark type groups
+	for priority, group in ipairs(mark_types) do
+		for _, mark in ipairs(group) do
+			local mark_pos = vim.fn.getpos("'" .. mark)
+			local line_nr = mark_pos[2]
+
+			-- Check if mark is valid and outside visible window
+			if line_nr > 0 and (line_nr < win_first_line or line_nr > win_last_line) then
+				local line = vim.fn.getline(line_nr)
+
+				-- Only add if the line hasn't been processed by higher priority marks
+				if not processed_lines[line_nr] then
+					table.insert(marks, {
+						name = mark,
+						line_nr = line_nr,
+						content = line,
+						priority = priority,
+					})
+					processed_lines[line_nr] = true
+				end
+			end
 		end
 	end
 
