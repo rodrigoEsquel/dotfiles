@@ -79,9 +79,9 @@ end
 
 function M.show_marks()
 	local current_time = vim.loop.now()
-	if current_time - M.last_render_time < M.render_debounce_ms then
-		return
-	end
+		if current_time - M.last_render_time < M.render_debounce_ms then
+			return
+		end
 
 	-- Update last render time
 	M.last_render_time = current_time
@@ -273,7 +273,15 @@ end
 -- Create command to trigger marks display
 vim.api.nvim_create_user_command("ShowMarks", M.show_marks, {})
 
-local events = { "CursorMoved" }
+local events = {
+	"CursorMoved",
+	-- "WinScrolled",
+	-- "BufEnter",
+	-- "WinEnter",
+	-- "VimResized",
+	-- "DiagnosticChanged",
+	-- "OptionSet",
+}
 
 for _, event in ipairs(events) do
 	vim.api.nvim_create_autocmd(event, {
