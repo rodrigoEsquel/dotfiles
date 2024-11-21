@@ -60,7 +60,8 @@ local function highlight_marks(buf, bufnr, marks, content_ns, padding_width)
 					local adj_necol = math.min(necol + line_start, #context.content + line_start)
 
 					local hl = buf_query.hl_cache[capture]
-					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
+					local priority = tonumber(metadata.priority) or
+					vim.highlight.priorities.treesitter
 
 					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, adj_nscol, {
 						end_row = merow,
@@ -79,9 +80,9 @@ end
 
 function M.show_marks()
 	local current_time = vim.loop.now()
-		if current_time - M.last_render_time < M.render_debounce_ms then
-			return
-		end
+	if current_time - M.last_render_time < M.render_debounce_ms then
+		return
+	end
 
 	-- Update last render time
 	M.last_render_time = current_time
