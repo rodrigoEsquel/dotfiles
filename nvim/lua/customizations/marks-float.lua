@@ -46,6 +46,32 @@ local M = {
 				-- "'",
 			},
 		},
+		excluded_filetypes = {
+			"dap-repl",
+			"dapui_breakpoints",
+			"dapui_console",
+			"dapui_scopes",
+			"dapui_stacks",
+			"dapui_watches",
+			"dashboard",
+			"diff",
+			"fugitive",
+			"git",
+			"gitcommit",
+			"harpoon",
+			"help",
+			"help",
+			"neo-tree",
+			"neotest-output-panel",
+			"neotest-summary",
+			"qf",
+			"spectre_panel",
+			"terminal-split",
+			"terminal-vsplit",
+			"toggleterm",
+			"trouble",
+			"undotree",
+		},
 	},
 }
 
@@ -108,7 +134,8 @@ local function highlight_marks(buf, bufnr, marks, content_ns, padding_width)
 					local adj_necol = math.min(necol + line_start, #context.content + line_start)
 
 					local hl = buf_query.hl_cache[capture]
-					local priority = tonumber(metadata.priority) or vim.highlight.priorities.treesitter
+					local priority = tonumber(metadata.priority) or
+					vim.highlight.priorities.treesitter
 
 					vim.api.nvim_buf_set_extmark(bufnr, content_ns, msrow, adj_nscol, {
 						end_row = merow,
@@ -188,6 +215,12 @@ local function create_marks_window(bufnr, marks, position, padding_width)
 end
 
 function M.show_marks()
+	for _, filetype in ipairs(M.config.excluded_filetypes) do
+		if vim.bo.filetype == filetype then
+			return
+		end
+	end
+
 	local current_time = vim.loop.now()
 	if current_time - M.last_render_time < M.render_debounce_ms then
 		return
