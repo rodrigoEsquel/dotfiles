@@ -12,6 +12,17 @@ return {
 				desc = "Toggle [G]it sidebar",
 			},
 			{
+				"<leader>g/",
+				':Git log -G""<left>',
+				desc = "Toggle [G]it sidebar",
+			},
+			{
+				"<leader>g/",
+				":'<,'>!Git log -G",
+				desc = "Toggle [G]it sidebar",
+				mode = {'v'}
+			},
+			{
 				"<leader>gs",
 				function()
 					vim.cmd("Git add %")

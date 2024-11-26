@@ -1,12 +1,55 @@
 return {
+
 	-- Set lualine as statusline
 	"nvim-lualine/lualine.nvim",
 	-- See `:help lualine.txt`
 	dependencies = {
+		{
+			"loctvl842/breadcrumb.nvim",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+			opts = {
+				separator = "❯",
+				icons = { Folder = "󰉋" },
+				highlight_group = {
+					component = "BreadcrumbText",
+					separator = "@boolean",
+				},
+			},
+		},
 		"nvim-tree/nvim-web-devicons",
 		"meuter/lualine-so-fancy.nvim",
 	},
+
 	opts = function()
+		local breadcrumb = function()
+			local breadcrumb_status_ok, breadcrumb = pcall(require, "breadcrumb")
+			if not breadcrumb_status_ok then
+				return
+			end
+			return breadcrumb.get_breadcrumb()
+		end
+		local function getLastItem()
+			local path = vim.fn.expand("%:.")
+			local cleanPath = path:gsub("/$", "")
+			-- Extract the last part of the path
+			local lastItem = cleanPath:match("([^/]+)$")
+			if lastItem == nil then
+				return ""
+			end
+			return lastItem
+		end
+
+		local function removeLastItem()
+			local path = vim.fn.expand("%:.")
+			local cleanPath = path:gsub("/$", "")
+			-- Extract the path without the last item
+			local basePath = cleanPath:match("(.*/)")
+			if basePath == nil then
+				return ""
+			end
+			return basePath
+		end
+
 		local function filepath()
 			local str = vim.fn.expand("%:.")
 			local lastSlashIndex = str:match(".*/()")
@@ -29,18 +72,46 @@ return {
 		end
 
 		local function emptyString()
-			return ' '
+			return " "
 		end
 
-
-		local buffers = require("customizations.lualine-harpoon")
+		local harpoon_buffers = require("customizations.lualine-harpoon")
 
 		return {
 			options = {
 				globalstatus = true,
 				theme = "auto",
 				component_separators = "",
-				section_separators = "" --[[ { left = "", right = "" }, ]],
+				-- section_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
+				-- section_separators = { left = "", right = "" },
+				disabled_filetypes = {
+					winbar = {
+						"dap-repl",
+						"dapui_breakpoints",
+						"dapui_console",
+						"dapui_scopes",
+						"dapui_stacks",
+						"dapui_watches",
+						"dashboard",
+						"diff",
+						"fugitive",
+						"git",
+						"gitcommit",
+						"harpoon",
+						"help",
+						"neo-tree",
+						"neotest-output-panel",
+						"neotest-summary",
+						"qf",
+						"spectre_panel",
+						"terminal-split",
+						"terminal-vsplit",
+						"toggleterm",
+						"trouble",
+						"undotree",
+					},
+				},
 			},
 			sections = {
 				lualine_a = {
@@ -51,7 +122,7 @@ return {
 					{ "fancy_diff" },
 				},
 				lualine_c = {
-					filepath,
+					-- filepath,
 					-- { "fancy_cwd", substitute_home = true },
 				},
 				lualine_x = {
@@ -66,32 +137,32 @@ return {
 				lualine_z = { "location" },
 			},
 			winbar = {
-				lualine_a = { "filename" },
-				lualine_b = { emptyString},
-				lualine_c = {},
+				lualine_a = {},
+				lualine_b = {
+					function()
+						if breadcrumb() then
+							return breadcrumb()
+						else
+							return ""
+						end
+					end,
+				},
+				lualine_c = {
+				},
 				lualine_x = {},
-				lualine_y = {
-
-					filepath,
-				},
-				lualine_z = {
-					{
-						"filetype",
-						icon_only = true, -- Display only an icon for filetype
-					},
-					"filename",
-				},
+				lualine_y = {},
+				lualine_z = {},
 			},
 			inactive_winbar = {
 				lualine_a = {},
 				lualine_b = {},
-				lualine_c = {"filename"},
+				lualine_c = { getLastItem },
 				lualine_x = {},
 				lualine_y = {},
 				lualine_z = {},
 			},
 			tabline = {
-				lualine_a = { buffers },
+				lualine_a = { harpoon_buffers },
 				lualine_b = {},
 				lualine_c = {},
 				lualine_x = {},

@@ -9,6 +9,10 @@ return {
 				"nvim-treesitter/nvim-treesitter",
 			},
 		},
+		{
+			"thenbe/neotest-playwright",
+			dependencies = "nvim-telescope/telescope.nvim",
+		},
 	},
 	config = function()
 		require("neotest").setup({
@@ -20,6 +24,14 @@ return {
 					cwd = function(path)
 						return vim.fn.getcwd()
 					end,
+				}),
+				require("neotest-playwright").adapter({
+					options = {
+						is_test_file = function(file_path)
+							local result = file_path:find("%.spec%.js$") ~= nil
+							return result
+						end,
+					},
 				}),
 			},
 		})

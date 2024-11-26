@@ -15,9 +15,9 @@ return {
 				end
 
 				-- Navigation
-				map("n", "]c", function()
+				map("n", "]g", function()
 					if vim.wo.diff then
-						return "]c"
+						return "]g"
 					end
 					vim.schedule(function()
 						gs.next_hunk()
@@ -25,9 +25,9 @@ return {
 					return "<Ignore>"
 				end, { expr = true })
 
-				map("n", "[c", function()
+				map("n", "[g", function()
 					if vim.wo.diff then
-						return "[c"
+						return "[g"
 					end
 					vim.schedule(function()
 						gs.prev_hunk()
@@ -68,5 +68,6 @@ return {
 			vim.cmd("Git commit")
 		end, { noremap = false, desc = "[G]it [C]ommit" })
 		vim.api.nvim_set_keymap("n", "<leader>gp", ":Git pull<CR>", { noremap = false, desc = "[G]it [P]ull" })
+
 	end,
 }

@@ -1,7 +1,10 @@
 return {
 	"folke/trouble.nvim",
-	cmd = { "TroubleToggle", "Trouble" },
-	opts = { use_diagnostic_signs = true },
+	cmd = { "Trouble" },
+	opts = {
+		use_diagnostic_signs = true,
+		auto_preview = false,
+	},
 	keys = {
 		{ "<leader>dd", "<cmd>Trouble diagnostics toggle<cr>", desc = "Toggle [D]iagnostics sidebar" },
 		{ "<leader>df", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Document Diagnostics (Trouble)" },

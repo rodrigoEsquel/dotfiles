@@ -7,21 +7,30 @@ return {
 			"williamboman/mason.nvim",
 			opts = {
 				registries = {
-					"github:nvim-java/mason-registry",
+					-- "github:nvim-java/mason-registry",
 					"github:mason-org/mason-registry",
 				},
 			},
 		},
 		"williamboman/mason-lspconfig.nvim",
 		"folke/neoconf.nvim",
-		"nvim-java/lua-async-await",
-		"nvim-java/nvim-java-core",
-		"nvim-java/nvim-java-test",
-		"nvim-java/nvim-java-dap",
+		-- "nvim-java/lua-async-await",
+		-- "nvim-java/nvim-java-core",
+		-- "nvim-java/nvim-java-test",
+		-- "nvim-java/nvim-java-dap",
+		-- "nvim-java/nvim-java",
 		"MunifTanjim/nui.nvim",
 		"mfussenegger/nvim-dap",
-		"nvim-java/nvim-java",
-	 	{
+		{
+			"davidosomething/format-ts-errors.nvim",
+			config = function()
+				require("format-ts-errors").setup({
+					-- add_markdown = true, -- wrap output with markdown ```ts ``` markers
+					-- start_indent_level = 1, -- initial indent
+				})
+			end,
+		},
+		{
 			"kevinhwang91/nvim-ufo",
 			dependencies = "kevinhwang91/promise-async",
 			config = function()
@@ -64,7 +73,7 @@ return {
 				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 			end
 
-			nmap("<leader>cn", vim.lsp.buf.rename, "[R]e[n]ame")
+			nmap("<leader>cn", vim.lsp.buf.rename, "[C]ode re[N]ame")
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
 			nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
@@ -95,6 +104,35 @@ return {
 			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 		}
 
+		local ts_handlers = {
+			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+			["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+				if result.diagnostics == nil then
+					return
+				end
+
+				-- ignore some tsserver diagnostics
+				local idx = 1
+				while idx <= #result.diagnostics do
+					local entry = result.diagnostics[idx]
+
+					local formatter = require("format-ts-errors")[entry.code]
+					entry.message = formatter and formatter(entry.message) or entry.message
+
+					-- codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+					if entry.code == 80001 then
+						-- { message = "File is a CommonJS module; it may be converted to an ES module.", }
+						table.remove(result.diagnostics, idx)
+					else
+						idx = idx + 1
+					end
+				end
+
+				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+			end,
+		}
+
 		-- Enable the following language servers
 		--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 		--
@@ -105,7 +143,7 @@ return {
 			-- gopls = {},
 			-- pyright = {},
 			-- rust_analyzer = {},
-			tsserver = {
+			ts_ls = {
 				maxTsServerMemory = 5000,
 				log = "verbose",
 				preferences = {
@@ -165,12 +203,21 @@ return {
 
 		mason_lspconfig.setup_handlers({
 			function(server_name)
-				require("lspconfig")[server_name].setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = servers[server_name],
-					handlers = handlers,
-				})
+				if server_name == "ts_ls" then
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+						on_attach = on_attach,
+						settings = servers[server_name],
+						handlers = ts_handlers,
+					})
+				else
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+						on_attach = on_attach,
+						settings = servers[server_name],
+						handlers = handlers,
+					})
+				end
 			end,
 		})
 
@@ -205,6 +252,10 @@ return {
 				local client = vim.lsp.get_client_by_id(client_id)
 				local bufnr = args.buf
 
+				if client == nil then
+					return
+				end
+
 				-- Only attach to clients that support document formatting
 				if not client.server_capabilities.documentFormattingProvider then
 					return
@@ -212,7 +263,7 @@ return {
 
 				-- Tsserver usually works poorly. Sorry you work with bad languages
 				-- You can remove this line if you know what you're doing :)
-				if client.name == "tsserver" then
+				if client.name == "ts_ls" then
 					return
 				end
 

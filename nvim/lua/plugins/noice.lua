@@ -9,7 +9,12 @@ return {
 		--   If not available, we use `mini` as the fallback
 		-- "rcarriga/nvim-notify",
 	},
-	opts = {},
+	opts = {
+		presets = {
+			inc_rename = true,
+			command_palette = true,
+		},
+	},
 	keys = {
 		{
 			"<leader>dc",

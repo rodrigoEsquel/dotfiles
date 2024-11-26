@@ -12,9 +12,14 @@ return {
 		{
 			"<leader>go",
 			function()
-				local repo = vim.fn.input("Repository name / URI: ")
-				if repo ~= "" then
-					require("git-dev").open(repo)
+				local input = vim.fn.input("Repository name / URI: ")
+				local repository, branch = input:match("^(.-)/tree/(.*)$")
+				if input then
+					if branch then
+						require("git-dev").open(repository, { branch = branch }, {})
+					else
+						require("git-dev").open(input)
+					end
 				end
 			end,
 			desc = "[G]it [O]pen",

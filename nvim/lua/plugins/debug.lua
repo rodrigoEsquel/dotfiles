@@ -165,13 +165,13 @@ return {
 				end,
 				desc = "Pause",
 			},
-			{
-				"<leader>rr",
-				function()
-					require("dap").repl.toggle()
-				end,
-				desc = "Toggle REPL",
-			},
+			-- {
+			-- 	"<leader>rr",
+			-- 	function()
+			-- 		require("dap").repl.toggle()
+			-- 	end,
+			-- 	desc = "Toggle REPL",
+			-- },
 			{
 				"<leader>rs",
 				function()
