@@ -10,7 +10,7 @@ vim.keymap.set("n", "<leader>bc", ":%bd|e#|bd#<CR>", { desc = "[C]lear [B]uffers
 -- vim.keymap.set("n", "<leader>bh", ":bprev<CR>", { desc = "Previous [B]uffer" })
 vim.keymap.set("n", "<leader>bb", ":b#<CR>", { desc = "[B]uffer [B]ack", silent = true })
 
-vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "+[W]indow" })
+vim.keymap.set("n", "<leader>w", "<c-w>", { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })

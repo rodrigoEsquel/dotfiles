@@ -21,12 +21,12 @@ vim.api.nvim_create_autocmd("CursorHold", {
 local ts_group = vim.api.nvim_create_augroup("OnNvimEnter", { clear = true })
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	callback = function()
-		local first_arg = vim.v.argv[3]
-		if first_arg and vim.fn.isdirectory(first_arg) == 1 then
+		-- local first_arg = vim.v.argv[3]
+		-- if first_arg and vim.fn.isdirectory(first_arg) == 1 then
 			-- Vim creates a buffer for folder. Close it.
 			vim.cmd(":Alpha")
 			-- require("telescope.builtin").find_files()
-		end
+		-- end
 	end,
 	group = ts_group,
 })
@@ -38,15 +38,15 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	end,
 	group = harpoon_group,
 })
-vim.api.nvim_exec(
-	[[
-  augroup FileExplorer
-    autocmd!
-    autocmd VimEnter * silent!
-  augroup END
-]],
-	false
-)
+-- vim.api.nvim_exec(
+-- 	[[
+--   augroup FileExplorer
+--     autocmd!
+--     autocmd VimEnter * silent!
+--   augroup END
+-- ]],
+-- 	false
+-- )
 
 local term_group = vim.api.nvim_create_augroup("OnTerm", { clear = true })
 vim.api.nvim_create_autocmd("TermOpen", {
@@ -62,3 +62,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	group = term_group,
 	desc = "Terminal Options",
 })
+
+vim.api.nvim_create_autocmd(
+        { "FocusLost", "ModeChanged", "TextChanged", "BufEnter" },
+        { desc = "autosave", pattern = "*", command = "silent! update" }
+)
