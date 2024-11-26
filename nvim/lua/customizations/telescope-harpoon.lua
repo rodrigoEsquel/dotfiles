@@ -29,14 +29,14 @@ local function toggle_buffer_mark(prompt_bufnr)
 	else
 		-- local harpoon_item = harpoon_utils.list:get(index)
 		local index = harpoon_utils:get_harpoon_index(entry.bufnr)
-		harpoon_utils.list:removeAt(index)
+		harpoon_utils.list:remove_at(index)
 		old = tostring(index)
 		mark = " "
 	end
 
 	local row = current_picker:get_selection_row()
 	local col = current_picker:is_multi_selected(entry) and #current_picker.multi_icon
-		or #current_picker.selection_caret
+	    or #current_picker.selection_caret
 	vim.api.nvim_buf_set_text(current_picker.results_bufnr, row, col, row, col + #old, { mark })
 end
 
@@ -71,7 +71,7 @@ local entry_from_buffer = function(opts)
 				"TelescopeResultsConstant",
 			},
 			{ entry.indicator, "TelescopeResultsIdentifier" },
-			{ display_icon, hl_group },
+			{ display_icon,    hl_group },
 			display_file_name .. ":" .. entry.lnum,
 		})
 	end
@@ -115,10 +115,11 @@ local buffer_sorter = function()
 	local sorter = sorters.get_fzy_sorter()
 	sorter.internal = sorter.scoring_function
 	sorter.scoring_function = function(s, prompt, line, entry)
-		if harpoon_utils:buf_is_harpooned(entry.bufnr) then
-			local index = harpoon_utils:get_harpoon_index(entry.bufnr)
-			return 1 / (sorter.internal(s, prompt, line, entry) * (1 - index * 1e-5))
-		end
+		-- prioritize harpooned buffers
+		-- if harpoon_utils:buf_is_harpooned(entry.bufnr) then
+		-- 	local index = harpoon_utils:get_harpoon_index(entry.bufnr)
+		-- 	return 1 / (sorter.internal(s, prompt, line, entry) * (1 - index * 1e-5))
+		-- end
 		return sorter.internal(s, prompt, line, entry)
 	end
 
@@ -174,21 +175,21 @@ local function bufferpick(opts)
 	end
 
 	pickers
-		.new(opts, {
-			finder = finders.new_table({
-				results = buffers,
-				entry_maker = entry_from_buffer(opts),
-			}),
-			previewer = conf.grep_previewer(opts),
-			sorter = buffer_sorter(),
-			default_selection_index = 1,
-			attach_mappings = function(_, map)
-				map("i", "<tab>", toggle_buffer_mark)
-				map("i", "<C-d>", require("telescope.actions").delete_buffer)
-				return true
-			end,
-		})
-		:find()
+	    .new(opts, {
+		    finder = finders.new_table({
+			    results = buffers,
+			    entry_maker = entry_from_buffer(opts),
+		    }),
+		    previewer = conf.grep_previewer(opts),
+		    sorter = buffer_sorter(),
+		    default_selection_index = 1,
+		    attach_mappings = function(_, map)
+			    map("i", "<tab>", toggle_buffer_mark)
+			    map("i", "<C-d>", require("telescope.actions").delete_buffer)
+			    return true
+		    end,
+	    })
+	    :find()
 end
 local get_dropdown = function(opts)
 	opts = vim.tbl_extend("force", {}, opts or {})
@@ -199,16 +200,20 @@ local get_dropdown = function(opts)
 			results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
 			preview = { "─", "│", "─", "│", "┌", "┐", "╯", "╰" },
 		},
+
+		layout_config = {
+			width = 100,
+			height = math.min(#vim.api.nvim_list_bufs(), 50),
+		},
 	})
 	return vim.tbl_extend("force", dropdown, opts)
 end
-
-local my_dropdown = get_dropdown({})
 
 vim.keymap.set("n", "<leader>bm", function()
 	harpoon_utils.list:remove()
 end, { desc = "[M]ark [B]uffer" })
 
 vim.keymap.set("n", "<leader><space>", function()
+	local my_dropdown = get_dropdown({})
 	bufferpick(my_dropdown)
 end, { desc = "[ ] [S]earch existing buffers" })
