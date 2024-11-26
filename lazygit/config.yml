@@ -1,7 +1,7 @@
 gui:
   sidePanelWidth: 0.25
   expandFocusedSidePanel: true
-  expandedSidePanelWeight: 100
+  expandedSidePanelWeight: 3
 
   theme:
     activeBorderColor:
