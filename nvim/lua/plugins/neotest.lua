@@ -27,6 +27,9 @@ return {
 				}),
 				require("neotest-playwright").adapter({
 					options = {
+						get_playwright_binary = function()
+							return vim.loop.cwd() .. "/../node_modules/.bin/playwright"
+						end,
 						is_test_file = function(file_path)
 							local result = file_path:find("%.spec%.js$") ~= nil
 							return result
