@@ -1,3 +1,11 @@
+local function is_path_inside_cwd(path, working_dir)
+	-- Normalize paths by removing trailing slashes and ensuring they end with a slash
+	path = path:gsub("/$", "") .. "/"
+	working_dir = working_dir:gsub("/$", "") .. "/"
+
+	return path:sub(1, #working_dir) == working_dir
+end
+
 local function filepath()
 	local file_path = vim.fn.expand("%:.")
 	local cwd = vim.fn.getcwd()
@@ -24,7 +32,7 @@ local function filepath()
 
 		local folders = {}
 		-- Check if path is inside or outside CWD
-		if relative_path == vim.pesc(cwd) then
+		if relative_path:match("^" .. vim.pesc(cwd)) then
 			-- Inside CWD
 			relative_path = relative_path:sub(#cwd + 1)
 		else
