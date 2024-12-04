@@ -7,7 +7,7 @@ local function is_path_inside_cwd(path, working_dir)
 end
 
 local function filepath()
-	local file_path = vim.fn.expand("%:.")
+	local file_path = vim.fn.expand("%:p")
 	local cwd = vim.fn.getcwd()
 
 	-- Function to apply highlights
