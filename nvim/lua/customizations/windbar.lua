@@ -51,24 +51,35 @@ local function filepath()
 		if file_path:match("^" .. vim.pesc(cwd)) then
 			-- File path inside CWD
 			local relative_path = file_path:sub(#cwd + 2)
-			local folders = {}
-			for folder in relative_path:gmatch("[^/]+") do
-				table.insert(folders, highlight(folder, "@operator"))
+
+			local folders = split_path(cwd)
+			local relative_folders = split_path(file_path)
+			for i, folder in ipairs(relative_folders) do
+				if folder == folders[i] then
+					table.remove(relative_folders, i)
+				end
+			end
+			local highlighted_folders = {}
+			for i, folder in ipairs(relative_folders) do
+				local group = (i == #relative_folders) and "@keyword" or "@operator"
+
+				table.insert(highlighted_folders, highlight(folder, group))
 			end
 
-			result = table.concat(folders, " ❯ ")
+			result = table.concat(highlighted_folders, " ❯ ")
 		else
 			-- File path outside CWD
 			local folders = split_path(file_path)
+			table.insert(folders, 1, "/")
 
 			-- Remove duplicate home folder
 			if folders[1] == folders[2] then
 				table.remove(folders, 1)
 			end
-
 			local highlighted_folders = {}
 			for i, folder in ipairs(folders) do
-				table.insert(highlighted_folders, highlight(folder, "@operator"))
+				local group = (i == #folders) and "@keyword" or "@operator"
+				table.insert(highlighted_folders, highlight(folder, group))
 			end
 
 			result = table.concat(highlighted_folders, " ❯ ")
