@@ -1,11 +1,3 @@
-local function is_path_inside_cwd(path, working_dir)
-	-- Normalize paths by removing trailing slashes and ensuring they end with a slash
-	path = path:gsub("/$", "") .. "/"
-	working_dir = working_dir:gsub("/$", "") .. "/"
-
-	return path:sub(1, #working_dir) == working_dir
-end
-
 local function filepath()
 	local file_path = vim.fn.expand("%:p")
 	local cwd = vim.fn.getcwd()
@@ -26,65 +18,41 @@ local function filepath()
 
 	-- Handle different path scenarios
 	local result
-	if file_path:match("^oil:///") then
-		-- Oil protocol path (directory)
-		local relative_path = file_path:gsub("^oil://", "")
+	local folders = {}
 
-		local folders = {}
-		-- Check if path is inside or outside CWD
-		if relative_path:match("^" .. vim.pesc(cwd)) then
-			-- Inside CWD
-			relative_path = relative_path:sub(#cwd + 1)
-		else
-			-- Outside CWD, relative to root
-			relative_path = relative_path:gsub("^/", "")
-			table.insert(folders, highlight("/", "@operator"))
+	local is_oil = file_path:match("oil://")
+
+	if is_oil then
+		-- Oil protocol path (file)
+		file_path = file_path:gsub("^oil://", "")
+	end
+
+	local cwd_folders = split_path(cwd)
+	local file_folders = split_path(file_path)
+
+	local is_in_cwd = file_path:match("^" .. vim.pesc(cwd))
+
+	if is_in_cwd then
+		for i, _ in ipairs(cwd_folders) do
+			if i < (#cwd_folders - 1) then
+				table.remove(file_folders, i)
+			end
 		end
-
-		for folder in relative_path:gmatch("[^/]+") do
-			table.insert(folders, highlight(folder, "@operator"))
-		end
-
-		result = table.concat(folders, " ❯ ")
+		table.remove(file_folders, 1)
 	else
-		-- Determine if file is inside or outside current working directory
-		if file_path:match("^" .. vim.pesc(cwd)) then
-			-- File path inside CWD
-			local relative_path = file_path:sub(#cwd + 2)
+		table.insert(file_folders, 1, "/")
+	end
 
-			local folders = split_path(cwd)
-			local relative_folders = split_path(file_path)
-			for i, folder in ipairs(relative_folders) do
-				if folder == folders[i] then
-					table.remove(relative_folders, i)
-				end
-			end
-			local highlighted_folders = {}
-			for i, folder in ipairs(relative_folders) do
-				local group = (i == #relative_folders) and "@keyword" or "@operator"
+	for i, folder in ipairs(file_folders) do
+		local group = ((i == #file_folders) and not is_oil) and "@function" or "@variable"
 
-				table.insert(highlighted_folders, highlight(folder, group))
-			end
-
-			result = table.concat(highlighted_folders, " ❯ ")
-		else
-			-- File path outside CWD
-			local folders = split_path(file_path)
-			table.insert(folders, 1, "/")
-
-			-- Remove duplicate home folder
-			if folders[1] == folders[2] then
-				table.remove(folders, 1)
-			end
-			local highlighted_folders = {}
-			for i, folder in ipairs(folders) do
-				local group = (i == #folders) and "@keyword" or "@operator"
-				table.insert(highlighted_folders, highlight(folder, group))
-			end
-
-			result = table.concat(highlighted_folders, " ❯ ")
+		table.insert(folders, highlight(folder, group))
+		if i < #file_folders then
+			table.insert(folders, highlight(" ❯ ", "@boolean"))
 		end
 	end
+
+	result = table.concat(folders)
 
 	return result
 end
