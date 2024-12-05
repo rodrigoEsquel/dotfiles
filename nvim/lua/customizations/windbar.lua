@@ -39,7 +39,7 @@ local function filepath()
 	if is_in_cwd then
 		for i, _ in ipairs(cwd_folders) do
 			if i < (#cwd_folders - 1) then
-				table.remove(file_folders, i)
+				table.remove(file_folders, 1)
 			end
 		end
 		table.remove(file_folders, 1)
