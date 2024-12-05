@@ -21,7 +21,7 @@ local function generate_uuid4()
 		random_hex(4), -- time_mid
 		random_hex(3), -- time_high
 		variant_hex, -- clock_seq_hi
-		random_hex(1), -- clock_seq_low
+		random_hex(3), -- clock_seq_low
 		random_hex(12) -- node
 	)
 
@@ -39,4 +39,4 @@ end
 -- Create a Neovim command
 vim.api.nvim_create_user_command("GenerateUUID", generate_and_copy_uuid, {})
 
-vim.api.nvim_set_keymap("n", "<leader>gu", ":GenerateUUID<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>ci", ":GenerateUUID<CR>", { noremap = true, silent = true })
