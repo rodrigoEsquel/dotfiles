@@ -76,6 +76,7 @@ return {
 		end
 
 		local harpoon_buffers = require("customizations.lualine-harpoon")
+		local winbar = require("customizations.windbar")
 
 		return {
 			options = {
@@ -138,17 +139,8 @@ return {
 			},
 			winbar = {
 				lualine_a = {},
-				lualine_b = {
-					function()
-						if breadcrumb() then
-							return breadcrumb()
-						else
-							return ""
-						end
-					end,
-				},
-				lualine_c = {
-				},
+				lualine_b = {},
+				lualine_c = { winbar },
 				lualine_x = {},
 				lualine_y = {},
 				lualine_z = {},
