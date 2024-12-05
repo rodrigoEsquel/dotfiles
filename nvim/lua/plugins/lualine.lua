@@ -4,30 +4,11 @@ return {
 	"nvim-lualine/lualine.nvim",
 	-- See `:help lualine.txt`
 	dependencies = {
-		{
-			"loctvl842/breadcrumb.nvim",
-			dependencies = { "nvim-tree/nvim-web-devicons" },
-			opts = {
-				separator = "❯",
-				icons = { Folder = "󰉋" },
-				highlight_group = {
-					component = "BreadcrumbText",
-					separator = "@boolean",
-				},
-			},
-		},
 		"nvim-tree/nvim-web-devicons",
 		"meuter/lualine-so-fancy.nvim",
 	},
 
 	opts = function()
-		local breadcrumb = function()
-			local breadcrumb_status_ok, breadcrumb = pcall(require, "breadcrumb")
-			if not breadcrumb_status_ok then
-				return
-			end
-			return breadcrumb.get_breadcrumb()
-		end
 		local function getLastItem()
 			local path = vim.fn.expand("%:.")
 			local cleanPath = path:gsub("/$", "")
