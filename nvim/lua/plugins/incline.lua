@@ -97,6 +97,10 @@ return {
 			hide = {
 				cursorline = true,
 			},
+			ignore = {
+				buftypes = {},
+				unlisted_buffers = false,
+			},
 			render = function(props)
 				return {
 					{ "", guifg = props.focused and colors.ui.bg_m2 or colors.ui.bg_p2 },
