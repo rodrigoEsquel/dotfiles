@@ -94,7 +94,6 @@ return {
 				padding = 0,
 				margin = { vertical = 1, horizontal = 0 },
 			},
-			debounce_threshold = { falling = 500, rising = 250 },
 			hide = {
 				cursorline = true,
 			},
