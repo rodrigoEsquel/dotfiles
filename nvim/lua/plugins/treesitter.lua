@@ -43,8 +43,14 @@ return {
 			-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 			auto_install = true,
 
-			highlight = { enable = true },
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false,
+			},
 			indent = { enable = true, disable = { "python" } },
+			injections = {
+				enable = true,
+			},
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -101,5 +107,46 @@ return {
 		vim.keymap.set("n", "<leader>cu", function()
 			require("treesitter-context").go_to_context()
 		end, { silent = true, desc = "Go [U]p to [C]ode context" })
+
+		local function set_template_literal_lang_from_comment(match, _, bufnr, pred, metadata)
+			local comment_node = match[pred[2]]
+			if comment_node then
+				local success, comment = pcall(vim.treesitter.get_node_text, comment_node, bufnr)
+				if success then
+					local tag = comment:match("/%*%s*(%w+)%s*%*/")
+					if tag then
+						local language = tag:lower() == "svg" and "html"
+						    or vim.filetype.match({ filename = "a." .. tag })
+						    or tag:lower()
+						metadata["injection.include-children"] = true
+						metadata["injection.language"] = language
+					end
+				end
+			end
+		end
+		local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
+
+		-- Enable SQL injection for JavaScript and TypeScript
+		parser_configs.javascript = {
+			filetype = "javascript",
+			-- Explicitly add SQL as an injectable language
+			injection = {
+				languages = { "sql" },
+			},
+		}
+
+		parser_configs.typescript = {
+			filetype = "typescript",
+			-- Explicitly add SQL as an injectable language
+			injection = {
+				languages = { "sql" },
+			},
+		}
+
+		vim.treesitter.query.add_directive(
+			"set-template-literal-lang-from-comment!",
+			set_template_literal_lang_from_comment,
+			{}
+		)
 	end,
 }

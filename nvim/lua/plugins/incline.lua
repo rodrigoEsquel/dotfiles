@@ -28,8 +28,7 @@ return {
 			local label = {}
 
 			for severity, icon in pairs(icons) do
-				local n = #vim.diagnostic.get(props.buf,
-					{ severity = vim.diagnostic.severity[string.upper(severity)] })
+				local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
 				if n > 0 then
 					table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
 				end
@@ -88,14 +87,14 @@ return {
 		require("incline").setup({
 			window = {
 				placement = {
-					vertical = "top",
+					-- vertical = "bottom",
 					horizontal = "center",
 				},
 				padding = 0,
 				margin = { vertical = 1, horizontal = 0 },
 			},
 			hide = {
-				cursorline = true,
+				cursorline = "focused_win",
 			},
 			ignore = {
 				buftypes = {},
@@ -103,15 +102,15 @@ return {
 			},
 			render = function(props)
 				return {
-					{ "", guifg = props.focused and colors.ui.bg_m2 or colors.ui.bg_p2 },
+					{ "", guifg = colors.ui.bg_p2 },
 					{
 						{ get_diagnostic_label(props) },
 						{ get_git_diff(props) },
 						-- { get_harpoon_items() },
 						{ get_file_name(props) },
-						guibg = props.focused and colors.ui.bg_m2 or colors.ui.bg_p2,
+						guibg = colors.ui.bg_p2,
 					},
-					{ "", guifg = props.focused and colors.ui.bg_m2 or colors.ui.bg_p2 },
+					{ "", guifg = colors.ui.bg_p2 },
 				}
 			end,
 		})

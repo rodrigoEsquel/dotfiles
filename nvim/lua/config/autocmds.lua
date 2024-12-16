@@ -25,6 +25,15 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	end,
 	group = harpoon_group,
 })
+
+local incline_group = vim.api.nvim_create_augroup("incline_group", { clear = true })
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	callback = function()
+		local incline = require("incline")
+		incline.refresh()
+	end,
+	group = incline_group,
+})
 -- vim.api.nvim_exec(
 -- 	[[
 --   augroup FileExplorer

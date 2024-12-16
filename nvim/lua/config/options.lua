@@ -42,7 +42,7 @@ vim.opt.splitkeep = "screen" -- Keep screen placin on split
 vim.o.splitbelow = true -- Sane split placing
 vim.o.splitright = true
 
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
 
 vim.opt.fillchars = {
 	foldopen = "",
@@ -65,3 +65,53 @@ vim.filetype.add({
 		["http"] = "http",
 	},
 })
+
+function _G.qftf(info)
+	local fn = vim.fn
+	local items
+	local ret = {}
+
+	local root = fn.getcwd()
+	vim.cmd(("noa lcd %s"):format(fn.fnameescape(root)))
+
+	if info.quickfix == 1 then
+		items = fn.getqflist({ id = info.id, items = 0 }).items
+	else
+		items = fn.getloclist(info.winid, { id = info.id, items = 0 }).items
+	end
+
+	-- Find max filename and max column length for consistent formatting
+	local max_filename_len = 0
+	local max_col_len = 0
+	for _, item in ipairs(items) do
+		local fname = fn.bufname(item.bufnr)
+		max_filename_len = math.max(max_filename_len, #fname)
+		local col = item.col > 0 and tostring(item.col) or "-"
+		max_col_len = math.max(max_col_len, #col)
+	end
+
+	-- Format each item
+	for _, item in ipairs(items) do
+		local fname = fn.bufname(item.bufnr)
+		local lnum = item.lnum > 0 and tostring(item.lnum) or "-"
+		local col = item.col > 0 and tostring(item.col) or "-"
+
+		-- Pad filename to consistent length
+		fname = fname .. string.rep(" ", max_filename_len - #fname)
+
+		-- Left-align column number with padding on the right
+		col = col .. string.rep(" ", max_col_len - #col)
+
+		local text = item.text:gsub("^%s+", ""):gsub("%s+$", "")
+
+		-- Format: filename | line | col | text
+		local formatted = string.format("%s │%3d:%-3d│ %s", fname, lnum, col, text)
+
+		table.insert(ret, formatted)
+	end
+
+	return ret
+end
+
+-- Set the quickfix formatting function
+vim.o.qftf = "v:lua.qftf"

@@ -4,7 +4,7 @@ return {
 	config = function()
 		require("kanagawa").setup({
 			theme = "wave",
-			dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+			-- dimInactive = true, -- dim inactive window `:h hl-NormalNC`
 			colors = {
 				theme = {
 					all = {

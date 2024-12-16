@@ -1,5 +1,7 @@
-local function filepath()
-	local file_path = vim.fn.expand("%:p")
+local function filepath(file_path)
+	if file_path == nil then
+		file_path = vim.fn.expand("%:p")
+	end
 	local cwd = vim.fn.getcwd()
 
 	if file_path == "" then
@@ -22,6 +24,7 @@ local function filepath()
 
 	-- Handle different path scenarios
 	local result
+	local items = {}
 	local folders = {}
 
 	local is_oil = file_path:match("oil://")
@@ -49,16 +52,20 @@ local function filepath()
 
 	for i, folder in ipairs(file_folders) do
 		local group = ((i == #file_folders) and not is_oil) and "@function" or "@variable"
-		table.insert(folders, highlight(folder, group))
+		table.insert(items, { text = folder, hl = group })
 
 		if i < #file_folders then
-			table.insert(folders, highlight(" ❯ ", "@boolean"))
+			table.insert(items, { text = " ❯ ", hl = "@boolean" })
 		end
+	end
+
+	for _, item in ipairs(items) do
+		table.insert(folders, highlight(item.text, item.hl))
 	end
 
 	result = table.concat(folders)
 
-	return result
+	return items
 end
 
 return filepath

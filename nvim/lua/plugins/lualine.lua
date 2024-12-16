@@ -57,7 +57,24 @@ return {
 		end
 
 		local harpoon_buffers = require("customizations.lualine-harpoon")
-		local winbar = require("customizations.windbar")
+
+		local function highlight(text, group)
+			return string.format("%%#%s#%s%%*", group, text)
+		end
+		local function winbar_name()
+			local get_items = require("customizations.windbar")
+			local items = get_items()
+
+			local folders = {}
+
+			for _, item in ipairs(items) do
+				table.insert(folders, highlight(item.text, item.hl))
+			end
+
+			local result = table.concat(folders)
+
+			return result
+		end
 
 		return {
 			options = {
@@ -68,78 +85,88 @@ return {
 				section_separators = { left = "", right = "" },
 				-- section_separators = { left = "", right = "" },
 				disabled_filetypes = {
-					winbar = {
-						"dap-repl",
-						"dapui_breakpoints",
-						"dapui_console",
-						"dapui_scopes",
-						"dapui_stacks",
-						"dapui_watches",
-						"dashboard",
-						"diff",
-						"fugitive",
-						"git",
-						"gitcommit",
-						"harpoon",
-						"help",
-						"neo-tree",
-						"neotest-output-panel",
-						"neotest-summary",
-						"qf",
-						"spectre_panel",
-						"terminal-split",
-						"terminal-vsplit",
-						"toggleterm",
-						"trouble",
-						"undotree",
-					},
+					-- winbar = {
+					-- 	"dap-repl",
+					-- 	"dapui_breakpoints",
+					-- 	"dapui_console",
+					-- 	"dapui_scopes",
+					-- 	"dapui_stacks",
+					-- 	"dapui_watches",
+					-- 	"dashboard",
+					-- 	"diff",
+					-- 	"fugitive",
+					-- 	"git",
+					-- 	"gitcommit",
+					-- 	"harpoon",
+					-- 	"help",
+					-- 	"neo-tree",
+					-- 	"neotest-output-panel",
+					-- 	"neotest-summary",
+					-- 	"qf",
+					-- 	"spectre_panel",
+					-- 	"terminal-split",
+					-- 	"terminal-vsplit",
+					-- 	"toggleterm",
+					-- 	"trouble",
+					-- 	"undotree",
+					-- },
 				},
 			},
 			sections = {
-				lualine_a = {
-					{ "fancy_mode", width = 3 },
-				},
+				lualine_a = {},
 				lualine_b = {
-					{ "fancy_branch" },
-					{ "fancy_diff" },
+					-- { "fancy_diff" },
 				},
 				lualine_c = {
 					-- filepath,
 					-- { "fancy_cwd", substitute_home = true },
 				},
 				lualine_x = {
-					{ "fancy_macro" },
-					{ "fancy_diagnostics" },
-					{ "fancy_searchcount" },
+					-- { "fancy_macro" },
+					-- { "fancy_diagnostics" },
+					-- { "fancy_searchcount" },
 				},
 				lualine_y = {
-					{ "fancy_filetype", ts_icon = "" },
+					-- { "fancy_filetype", ts_icon = "" },
+					-- { "fancy_lsp_servers" },
+				},
+				lualine_z = {
+					-- "location",
+				},
+			},
+			-- winbar = {
+			-- 	lualine_a = {},
+			-- 	lualine_b = {},
+			-- 	lualine_c = { winbar_name },
+			-- 	lualine_x = {},
+			-- 	lualine_y = {},
+			-- 	lualine_z = {},
+			-- },
+			-- inactive_winbar = {
+			-- 	lualine_a = {},
+			-- 	lualine_b = {},
+			-- 	lualine_c = { getLastItem },
+			-- 	lualine_x = {},
+			-- 	lualine_y = {},
+			-- 	lualine_z = {},
+			-- },
+			tabline = {
+				lualine_a = {
+					{ "fancy_mode", width = 3 },
+				},
+				lualine_b = {
+					{ "fancy_branch" },
+				},
+				lualine_c = {
+					harpoon_buffers,
+				},
+				lualine_x = {
+					{ "fancy_macro" },
+					-- { "fancy_searchcount" },
+				},
+				lualine_y = {
 					{ "fancy_lsp_servers" },
 				},
-				lualine_z = { "location" },
-			},
-			winbar = {
-				lualine_a = {},
-				lualine_b = {},
-				lualine_c = { winbar },
-				lualine_x = {},
-				lualine_y = {},
-				lualine_z = {},
-			},
-			inactive_winbar = {
-				lualine_a = {},
-				lualine_b = {},
-				lualine_c = { getLastItem },
-				lualine_x = {},
-				lualine_y = {},
-				lualine_z = {},
-			},
-			tabline = {
-				lualine_a = { harpoon_buffers },
-				lualine_b = {},
-				lualine_c = {},
-				lualine_x = {},
-				lualine_y = {},
 				lualine_z = { "tabs" },
 			},
 		}

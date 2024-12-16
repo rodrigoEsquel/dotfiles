@@ -5,7 +5,6 @@ return {
 	},
 	event = "VeryLazy",
 	init = function()
-		vim.opt.laststatus = 3
 		vim.opt.splitkeep = "screen"
 
 		vim.keymap.set("n", "<leader>ee", require("edgy").toggle, { desc = "Open [E]dgy" })

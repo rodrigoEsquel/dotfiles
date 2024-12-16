@@ -7,6 +7,11 @@ local highlights = require("lualine.highlight")
 
 local component_icon = ""
 
+local function highlight(text, group)
+	return string.format("%%#%s#%s%%*", group, text)
+end
+
+
 local function is_current_file(file_path)
 	local root_dir = vim.loop.cwd()
 	local current_file = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
@@ -33,7 +38,8 @@ local function create_item(index, file_path)
 	return item
 end
 
-local function create_reverse_highlight(existing_group, new_group)
+local function create_reverse_highlight(existing_group)
+	local new_group = existing_group .. "_reverse"
 	-- Create the new highlight group with cterm=reverse
 	local existing_hl = vim.api.nvim_get_hl_by_name(existing_group, true)
 
@@ -53,15 +59,16 @@ local empty_divisor = ""
 
 local function apply_highlights(is_current, item)
 	local new_state = ""
-	local highlight = "lualine_a" .. highlights.get_mode_suffix()
-	local reverse_highlight = create_reverse_highlight(highlight, highlight .. "_reverse")
+	local highlight_group = "lualine_a" .. highlights.get_mode_suffix()
+	local reverse_highlight_group = create_reverse_highlight(highlight_group)
 	if is_current then
-		new_state = new_state .. "%#" .. reverse_highlight .. "#" .. reverse_divisor .. ""
-		new_state = new_state .. "%#" .. highlight .. "#" .. item .. ""
-		new_state = new_state .. "%#" .. reverse_highlight .. "#" .. divisor .. ""
+		new_state = new_state .. highlight(reverse_divisor, reverse_highlight_group)
+		new_state = new_state .. highlight(item, highlight_group)
+		new_state = new_state .. highlight(divisor, reverse_highlight_group)
 	else
-		new_state = new_state .. "%#lualine_a_inactive#" .. " " .. item .. " " .. ""
+		new_state = new_state .. " " .. item .. " "
 	end
+
 	return new_state
 end
 
@@ -77,9 +84,7 @@ vim.g.harpoon_has_changed = true
 
 function M:update_status()
 	if vim.g.harpoon_has_changed then
-		local isFirst = true
-		local last_is_current = false
-		state = "%#lualine_a_inactive#" .. component_icon .. " "
+		state = component_icon .. "  "
 
 		local harpoon_files = harpoon_utils.list.items
 		for index, item in pairs(harpoon_files) do
@@ -87,8 +92,6 @@ function M:update_status()
 			local new_item = create_item(index, value)
 			local is_current = is_current_file(value)
 			new_item = apply_highlights(is_current, new_item)
-			-- apply_divisor(is_current, last_is_current)
-			last_is_current = is_current
 			state = state .. new_item
 		end
 
