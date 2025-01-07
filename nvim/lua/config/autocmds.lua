@@ -60,6 +60,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 vim.api.nvim_create_autocmd(
-        { "FocusLost", "ModeChanged", "TextChanged", "BufEnter" },
-        { desc = "autosave", pattern = "*", command = "silent! update" }
+	{ "FocusLost", "ModeChanged", "TextChanged", "BufEnter" },
+	{ desc = "autosave", pattern = "*", command = "silent! update" }
 )

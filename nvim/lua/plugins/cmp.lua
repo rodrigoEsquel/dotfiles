@@ -65,7 +65,6 @@ return {
 
 		local utils = require("tailwind-tools.utils")
 		local formatting = {
-			fields = { "abbr", "kind", "menu" },
 			format = function(entry, item)
 				local doc = entry.completion_item.documentation
 				local icons = kind_icons

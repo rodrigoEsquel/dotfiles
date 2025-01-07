@@ -162,7 +162,7 @@ return {
 				},
 				lualine_x = {
 					{ "fancy_macro" },
-					-- { "fancy_searchcount" },
+					{ "overseer" },
 				},
 				lualine_y = {
 					{ "fancy_lsp_servers" },

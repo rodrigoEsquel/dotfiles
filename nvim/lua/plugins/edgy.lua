@@ -11,7 +11,7 @@ return {
 	end,
 	opts = {
 		options = {
-			left = { size = 45 },
+			left = { size = 60 },
 			bottom = { size = 20 },
 			right = { size = 80 },
 			top = { size = 20 },
@@ -25,7 +25,9 @@ return {
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			--
+			{ title = "DB Out", ft = "dbout" },
 			{ title = "Git", ft = "git" },
+			{ title = "Overseer", ft = "OverseerList" },
 			{ title = "Fugitive", ft = "fugitive" },
 			{ title = "Harpoon", ft = "harpoon" },
 			{ title = "Terminal", ft = "terminal-split" },
@@ -48,6 +50,7 @@ return {
 		},
 		left = {
 			{ title = "Trouble", ft = "trouble" },
+			{title = "DB UI", ft = "dbui"},
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },

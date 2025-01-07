@@ -1,4 +1,4 @@
 return {
-	"luckasRanarison/tailwind-tools.nvim",
-	opts = {}, -- your configuration
+	-- "luckasRanarison/tailwind-tools.nvim",
+	-- opts = {}, -- your configuration
 }

@@ -12,6 +12,12 @@ vim.keymap.set("n", "<leader>bb", ":b#<CR>", { desc = "[B]uffer [B]ack", silent 
 
 vim.keymap.set("n", "<leader>w", "<c-w>", { silent = true })
 
+-- manage quickfix lists 
+vim.keymap.set("n", "<leader>qo", ":copen<CR>", { silent = true })
+vim.keymap.set("n", "<leader>qc", ":cclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>qn", ":cnext<CR>", { silent = true })
+vim.keymap.set("n", "<leader>qp", ":cprevious<CR>", { silent = true })
+
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -74,6 +80,6 @@ vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set("n", "<leader>c<space>", require("customizations.format-file-saving-marks"), { desc = "[C]ode Format" })
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "[d", vim.diagnostic.get_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.get_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })

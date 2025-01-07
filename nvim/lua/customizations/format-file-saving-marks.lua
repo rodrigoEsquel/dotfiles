@@ -8,9 +8,7 @@ local format_buffer = function()
 		marks[letter] = markLocation
 	end
 
-	vim.lsp.buf.format({
-		async = false,
-	})
+	require('conform').format { async = true, lsp_format = 'fallback' }
 
 	for i = 1, #letters do
 		local letter = letters:sub(i, i)

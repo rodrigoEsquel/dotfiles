@@ -72,39 +72,40 @@ local function document_symbols_for_selected(prompt_bufnr)
 			vim.cmd([[highlight TelescopeSymbolKind guifg=#61AFEF]])
 
 			require("telescope.pickers")
-				.new({}, {
-					prompt_title = "Document Symbols: " .. vim.fn.fnamemodify(entry.path, ":t"),
-					finder = require("telescope.finders").new_table({
-						results = flat_symbols,
-						entry_maker = function(symbol)
-							local kind = vim.lsp.protocol.SymbolKind[symbol.kind] or "Other"
-							return {
-								value = symbol,
-								display = function(entry)
-									local display_text = string.format("%-50s %s", entry.value.name, kind)
-									return display_text,
-										{ { { #entry.value.name + 1, #display_text }, "TelescopeSymbolKind" } }
-								end,
-								ordinal = symbol.name,
-								filename = entry.path,
-								lnum = symbol.selectionRange.start.line + 1,
-								col = symbol.selectionRange.start.character + 1,
-							}
-						end,
-					}),
-					sorter = require("telescope.config").values.generic_sorter({}),
-					previewer = require("telescope.config").values.qflist_previewer({}),
-					attach_mappings = function(_, map)
-						map("i", "<CR>", function(prompt_bufnr)
-							local selection = action_state.get_selected_entry()
-							actions.close(prompt_bufnr)
-							vim.cmd("edit " .. selection.filename)
-							vim.api.nvim_win_set_cursor(0, { selection.lnum, selection.col - 1 })
-						end)
-						return true
-					end,
-				})
-				:find()
+			    .new({}, {
+				    prompt_title = "Document Symbols: " .. vim.fn.fnamemodify(entry.path, ":t"),
+				    finder = require("telescope.finders").new_table({
+					    results = flat_symbols,
+					    entry_maker = function(symbol)
+						    local kind = vim.lsp.protocol.SymbolKind[symbol.kind] or "Other"
+						    return {
+							    value = symbol,
+							    display = function(entry)
+								    local display_text = string.format("%-50s %s",
+									    entry.value.name, kind)
+								    return display_text,
+								        { { { #entry.value.name + 1, #display_text }, "TelescopeSymbolKind" } }
+							    end,
+							    ordinal = symbol.name,
+							    filename = entry.path,
+							    lnum = symbol.selectionRange.start.line + 1,
+							    col = symbol.selectionRange.start.character + 1,
+						    }
+					    end,
+				    }),
+				    sorter = require("telescope.config").values.generic_sorter({}),
+				    previewer = require("telescope.config").values.qflist_previewer({}),
+				    attach_mappings = function(_, map)
+					    map("i", "<CR>", function(prompt_bufnr)
+						    local selection = action_state.get_selected_entry()
+						    actions.close(prompt_bufnr)
+						    vim.cmd("edit " .. selection.filename)
+						    vim.api.nvim_win_set_cursor(0, { selection.lnum, selection.col - 1 })
+					    end)
+					    return true
+				    end,
+			    })
+			    :find()
 		end)
 	end)
 end
@@ -126,13 +127,14 @@ return {
 	},
 	config = function()
 		require("telescope.pickers.layout_strategies").horizontal_merged = function(
-			picker,
-			max_columns,
-			max_lines,
-			layout_config
+		    picker,
+		    max_columns,
+		    max_lines,
+		    layout_config
 		)
 			local layout =
-				require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines, layout_config)
+			    require("telescope.pickers.layout_strategies").horizontal(picker, max_columns, max_lines,
+				    layout_config)
 
 			layout.prompt.title = ""
 
@@ -147,6 +149,8 @@ return {
 
 			return layout
 		end
+
+		local action_layout = require("telescope.actions.layout")
 
 		require("telescope").setup({
 
@@ -165,13 +169,13 @@ return {
 				-- dynamic_preview_title = true,
 				borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 				initial_mode = "insert",
-				-- sorting_strategy = "ascending",
+				sorting_strategy = "ascending",
 				layout_config = {
 					horizontal = {
 						height = { padding = 2 },
 						preview_width = 0.5,
 						width = { padding = 5 },
-						-- prompt_position = "top",
+						prompt_position = "top",
 					},
 					vertical = {
 						-- height = { padding = 2 },
@@ -187,11 +191,12 @@ return {
 						-- ["<esc>"] = actions.close,
 						-- ["<C-t>"] = trouble.open,
 
+						["<C-a>"] = action_layout.toggle_preview,
 						["<C-s>"] = document_symbols_for_selected,
 					},
 
 					n = {
-						-- ["<C-t>"] = trouble.open,
+						["<C-a>"] = action_layout.toggle_preview,
 						["<C-s>"] = document_symbols_for_selected,
 					},
 				},
@@ -201,6 +206,9 @@ return {
 				find_files = {
 					hidden = true,
 				},
+				filetypes = {
+					hidden = true,
+				}
 			},
 		})
 
@@ -242,7 +250,8 @@ return {
 			{ desc = "[S]earch current [W]ord" }
 		)
 		vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics,
+			{ desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sh", ":Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon marks" })
 		vim.keymap.set("n", "<leader>sm", ":Telescope macros<CR>", { desc = "[S]earch [M]acros" })
 		vim.keymap.set("n", "<leader>ss", ":Telescope git_status<CR>", { desc = "[S]earch git [S]tatus" })

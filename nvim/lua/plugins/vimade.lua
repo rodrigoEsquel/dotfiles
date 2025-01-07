@@ -6,6 +6,6 @@ return {
 		tint = { bg = { rgb = { 0, 0, 0 }, intensity = 0.5 } },
 	},
 	keys = {
-		{ "<leader>f", ":VimadeToggle<cr>", desc = "Toggle [F]ocus" },
+		-- { "<leader>f", ":VimadeToggle<cr>", desc = "Toggle [F]ocus" },
 	},
 }
