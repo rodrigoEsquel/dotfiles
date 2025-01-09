@@ -30,4 +30,5 @@ vim.keymap.set('v', 'd', function()
 		start_line, end_line = end_line, start_line
 	end
 	delete_qf_items(start_line, end_line)
+	vim.cmd('normal! ' .. vim.api.nvim_replace_termcodes('<Esc>', true, false, true))
 end, { buffer = true })
