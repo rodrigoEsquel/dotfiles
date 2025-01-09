@@ -77,6 +77,7 @@ return {
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
 			nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+			nmap("g<c-d>", '<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>', "[G]oto [D]efinition")
 			nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
