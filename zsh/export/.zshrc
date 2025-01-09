@@ -9,6 +9,7 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 export PATH=$PATH:/home/rodrigo/Android/Sdk/platform-tools
 export PATH=$PATH:$HOME/.maestro/bin
+export PATH=$PATH:$HOME/dotfiles/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/home/rodrigo/go/bin
 export PATH=$PATH:/usr/local/apache-maven-3.9.6/bin
