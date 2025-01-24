@@ -117,19 +117,19 @@ return {
 				desc = "Continue",
 			},
 			{
-				"<leader>rC",
+				"<leader>r<space>",
 				function()
 					require("dap").run_to_cursor()
 				end,
 				desc = "Run to Cursor",
 			},
-			{
-				"<leader>rg",
-				function()
-					require("dap").goto_()
-				end,
-				desc = "Go to Line (No Execute)",
-			},
+			-- {
+			-- 	"<leader>rg",
+			-- 	function()
+			-- 		require("dap").goto_()
+			-- 	end,
+			-- 	desc = "Go to Line (No Execute)",
+			-- },
 			{
 				"<leader>ri",
 				function()
@@ -137,34 +137,34 @@ return {
 				end,
 				desc = "Step Into",
 			},
-			{
-				"<leader>rj",
-				function()
-					require("dap").down()
-				end,
-				desc = "Down",
-			},
-			{
-				"<leader>rk",
-				function()
-					require("dap").up()
-				end,
-				desc = "Up",
-			},
-			{
-				"<leader>rl",
-				function()
-					require("dap").run_last()
-				end,
-				desc = "Run Last",
-			},
-			{
-				"<leader>rp",
-				function()
-					require("dap").pause()
-				end,
-				desc = "Pause",
-			},
+			-- {
+			-- 	"<leader>rj",
+			-- 	function()
+			-- 		require("dap").down()
+			-- 	end,
+			-- 	desc = "Down",
+			-- },
+			-- {
+			-- 	"<leader>rk",
+			-- 	function()
+			-- 		require("dap").up()
+			-- 	end,
+			-- 	desc = "Up",
+			-- },
+			-- {
+			-- 	"<leader>rl",
+			-- 	function()
+			-- 		require("dap").run_last()
+			-- 	end,
+			-- 	desc = "Run Last",
+			-- },
+			-- {
+			-- 	"<leader>rp",
+			-- 	function()
+			-- 		require("dap").pause()
+			-- 	end,
+			-- 	desc = "Pause",
+			-- },
 			-- {
 			-- 	"<leader>rr",
 			-- 	function()
@@ -230,7 +230,7 @@ return {
 				desc = "Dap UI",
 			},
 			{
-				"<leader>re",
+				"K",
 				function()
 					require("dapui").eval()
 				end,
@@ -242,23 +242,10 @@ return {
 			-- fancy UI for the debugger
 			{
 				"rcarriga/nvim-dap-ui",
-				dependencies = { "nvim-neotest/nvim-nio" },
+				dependencies = { "nvim-neotest/nvim-nio", "LiadOz/nvim-dap-repl-highlights" },
 				-- stylua: ignore
 				opts = {
-					layouts = { {
-						elements = { {
-							id = "breakpoints",
-							size = 0.25
-						}, {
-							id = "stacks",
-							size = 0.25
-						}, {
-							id = "watches",
-							size = 0.25
-						} },
-						position = "left",
-						size = 40
-					}, {
+					layouts = {  {
 						elements = { {
 							id = "scopes",
 							size = 0.5
@@ -275,6 +262,7 @@ return {
 					-- require("dap.ext.vscode").load_launchjs()
 					local dap = require("dap")
 					local dapui = require("dapui")
+					require("nvim-dap-repl-highlights").setup()
 					dapui.setup(opts)
 					dap.listeners.after.event_initialized["dapui_config"] = function()
 						dapui.open({})
