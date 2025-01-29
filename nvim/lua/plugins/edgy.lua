@@ -33,7 +33,6 @@ return {
 			{ title = "Terminal", ft = "terminal-split" },
 			{ title = "QuickFix", ft = "qf" },
 			{ title = "Diff panel", ft = "diff" },
-			{ title = "Scopes", ft = "dapui_scopes" },
 			{ title = "Repl", ft = "dap-repl" },
 			{ title = "Console", ft = "dapui_console" },
 			{ title = "Test", ft = "neotest-output-panel" },
@@ -51,15 +50,16 @@ return {
 		left = {
 			{ title = "Trouble", ft = "trouble" },
 			{title = "DB UI", ft = "dbui"},
+			{ title = "Scopes", ft = "dapui_scopes" },
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
 			-- { title = "Telescope", ft = "TelescopeResults" },
 			-- { title = "Oil", ft = "oil" },
 			{ title = "Test", ft = "neotest-summary" },
 			{ title = "Undo-Tree", ft = "undotree" },
-			{ title = "Breakpoints", ft = "dapui_breakpoints" },
-			{ title = "Stacks", ft = "dapui_stacks" },
-			{ title = "Watches", ft = "dapui_watches" },
+			-- { title = "Breakpoints", ft = "dapui_breakpoints" },
+			-- { title = "Stacks", ft = "dapui_stacks" },
+			-- { title = "Watches", ft = "dapui_watches" },
 			{
 				title = "Neo-Tree Git",
 				ft = "neo-tree",
