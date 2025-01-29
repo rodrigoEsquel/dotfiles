@@ -34,6 +34,15 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	end,
 	group = incline_group,
 })
+
+local enter_group = vim.api.nvim_create_augroup("enter_group", { clear = true })
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+	callback = function()
+		vim.cmd("LualineRenameTab code")
+	end,
+	group = enter_group,
+})
+
 -- vim.api.nvim_exec(
 -- 	[[
 --   augroup FileExplorer
