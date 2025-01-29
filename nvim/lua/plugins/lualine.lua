@@ -167,7 +167,10 @@ return {
 				lualine_y = {
 					{ "fancy_lsp_servers" },
 				},
-				lualine_z = { "tabs" },
+				lualine_z = { {
+					"tabs",
+					mode = 2,
+				} },
 			},
 		}
 	end,
