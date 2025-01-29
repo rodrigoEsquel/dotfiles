@@ -80,7 +80,7 @@ return {
 			nmap("g<c-d>", '<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>', "[G]oto [D]efinition")
 			nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-			nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
+			-- nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
 			-- nmap(
 			-- 	"<leader>sS",
