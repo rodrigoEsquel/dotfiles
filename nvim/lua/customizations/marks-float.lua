@@ -185,7 +185,8 @@ local function create_marks_window(bufnr, marks, position, padding_width)
 		relative = "win",
 		width = win_width,
 		height = #marks,
-		row = position == "top" and 0 or (vim.api.nvim_win_get_height(0) - #marks - 1),
+		row = position == "top" and 0 or (vim.api.nvim_win_get_height(0) - #marks --[[ -1 if the statusline is actiive ]]
+		),
 		col = 0, -- Left side of the window
 		style = "minimal",
 		focusable = false,
