@@ -24,14 +24,14 @@ return {
 
 			local icons = {
 				Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-				Breakpoint = " ",
-				BreakpointCondition = " ",
+				Breakpoint = {" "},
+				BreakpointCondition = {" "},
 				BreakpointRejected = { " ", "DiagnosticError" },
-				LogPoint = ".>",
+				LogPoint = {".>"},
 			}
 
 			for name, sign in pairs(icons) do
-				sign = type(sign) == "table" and sign or { sign }
+				-- sign = type(sign) == "table" and sign or { sign }
 				vim.fn.sign_define("Dap" .. name, {
 					text = sign[1],
 					texthl = sign[2] or "DiagnosticInfo",
@@ -237,14 +237,6 @@ return {
 				end,
 				desc = "Dap UI",
 			},
-			{
-				"K",
-				function()
-					require("dapui").eval()
-				end,
-				desc = "Eval",
-				mode = { "n", "v" },
-			},
 		},
 		dependencies = {
 			-- fancy UI for the debugger
@@ -254,13 +246,7 @@ return {
 				-- stylua: ignore
 				opts = {
 					layouts = {  {
-						elements = { {
-							id = "scopes",
-							size = 0.5
-						}, {
-							id = "repl",
-							size = 0.5
-						} },
+						elements = { { id = "repl", size = 0.5 } },
 						position = "bottom",
 						size = 10
 					} }

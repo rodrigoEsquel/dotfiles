@@ -89,7 +89,7 @@ return {
 			-- )
 
 			-- See `:help K` for why this keymap
-			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+			-- nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 			vim.keymap.set({ "i" }, "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
 			-- Lesser used LSP functionality
 			nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
