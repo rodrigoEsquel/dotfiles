@@ -20,15 +20,13 @@ return {
 
 		close_when_all_hidden = false,
 		top = {
-			{ title = "Git Commit", ft = "gitcommit" },
 		},
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			--
+			{ title = "Git Commit", ft = "gitcommit" },
 			{ title = "DB Out", ft = "dbout" },
-			{ title = "Git", ft = "git" },
 			{ title = "Overseer", ft = "OverseerList" },
-			{ title = "Fugitive", ft = "fugitive" },
 			{ title = "Harpoon", ft = "harpoon" },
 			{ title = "Terminal", ft = "terminal-split" },
 			{ title = "QuickFix", ft = "qf" },
@@ -39,6 +37,7 @@ return {
 		},
 		right = {
 			{ ft = "terminal-vsplit", title = "Terminal" },
+			{ title = "Fugitive", ft = "fugitive" },
 			{
 				ft = "help",
 				-- only show help buffers
@@ -48,6 +47,8 @@ return {
 			},
 		},
 		left = {
+			{tittle = "DiffView Files", ft = "DiffviewFiles"},
+			{ title = "Git", ft = "git" },
 			{ title = "Trouble", ft = "trouble" },
 			{title = "DB UI", ft = "dbui"},
 			{ title = "Scopes", ft = "dapui_scopes" },
