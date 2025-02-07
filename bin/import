@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Replace these variables with your values
 DB_NAME="postgres"
 DB_USER="postgres"
 DB_PASSWORD="postgres"
