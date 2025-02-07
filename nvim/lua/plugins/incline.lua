@@ -94,7 +94,7 @@ return {
 				margin = { vertical = 1, horizontal = 0 },
 			},
 			hide = {
-				cursorline = "focused_win",
+				-- cursorline = "focused_win",
 			},
 			ignore = {
 				buftypes = {},
