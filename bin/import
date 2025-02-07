@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Replace these variables with your values
+DB_NAME="postgres"
+DB_USER="postgres"
+DB_PASSWORD="postgres"
+SQL_FILE="/home/rodrigo/Downloads/dev-20241008T080001.sql"
+
+
+# Export password to avoid it showing in process list
+export PGPASSWORD="$DB_PASSWORD"
+
+# Drop all tables in the public schema
+sudo -u postgres psql postgres <<EOF
+DO \$\$ DECLARE
+    r RECORD;
+BEGIN
+    -- Disable foreign key checks during deletion
+    SET CONSTRAINTS ALL DEFERRED;
+    
+    -- Drop all tables in public schema
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
+    END LOOP;
+    
+    -- Drop all sequences
+    FOR r IN (SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public') LOOP
+        EXECUTE 'DROP SEQUENCE IF EXISTS public.' || quote_ident(r.sequence_name) || ' CASCADE';
+    END LOOP;
+    
+    -- Drop all views
+    FOR r IN (SELECT viewname FROM pg_views WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP VIEW IF EXISTS public.' || quote_ident(r.viewname) || ' CASCADE';
+    END LOOP;
+END \$\$;
+EOF
+
+# Import the SQL file
+sudo -u postgres psql postgres < "$SQL_FILE"
+
+# Unset password
+unset PGPASSWORD
