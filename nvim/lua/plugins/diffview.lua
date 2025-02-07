@@ -15,6 +15,45 @@ local function close_diffview_and_delete_gitsigns_buffers()
 	end
 end
 
+local function get_default_branch()
+	local handle = io.popen("git remote show origin | grep 'HEAD branch' | awk '{print $3}'")
+	-- check handle nil
+	if handle == nil then
+		return "master"
+	end
+	local result = handle:read("*a")
+	handle:close()
+	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
+	return response
+end
+
+local function get_current_branch()
+	local handle = io.popen("git symbolic-ref --short HEAD")
+	-- check handle nil
+	if handle == nil then
+		return "master"
+	end
+	local result = handle:read("*a")
+	handle:close()
+	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
+	return response
+end
+
+local function get_diffview_name()
+	local current_branch = get_current_branch()
+	local default_branch = get_default_branch()
+	if current_branch == default_branch then
+		vim.cmd("DiffviewOpen origin/HEAD")
+		return
+	end
+	vim.cmd("DiffviewOpen " .. get_default_branch() .. "...HEAD")
+end
+
+local function _get_diffview_name()
+	local fork_point = vim.cmd("Git merge-base --fork-point master")
+	vim.cmd("DiffviewOpen " .. fork_point)
+end
+
 return {
 	"sindrets/diffview.nvim",
 	event = { "BufEnter" },
@@ -34,7 +73,8 @@ return {
 		},
 		{
 			"<leader>gD",
-			":DiffviewOpen origin/HEAD<CR>",
+			get_diffview_name,
+			-- get_diffview_name,
 			desc = "[G]it open [D]iff ",
 			noremap = true,
 		},
