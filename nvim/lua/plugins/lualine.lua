@@ -9,72 +9,8 @@ return {
 	},
 
 	opts = function()
-		local function getLastItem()
-			local path = vim.fn.expand("%:.")
-			local cleanPath = path:gsub("/$", "")
-			-- Extract the last part of the path
-			local lastItem = cleanPath:match("([^/]+)$")
-			if lastItem == nil then
-				return ""
-			end
-			return lastItem
-		end
-
-		local function removeLastItem()
-			local path = vim.fn.expand("%:.")
-			local cleanPath = path:gsub("/$", "")
-			-- Extract the path without the last item
-			local basePath = cleanPath:match("(.*/)")
-			if basePath == nil then
-				return ""
-			end
-			return basePath
-		end
-
-		local function filepath()
-			local str = vim.fn.expand("%:.")
-			local lastSlashIndex = str:match(".*/()")
-			if lastSlashIndex then
-				-- return str:sub(1, lastSlashIndex - 1)
-				return str
-			else
-				return str:gsub("/$", "")
-			end
-		end
-
-		local function bufferName()
-			local str = vim.fn.expand("%:.")
-			local lastSlashIndex = str:match(".*/()")
-			if lastSlashIndex then
-				return str:sub(1, lastSlashIndex - 1)
-			else
-				return str:gsub("/$", "")
-			end
-		end
-
-		local function emptyString()
-			return " "
-		end
-
+		local winbar = require("customizations.new-winbar")
 		local harpoon_buffers = require("customizations.lualine-harpoon")
-
-		local function highlight(text, group)
-			return string.format("%%#%s#%s%%*", group, text)
-		end
-		local function winbar_name()
-			local get_items = require("customizations.windbar")
-			local items = get_items()
-
-			local folders = {}
-
-			for _, item in ipairs(items) do
-				table.insert(folders, highlight(item.text, item.hl))
-			end
-
-			local result = table.concat(folders)
-
-			return result
-		end
 
 		return {
 			options = {
@@ -134,22 +70,26 @@ return {
 					-- "location",
 				},
 			},
-			-- winbar = {
-			-- 	lualine_a = {},
-			-- 	lualine_b = {},
-			-- 	lualine_c = { winbar_name },
-			-- 	lualine_x = {},
-			-- 	lualine_y = {},
-			-- 	lualine_z = {},
-			-- },
-			-- inactive_winbar = {
-			-- 	lualine_a = {},
-			-- 	lualine_b = {},
-			-- 	lualine_c = { getLastItem },
-			-- 	lualine_x = {},
-			-- 	lualine_y = {},
-			-- 	lualine_z = {},
-			-- },
+			winbar = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = {
+					winbar,
+					{ "fancy_diagnostics" },
+					{ "fancy_diff" },
+				},
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {},
+			},
+			inactive_winbar = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { winbar },
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {},
+			},
 			tabline = {
 				lualine_a = {
 					{ "fancy_mode", width = 3 },

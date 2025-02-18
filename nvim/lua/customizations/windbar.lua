@@ -1,3 +1,22 @@
+local devicons = require("nvim-web-devicons")
+
+local function create_highlight_group(file_type, guifg)
+	local highlight_group = "FileType" .. file_type
+	vim.api.nvim_command("highlight " .. highlight_group .. " guifg=" .. guifg .. " gui=bold cterm=bold")
+	return highlight_group
+end
+
+local function get_highlight_group(file_path)
+	local icon, color = devicons.get_icon_color(file_path)
+	local file_type = vim.fn.fnamemodify(file_path, ":e")
+	if icon == nil then
+		-- if there is no icon, return a generic file icon and a default highlight group
+		return "", "@boolean"
+	end
+	local highlight_group = create_highlight_group(file_type, color)
+	return icon, highlight_group
+end
+
 local function filepath(file_path)
 	if file_path == nil then
 		file_path = vim.fn.expand("%:p")
@@ -23,7 +42,6 @@ local function filepath(file_path)
 	end
 
 	-- Handle different path scenarios
-	local result
 	local items = {}
 	local folders = {}
 
@@ -50,6 +68,15 @@ local function filepath(file_path)
 		table.insert(file_folders, 1, "/")
 	end
 
+	local icon, icon_hl
+	if is_oil then
+		icon, icon_hl = "", "@boolean"
+	else
+		icon, icon_hl = get_highlight_group(file_path)
+	end
+
+	table.insert(items, 1, { text = (icon or "") .. " ", hl = icon_hl })
+
 	for i, folder in ipairs(file_folders) do
 		local group = ((i == #file_folders) and not is_oil) and "@function" or "@variable"
 		table.insert(items, { text = folder, hl = group })
@@ -62,8 +89,6 @@ local function filepath(file_path)
 	for _, item in ipairs(items) do
 		table.insert(folders, highlight(item.text, item.hl))
 	end
-
-	result = table.concat(folders)
 
 	return items
 end
