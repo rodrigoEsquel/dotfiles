@@ -44,9 +44,9 @@ local function open_branch_diff()
 	local default_branch = get_default_branch()
 	if current_branch == default_branch then
 		vim.cmd("DiffviewOpen origin/HEAD")
-		return
+	else
+		vim.cmd("DiffviewOpen " .. default_branch .. "...HEAD")
 	end
-	vim.cmd("DiffviewOpen " .. get_default_branch() .. "...HEAD")
 	vim.cmd("LualineRenameTab git diff")
 end
 
