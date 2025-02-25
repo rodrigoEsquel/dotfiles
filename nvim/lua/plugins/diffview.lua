@@ -50,9 +50,14 @@ local function open_branch_diff()
 	vim.cmd("LualineRenameTab git diff")
 end
 
+local function open_file_history()
+	vim.cmd("DiffviewFileHistory %")
+	vim.cmd("LualineRenameTab git file history")
+end
+
 local function open_repo_history()
 	vim.cmd("DiffviewFileHistory")
-	vim.cmd("LualineRenameTab git history")
+	vim.cmd("LualineRenameTab git full history")
 end
 
 local function _get_diffview_name()
@@ -86,7 +91,7 @@ return {
 		},
 		{
 			"<leader>gh",
-			":DiffviewFileHistory %<CR>",
+			open_file_history,
 			desc = "[G]it file [H]istory",
 			noremap = true,
 		},
