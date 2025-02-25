@@ -39,7 +39,7 @@ local function get_current_branch()
 	return response
 end
 
-local function get_diffview_name()
+local function open_branch_diff()
 	local current_branch = get_current_branch()
 	local default_branch = get_default_branch()
 	if current_branch == default_branch then
@@ -47,6 +47,12 @@ local function get_diffview_name()
 		return
 	end
 	vim.cmd("DiffviewOpen " .. get_default_branch() .. "...HEAD")
+	vim.cmd("LualineRenameTab git diff")
+end
+
+local function open_repo_history()
+	vim.cmd("DiffviewFileHistory")
+	vim.cmd("LualineRenameTab git history")
 end
 
 local function _get_diffview_name()
@@ -73,21 +79,21 @@ return {
 		},
 		{
 			"<leader>gD",
-			get_diffview_name,
+			open_branch_diff,
 			-- get_diffview_name,
-			desc = "[G]it open [D]iff ",
+			desc = "[G]it open branch [D]iff ",
 			noremap = true,
 		},
 		{
 			"<leader>gh",
 			":DiffviewFileHistory %<CR>",
-			desc = "[G]it [F]ile history",
+			desc = "[G]it file [H]istory",
 			noremap = true,
 		},
 		{
 			"<leader>gH",
-			":DiffviewFileHistory<CR>",
-			desc = "[G]it [H]istory",
+			open_repo_history,
+			desc = "[G]it repository [H]istory",
 			noremap = true,
 		},
 	},
