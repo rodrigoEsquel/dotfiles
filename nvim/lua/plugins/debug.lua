@@ -124,12 +124,12 @@ return {
 				desc = "Run to Cursor",
 			},
 			{
-				"<leader>oc",
+				"<leader>os",
 				function()
 					local widgets = require("dap.ui.widgets")
 					widgets.centered_float(widgets.scopes, { border = "rounded" })
 				end,
-				desc = "[O]pen [C]ontext",
+				desc = "[O]pen [S]cope",
 			},
 			-- {
 			-- 	"<leader>rg",

@@ -1,3 +1,4 @@
+local open_tab = require("customizations.open-tab")
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -39,6 +40,9 @@ local enter_group = vim.api.nvim_create_augroup("enter_group", { clear = true })
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	callback = function()
 		vim.cmd("LualineRenameTab code")
+		vim.keymap.set("n", "<leader>oc", function()
+			open_tab("code")
+		end, { desc = "open tab" })
 	end,
 	group = enter_group,
 })

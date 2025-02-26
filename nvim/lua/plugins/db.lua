@@ -1,23 +1,10 @@
+local open_tab = require("customizations.open-tab")
+
 local function open_db_ui()
-	-- Iterate through existing tabs
-	for i = 1, vim.fn.tabpagenr("$") do
-		-- Check if the tab has a name containing "db"
-		local tabname = vim.fn.fnamemodify(vim.fn.bufname(vim.fn.tabpagebuflist(i)[1]), ":t")
-		if string.find(string.lower(tabname), "db") then
-			-- If found, switch to that tab
-			vim.cmd(i .. "tabnext")
-			return
-		end
-	end
-
-	-- If no db tab exists, create a new tab
-	vim.cmd("tabnew")
-
-	-- Optionally, set the tab name (if your Neovim setup supports tab naming)
-	vim.cmd("LualineRenameTab db")
-
-	-- Run the BUI command
-	vim.cmd("DBUI")
+	open_tab("db", function()
+		-- Run the BUI command
+		vim.cmd("DBUI")
+	end)
 end
 
 vim.keymap.set("n", "<leader>od", open_db_ui, { desc = "[O]pen [D]atabase UI" })
