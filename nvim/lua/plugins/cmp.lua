@@ -84,7 +84,6 @@ return {
 					menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
 				}
 
-
 				for key, width in pairs(widths) do
 					if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
 						item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
@@ -99,7 +98,7 @@ return {
 			window = {
 				completion = {
 					scrollbar = false,
-					border = "rounded",
+					-- border = "rounded",
 				},
 				documentation = {
 					winhighlight = "Normal:CmpDoc",
