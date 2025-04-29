@@ -47,8 +47,8 @@ vim.o.splitright = true
 vim.opt.laststatus = 0
 
 vim.opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
+	foldopen = "▾",
+	foldclose = "▸",
 	-- fold = "⸱",
 	fold = " ",
 	foldsep = " ",
