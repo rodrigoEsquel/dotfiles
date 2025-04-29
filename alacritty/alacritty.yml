@@ -52,7 +52,8 @@ window:
   # Disable border and title bar
   decorations: none
   # When true, alacritty starts maximized.
-  startup_mode: Fullscreen
+  # startup_mode: Fullscreen
+  startup_mode: Maximized
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
