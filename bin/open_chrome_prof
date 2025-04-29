@@ -1,0 +1,2 @@
+#!/bin/bash
+google-chrome --profile-directory="Profile 3" --class="google-chrome" &
