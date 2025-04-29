@@ -79,6 +79,46 @@ vim.keymap.set("n", "<leader>c<space>", require("customizations.format-file-savi
 vim.keymap.set("n", "<leader>da", ":diffthis<CR>", { desc = "[D]iff [A]dd" })
 vim.keymap.set("n", "<leader>do", ":diffoff<CR>", { desc = "[D]iff [O]ff" })
 
+-- open a floating window with a terminal
+local open_terminal = function()
+	-- Create a buffer for the terminal
+	local buf = vim.api.nvim_create_buf(false, true)
+
+	-- Get editor dimensions
+	local width = vim.api.nvim_get_option("columns")
+	local height = vim.api.nvim_get_option("lines")
+
+	-- Calculate floating window size (80% of editor size)
+	local win_width = math.floor(width * 0.8)
+	local win_height = math.floor(height * 0.8)
+
+	-- Calculate starting position to center the window
+	local row = math.floor((height - win_height) / 2)
+	local col = math.floor((width - win_width) / 2)
+
+	-- Set floating window options
+	local opts = {
+		relative = "editor",
+		width = win_width,
+		height = win_height,
+		row = row,
+		col = col,
+		style = "minimal",
+		border = "single",
+	}
+
+	-- Create the floating window
+	local win = vim.api.nvim_open_win(buf, true, opts)
+
+	-- Open terminal in the buffer
+	vim.fn.termopen(vim.o.shell)
+
+	-- Switch to insert mode automatically
+	vim.cmd("startinsert")
+end
+
+vim.keymap.set("n", "<leader>wt", open_terminal, { desc = "[W]indow [T]erminal" })
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
