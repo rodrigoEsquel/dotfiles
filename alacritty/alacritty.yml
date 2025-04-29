@@ -41,6 +41,7 @@ shell:
 
 window:
   opacity: 1
+  # opacity: 0.99
   # Blank space added around the window in pixels
   padding:
     x: 0
@@ -62,7 +63,7 @@ scrolling:
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
   multiplier: 3
-startup_mode: Fullscree6color
+# startup_mode: Fullscree6color
 
 env:
   TERM: xterm-256color
