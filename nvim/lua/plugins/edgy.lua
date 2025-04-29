@@ -11,10 +11,10 @@ return {
 	end,
 	opts = {
 		options = {
-			left = { size = 60 },
-			bottom = { size = 20 },
-			right = { size = 80 },
-			top = { size = 20 },
+			left = { size = 40 },
+			bottom = { size = 15 },
+			right = { size = 60 },
+			top = { size = 15 },
 		},
 		exit_when_last = true,
 
