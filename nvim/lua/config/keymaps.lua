@@ -76,6 +76,9 @@ vim.keymap.set("i", "<c-l>", "<del>")
 vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[C]ode [C]hange" })
 vim.keymap.set("n", "<leader>c<space>", require("customizations.format-file-saving-marks"), { desc = "[C]ode Format" })
 
+vim.keymap.set("n", "<leader>da", ":diffthis<CR>", { desc = "[D]iff [A]dd" })
+vim.keymap.set("n", "<leader>do", ":diffoff<CR>", { desc = "[D]iff [O]ff" })
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
