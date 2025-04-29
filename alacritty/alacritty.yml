@@ -1,9 +1,7 @@
-import:
-  - ~/.config/alacritty/themes/themes/one_dark.yaml
-
-# colors:
-#   primary:
-#     background: "#1a212e"
+# kanagawa nvim theme
+colors:
+  primary:
+    background: "#0d0c0c"
 
 font:
   # normal:
