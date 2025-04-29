@@ -11,7 +11,6 @@ local function highlight(text, group)
 	return string.format("%%#%s#%s%%*", group, text)
 end
 
-
 local function is_current_file(file_path)
 	local root_dir = vim.loop.cwd()
 	local current_file = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
@@ -34,7 +33,10 @@ local function create_item(index, file_path)
 		icon, _ = web_devicons.get_icon(file_path)
 		item_name = file_path:match("[^/]+$")
 	end
-	item = " " .. index .. " " .. icon .. " " .. item_name .. " "
+	if icon == nil then
+		icon = ""
+	end
+	item = " " .. index .. " " .. ( icon  ) .. " " .. item_name .. " "
 	return item
 end
 
