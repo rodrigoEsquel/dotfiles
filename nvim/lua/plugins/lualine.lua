@@ -9,8 +9,10 @@ return {
 	},
 
 	opts = function()
+		local diagnostics = require("customizations.lualine-diagnostic")
 		local winbar = require("customizations.new-winbar")
 		local harpoon_buffers = require("customizations.lualine-harpoon")
+		local colors = require("kanagawa.colors").setup({ theme = "dragon" }).theme
 
 		return {
 			options = {
@@ -75,8 +77,11 @@ return {
 				lualine_b = {},
 				lualine_c = {
 					winbar,
-					{ "fancy_diagnostics" },
 					{ "fancy_diff" },
+					{ diagnostics.error_ind, color = { fg = colors.diag.error } },
+					{ diagnostics.warn_ind, color = { fg = colors.diag.warning } },
+					{ diagnostics.info_ind, color = { fg = colors.diag.info } },
+					{ diagnostics.note_ind, color = { fg = colors.diag.hint } },
 				},
 				lualine_x = {},
 				lualine_y = {},
