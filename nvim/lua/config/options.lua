@@ -29,6 +29,8 @@ vim.o.completeopt = "menu,menuone,noselect,preview" -- Set completeopt to have a
 
 vim.o.termguicolors = true -- NOTE: You should make sure your terminal supports this
 
+vim.o.diffopt = "internal,filler,closeoff,algorithm:histogram,context:5,linematch:60"
+
 vim.o.scrolloff = 10 -- Scroll off
 vim.o.sidescrolloff = 10
 
