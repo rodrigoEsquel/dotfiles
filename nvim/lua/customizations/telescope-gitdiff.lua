@@ -4,20 +4,9 @@ local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 
--- Function to get the base branch (usually main or master)
+-- Function to get the base branch
 local function get_base_branch()
-	-- Try common base branch names
-	local branches = { "main", "master", "develop" }
-
-	for _, branch in ipairs(branches) do
-		local handle = io.popen("git show-ref --verify --quiet refs/heads/" .. branch .. " 2>/dev/null")
-		local result = handle:close()
-		if result then
-			return branch
-		end
-	end
-
-	-- Fallback: try to get the default branch from origin
+	-- First, try to get the default branch from origin
 	local handle = io.popen("git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'")
 	local branch = handle:read("*a"):gsub("%s+", "")
 	handle:close()
@@ -26,7 +15,52 @@ local function get_base_branch()
 		return branch
 	end
 
-	-- Final fallback
+	-- Try to get the remote's default branch
+	local handle = io.popen("git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d' ' -f5")
+	local remote_branch = handle:read("*a"):gsub("%s+", "")
+	handle:close()
+
+	if remote_branch and remote_branch ~= "" then
+		return remote_branch
+	end
+
+	-- Get current branch and find merge base with common branches
+	local handle = io.popen("git branch --show-current 2>/dev/null")
+	local current_branch = handle:read("*a"):gsub("%s+", "")
+	handle:close()
+
+	if current_branch and current_branch ~= "" then
+		local branches = { "main", "master", "develop" }
+
+		for _, branch in ipairs(branches) do
+			-- Check if branch exists
+			local handle = io.popen("git show-ref --verify --quiet refs/heads/" .. branch .. " 2>/dev/null")
+			local result = handle:close()
+
+			if result then
+				-- Check if there's a merge base (meaning it's a potential base branch)
+				local handle = io.popen("git merge-base " .. branch .. " " .. current_branch .. " 2>/dev/null")
+				local merge_base = handle:read("*a"):gsub("%s+", "")
+				handle:close()
+
+				if merge_base and merge_base ~= "" then
+					return branch
+				end
+			end
+		end
+	end
+
+	-- Final fallback: check which common branch exists
+	local branches = { "main", "master", "develop" }
+	for _, branch in ipairs(branches) do
+		local handle = io.popen("git show-ref --verify --quiet refs/heads/" .. branch .. " 2>/dev/null")
+		local result = handle:close()
+		if result then
+			return branch
+		end
+	end
+
+	-- Ultimate fallback
 	return "main"
 end
 
@@ -132,6 +166,7 @@ local function git_diff_picker(opts)
 				end,
 			}),
 			sorter = conf.generic_sorter(opts),
+			previewer = conf.file_previewer(opts),
 			attach_mappings = function(prompt_bufnr, map)
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
@@ -154,12 +189,12 @@ end
 
 -- Create the command
 vim.api.nvim_create_user_command("TelescopeGitDiff", function()
-	git_diff_picker(require("telescope.themes").get_dropdown({}))
+	git_diff_picker({})
 end, {})
 
 -- Optional: Create a keymap
-vim.keymap.set("n", "<leader>sS", function()
-	git_diff_picker(require("telescope.themes").get_dropdown({}))
+vim.keymap.set("n", "<leader>gd", function()
+	git_diff_picker({})
 end, { desc = "Git diff files" })
 
 -- Export the function for use in other configs
