@@ -1,4 +1,10 @@
 local function open_tab(name, onCreate, create)
+	-- check if name is number, if so switch to that tab
+	if type(name) == "number" then
+		vim.cmd(name .. "tabnext")
+		return
+	end
+
 	-- check if creted is defined (it can be a boolean or undefined)
 	create = create == nil and true or create
 
@@ -26,5 +32,17 @@ local function open_tab(name, onCreate, create)
 	-- Optionally, set the tab name (if your Neovim setup supports tab naming)
 	vim.cmd("LualineRenameTab " .. name)
 end
+
+vim.keymap.set("n", "<leader>t", function()
+	local number = vim.fn.getcharstr()
+	local numeric_value = tonumber(number)
+
+	-- Check if the conversion was successful
+	if numeric_value then
+		open_tab(numeric_value)
+	else
+		-- print("Invalid number entered")
+	end
+end, { remap = true })
 
 return open_tab
