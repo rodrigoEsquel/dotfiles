@@ -13,7 +13,14 @@ vim.keymap.set("n", "<leader>bb", ":b#<CR>", { desc = "[B]uffer [B]ack", silent 
 vim.keymap.set("n", "<leader>w", "<c-w>", { silent = true })
 
 -- manage quickfix lists
-vim.keymap.set("n", "<leader>oq", ":copen<CR>", { silent = true, desc = "[O]pen [Q]uickfix" })
+vim.keymap.set("n", "<leader>qs", ":copen<CR>", { silent = true, desc = "[O]pen [Q]uickfix" })
+vim.keymap.set("n", "<leader>q", function()
+	local number = vim.fn.getcharstr()
+	local numeric_value = tonumber(number)
+	if numeric_value then
+		vim.cmd("cc" .. numeric_value)
+	end
+end, { remap = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
