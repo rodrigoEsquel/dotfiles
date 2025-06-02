@@ -6,6 +6,7 @@ return {
 
 		tsj.setup({
 			use_default_keymaps = false,
+			max_join_length = 12000,
 		})
 		-- For use default preset and it work with dot
 		vim.keymap.set("n", "<leader>ct", require("treesj").toggle, { desc = "[C]ode [T]oggle" })
