@@ -1,8 +1,103 @@
 local pickers = require("telescope.pickers")
+local from_entry = require("telescope.from_entry")
+local make_entry = require("telescope.make_entry")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
+local putils = require("telescope.previewers.utils")
+local previewers = require("telescope.previewers")
+
+local function defaulter(f, default_opts)
+	default_opts = default_opts or {}
+	return {
+		new = function(opts)
+			if conf.preview == false and not opts.preview then
+				return false
+			end
+			opts.preview = type(opts.preview) ~= "table" and {} or opts.preview
+			if type(conf.preview) == "table" then
+				for k, v in pairs(conf.preview) do
+					opts.preview[k] = vim.F.if_nil(opts.preview[k], v)
+				end
+			end
+			return f(opts)
+		end,
+		__call = function()
+			local ok, err = pcall(f(default_opts))
+			if not ok then
+				error(debug.traceback(err))
+			end
+		end,
+	}
+end
+
+-- Modified previewer to accept base_branch parameter
+local function create_previewer(base_branch)
+	return defaulter(function(opts)
+		return previewers.new_buffer_previewer({
+			title = "Git File Diff Preview",
+			get_buffer_by_name = function(_, entry)
+				return entry.value
+			end,
+
+			define_preview = function(self, entry, status)
+				if entry.status and (entry.status == "??" or entry.status == "A ") then
+					local p = from_entry.path(entry, true, false)
+					if p == nil or p == "" then
+						return
+					end
+					conf.buffer_previewer_maker(p, self.state.bufnr, {
+						bufname = self.state.bufname,
+						winid = self.state.winid,
+						preview = opts.preview,
+						file_encoding = opts.file_encoding,
+					})
+				else
+					-- Use base_branch instead of "HEAD"
+					putils.job_maker(
+						{ "git", "--no-pager", "diff", base_branch, "--", entry.value },
+						self.state.bufnr,
+						{
+							value = entry.value,
+							bufname = self.state.bufname,
+							cwd = opts.cwd,
+							callback = function(bufnr)
+								if vim.api.nvim_buf_is_valid(bufnr) then
+									putils.regex_highlighter(bufnr, "diff")
+								end
+							end,
+						}
+					)
+				end
+			end,
+		})
+	end, {})
+end
+
+local function get_default_branch()
+	local handle = io.popen("git remote show origin | grep 'HEAD branch' | awk '{print $3}'")
+	-- check handle nil
+	if handle == nil then
+		return "master"
+	end
+	local result = handle:read("*a")
+	handle:close()
+	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
+	return response
+end
+
+local function get_current_branch()
+	local handle = io.popen("git symbolic-ref --short HEAD")
+	-- check handle nil
+	if handle == nil then
+		return "master"
+	end
+	local result = handle:read("*a")
+	handle:close()
+	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
+	return response
+end
 
 -- Function to get the base branch
 local function get_base_branch()
@@ -69,7 +164,10 @@ local function get_diff_files(base_branch)
 	local files = {}
 
 	-- Get modified/added/deleted files compared to base branch
-	local handle = io.popen("git diff --name-only " .. base_branch .. "...HEAD 2>/dev/null")
+	local current_branch = get_current_branch()
+	local handle = io.popen(
+		"git diff --name-only " .. base_branch .. (current_branch == base_branch and "" or "...HEAD") .. " 2>/dev/null"
+	)
 	if handle then
 		for line in handle:lines() do
 			if line ~= "" then
@@ -112,7 +210,7 @@ local function get_file_status(file, base_branch)
 	handle:close()
 
 	if untracked and untracked ~= "" then
-		return "U"
+		return "A"
 	end
 
 	-- Check status compared to base branch
@@ -152,6 +250,9 @@ local function git_diff_picker(opts)
 		})
 	end
 
+	-- Create previewer with base_branch
+	local previewer_instance = create_previewer(base_branch)
+
 	pickers
 		.new(opts, {
 			prompt_title = "Git Diff Files (vs " .. base_branch .. ")",
@@ -162,11 +263,12 @@ local function git_diff_picker(opts)
 						value = entry.value,
 						display = entry.display,
 						ordinal = entry.ordinal,
+						status = entry.status, -- Pass status to entry for previewer
 					}
 				end,
 			}),
 			sorter = conf.generic_sorter(opts),
-			previewer = conf.file_previewer(opts),
+			previewer = previewer_instance.new(opts),
 			attach_mappings = function(prompt_bufnr, map)
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
@@ -193,8 +295,8 @@ vim.api.nvim_create_user_command("TelescopeGitDiff", function()
 end, {})
 
 -- Optional: Create a keymap
-vim.keymap.set("n", "<leader>gd", function()
-	git_diff_picker({})
+vim.keymap.set("n", "<leader>sS", function()
+	git_diff_picker()
 end, { desc = "Git diff files" })
 
 -- Export the function for use in other configs
