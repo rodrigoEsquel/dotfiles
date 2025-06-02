@@ -19,6 +19,14 @@ vim.api.nvim_create_autocmd("CursorHold", {
 	pattern = "*.*",
 })
 
+local float_group = vim.api.nvim_create_augroup("FloatGroup", { clear = true })
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
+	end,
+	group = float_group,
+})
+
 local harpoon_group = vim.api.nvim_create_augroup("harpoon_group", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	callback = function()
