@@ -59,6 +59,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<c-c>", "<ESC>")
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
 vim.keymap.set({ "t", "i" }, "jk", "<C-\\><C-n>")
+vim.keymap.set({ "t", "i" }, "kj", "<C-\\><C-n>")
 vim.keymap.set("i", "<c-l>", "<del>")
 
 -- vim.keymap.set(
