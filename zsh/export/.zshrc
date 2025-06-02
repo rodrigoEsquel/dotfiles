@@ -19,6 +19,7 @@ export PATH=$PATH:/home/rodrigo/dotfiles/bin
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ZK_NOTEBOOK_DIR="$HOME/Code/Personal/notes/"
+export MANPAGER="nvim +Man!"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

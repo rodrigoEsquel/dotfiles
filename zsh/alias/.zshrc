@@ -3,3 +3,4 @@ alias upd="git -C ~/.dotfiles/ pull && stow --target ~/.config --dir ~/.dotfiles
 alias kitty="kitty --start-as fullscreen"
 alias idea="idea.sh"
 alias hx="/usr/lib/helix/hx"
+alias import="~/dotfiles/bin/import"
