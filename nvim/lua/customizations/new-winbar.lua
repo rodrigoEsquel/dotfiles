@@ -10,7 +10,7 @@ local function get_current_file_path(props)
 	local path_items = {}
 
 	if type(items) ~= "table" then
-		return {}
+		return props.file_type or " "
 	end
 	for _, item in ipairs(items) do
 		table.insert(path_items, highlight(item.text, item.hl))
@@ -22,6 +22,7 @@ return function()
 	local props = {
 		buf = vim.api.nvim_get_current_buf(),
 		file_path = vim.fn.expand("%:p"),
+		file_type = vim.bo.filetype,
 	}
 
 	local file_path = get_current_file_path(props)
