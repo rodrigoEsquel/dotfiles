@@ -34,8 +34,12 @@ return {
 			{ title = "Repl", ft = "dap-repl" },
 			{ title = "Console", ft = "dapui_console" },
 			{ title = "Test", ft = "neotest-output-panel" },
+			{ title = "Trouble", ft = "trouble" },
 		},
 		right = {
+			{ ft = "Avante", title = "Avante" },
+			{ ft = "AvanteSelectedFiles", title = "Avante Selected Files" },
+			{ ft = "AvanteInput", title = "Avante Input" },
 			{ ft = "terminal-vsplit", title = "Terminal" },
 			{ title = "Fugitive", ft = "fugitive" },
 			{
@@ -49,7 +53,6 @@ return {
 		left = {
 			{tittle = "DiffView Files", ft = "DiffviewFiles"},
 			{ title = "Git", ft = "git" },
-			{ title = "Trouble", ft = "trouble" },
 			{title = "DB UI", ft = "dbui"},
 			{ title = "Scopes", ft = "dapui_scopes" },
 			-- keep showing floating window

@@ -3,8 +3,9 @@ return {
 	lazy = false,
 	config = function()
 		require("kanagawa").setup({
-			theme = "wave",
+			theme = "dragon",
 			-- dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+			transparent = true,
 			colors = {
 				theme = {
 					all = {
@@ -17,8 +18,8 @@ return {
 			overrides = function(colors)
 				local theme = colors.theme
 				return {
-					NormalFloat = { bg = "none" },
-					FloatBorder = { fg = theme.ui.fg_dim, bg = "none" },
+					NormalFloat = { bg = theme.ui.bg_m2 },
+					FloatBorder = { fg = theme.ui.fg, bg = theme.ui.bg_m2 },
 					FloatTitle = { bg = "none" },
 					WinSeparator = { fg = theme.ui.fg_dim },
 					-- NormalNC = { bg = theme.ui.fg_dim },
@@ -35,7 +36,7 @@ return {
 					MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
 					NoiceCmdlinePopupBorderCmdline = { fg = theme.ui.fg_dim },
 					NoiceCmdlinePopupBorderSearch = { fg = theme.ui.fg_dim },
-					TelescopeBorder = { fg = theme.ui.fg_dim },
+					TelescopeBorder = { fg = theme.ui.fg_dim, bg = "none" },
 					-- TelescopePromptBorder = { fg = theme.ui.fg_dim },
 					-- TelescopePreviewBorder = { fg = theme.ui.fg_dim },
 					-- TelescopeResultsBorder = { fg = theme.ui.fg_dim },

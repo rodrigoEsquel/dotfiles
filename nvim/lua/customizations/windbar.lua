@@ -1,8 +1,12 @@
 local devicons = require("nvim-web-devicons")
 
+local hl_divider = "lualine_b_replace"
+local hl_file = "lualine_b_normal"
+local hl_folder = "TabLineFill"
+
 local function create_highlight_group(file_type, guifg)
 	local highlight_group = "FileType" .. file_type
-	vim.api.nvim_command("highlight " .. highlight_group .. " guifg=" .. guifg .. " gui=bold cterm=bold")
+	vim.api.nvim_command("highlight " .. highlight_group .. " guifg=" .. guifg .. " guibg=#1f1f28 gui=bold cterm=bold")
 	return highlight_group
 end
 
@@ -11,7 +15,7 @@ local function get_highlight_group(file_path)
 	local file_type = vim.fn.fnamemodify(file_path, ":e")
 	if icon == nil then
 		-- if there is no icon, return a generic file icon and a default highlight group
-		return "", "@boolean"
+		return "", hl_divider
 	end
 	local highlight_group = create_highlight_group(file_type, color)
 	return icon, highlight_group
@@ -70,7 +74,7 @@ local function filepath(file_path)
 
 	local icon, icon_hl
 	if is_oil then
-		icon, icon_hl = "", "@boolean"
+		icon, icon_hl = "", hl_divider
 	else
 		icon, icon_hl = get_highlight_group(file_path)
 	end
@@ -78,11 +82,11 @@ local function filepath(file_path)
 	table.insert(items, 1, { text = (icon or "") .. " ", hl = icon_hl })
 
 	for i, folder in ipairs(file_folders) do
-		local group = ((i == #file_folders) and not is_oil) and "@function" or "@variable"
+		local group = ((i == #file_folders) and not is_oil) and hl_file or hl_folder
 		table.insert(items, { text = folder, hl = group })
 
 		if i < #file_folders then
-			table.insert(items, { text = " ❯ ", hl = "@boolean" })
+			table.insert(items, { text = " ❯ ", hl = hl_divider })
 		end
 	end
 

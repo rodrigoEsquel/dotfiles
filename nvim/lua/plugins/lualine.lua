@@ -7,7 +7,18 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"meuter/lualine-so-fancy.nvim",
 	},
-
+	config = function(_, opts)
+		vim.opt.laststatus = 0
+		require("lualine").setup(opts)
+		require("lualine").hide({
+			place = { "statusline" }, -- The segment this change applies to.
+			unhide = false, -- whether to re-enable lualine again/
+		})
+		vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal" })
+		local str = " "
+		vim.opt.statusline = str
+	end,
 	opts = function()
 		local diagnostics = require("customizations.lualine-diagnostic")
 		local winbar = require("customizations.new-winbar")
@@ -74,14 +85,22 @@ return {
 			},
 			winbar = {
 				lualine_a = {},
-				lualine_b = {},
+				lualine_b = {
+					{ winbar, padding = { left = 1, right = 0 } },
+				},
 				lualine_c = {
-					winbar,
-					{ "fancy_diff" },
-					{ diagnostics.error_ind, color = { fg = colors.diag.error } },
-					{ diagnostics.warn_ind, color = { fg = colors.diag.warning } },
-					{ diagnostics.info_ind, color = { fg = colors.diag.info } },
-					{ diagnostics.note_ind, color = { fg = colors.diag.hint } },
+					{ "fancy_diff", color = { bg = "#585b70" } },
+					{ diagnostics.error_ind, color = { fg = colors.diag.error, bg = "#585b70" } },
+					{ diagnostics.warn_ind, color = { fg = colors.diag.warning, bg = "#585b70" } },
+					{ diagnostics.info_ind, color = { fg = colors.diag.info, bg = "#585b70" } },
+					{ diagnostics.note_ind, color = { fg = colors.diag.hint, bg = "#585b70" } },
+					{
+						function()
+							return " "
+						end,
+						padding = { left = 0, right = 0 },
+						color = { fg = colors.ui.bg, bg = "#585b70" },
+					},
 				},
 				lualine_x = {},
 				lualine_y = {},
@@ -89,8 +108,17 @@ return {
 			},
 			inactive_winbar = {
 				lualine_a = {},
-				lualine_b = {},
-				lualine_c = { winbar },
+				lualine_b = {
+					{ winbar, padding = { left = 1, right = 0 } },
+				},
+				lualine_c = {
+					{
+						function()
+							return " "
+						end,
+						color = { bg = "#1f1f28" },
+					},
+				},
 				lualine_x = {},
 				lualine_y = {},
 				lualine_z = {},

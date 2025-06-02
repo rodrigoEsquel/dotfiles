@@ -44,8 +44,6 @@ vim.opt.splitkeep = "screen" -- Keep screen placin on split
 vim.o.splitbelow = true -- Sane split placing
 vim.o.splitright = true
 
-vim.opt.laststatus = 0
-
 vim.opt.fillchars = {
 	foldopen = "▾",
 	foldclose = "▸",
