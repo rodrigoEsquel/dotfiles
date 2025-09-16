@@ -132,15 +132,18 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
+local jumplist_popup = require("customizations.jumplist-popup")
+
 local function do_jump(keys)
-	local term = vim.api.nvim_replace_termcodes(keys, true, false, true)
-	vim.api.nvim_feedkeys(term, "n", false)
-	require("customizations.jumplist-popup").show_jumplist()
+  -- Convert to proper termcodes
+  local term = vim.api.nvim_replace_termcodes(keys, true, false, true)
+  -- Feed keys as if typed, preserving normal behavior
+  vim.api.nvim_feedkeys(term, "n", false)
+  -- Show popup *after* jump, using vim.schedule
+  vim.schedule(function()
+    jumplist_popup.show_jumplist()
+  end)
 end
 
-vim.keymap.set("n", "<C-o>", function()
-	do_jump("<C-o>")
-end, { noremap = true, silent = true })
-vim.keymap.set("n", "<C-i>", function()
-	do_jump("<C-i>")
-end, { noremap = true, silent = true })
+vim.keymap.set("n", "<C-o>", function() do_jump("<C-o>") end, { noremap = true, silent = true })
+vim.keymap.set("n", "<C-i>", function() do_jump("<C-i>") end, { noremap = true, silent = true })
