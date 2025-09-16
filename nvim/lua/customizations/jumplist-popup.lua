@@ -12,7 +12,7 @@ end
 
 -- Show jumplist popup
 function M.show_jumplist(opts)
-	opts = vim.tbl_extend("force", { reverse = true, timeout = 1200 }, opts or {})
+	opts = vim.tbl_extend("force", { reverse = true, timeout = 1200, context = 1, max_height = 10 }, opts or {})
 
 	-- Close previous popup & timer
 	if popup_win and vim.api.nvim_win_is_valid(popup_win) then
@@ -30,7 +30,7 @@ function M.show_jumplist(opts)
 		return
 	end
 
-	-- Current jump index (1-based)
+	-- Safety check for current index
 	local current_index = idx
 	if current_index < 1 then
 		current_index = 1
@@ -38,7 +38,13 @@ function M.show_jumplist(opts)
 		current_index = #jumplist
 	end
 
-	-- Build display lines and meta table
+	-- Build lines & meta with scrolling context
+	local start_idx = math.max(current_index - opts.context, 1)
+	local end_idx = math.min(start_idx + opts.max_height - 1, #jumplist)
+	if end_idx - start_idx + 1 < opts.max_height then
+		start_idx = math.max(end_idx - opts.max_height + 1, 1)
+	end
+
 	local lines, meta = {}, {}
 	local function line_for_jump(j)
 		local filename = vim.fn.fnamemodify(vim.fn.bufname(j.bufnr), ":t")
@@ -56,20 +62,20 @@ function M.show_jumplist(opts)
 	end
 
 	if opts.reverse then
-		for i = #jumplist, 1, -1 do
+		for i = end_idx, start_idx, -1 do
 			local filename, lnum, snippet = line_for_jump(jumplist[i])
 			table.insert(lines, string.format("%s:%d — %s", filename, lnum, snippet))
 			table.insert(meta, i)
 		end
 	else
-		for i = 1, #jumplist do
+		for i = start_idx, end_idx do
 			local filename, lnum, snippet = line_for_jump(jumplist[i])
 			table.insert(lines, string.format("%s:%d — %s", filename, lnum, snippet))
 			table.insert(meta, i)
 		end
 	end
 
-	-- Determine popup line to highlight (fix off-by-one)
+	-- Determine popup line to highlight
 	local highlight_line = 1
 	for i, orig in ipairs(meta) do
 		if orig == current_index then
@@ -97,7 +103,7 @@ function M.show_jumplist(opts)
 	for _, l in ipairs(lines) do
 		width = math.max(width, vim.fn.strdisplaywidth(l))
 	end
-	local height = math.min(#lines, 10)
+	local height = math.min(#lines, opts.max_height)
 
 	local win_opts = {
 		relative = "cursor",
@@ -118,7 +124,7 @@ function M.show_jumplist(opts)
 	-- Highlight current jump line (0-based)
 	add_hl(bufnr, ns, "Search", highlight_line - 1, 0, -1)
 
-	-- Highlight filename, line number, and snippet (Tree-sitter optional)
+	-- Highlight filename, line number, snippet (Tree-sitter optional)
 	for i, j_idx in ipairs(meta) do
 		local line = i - 1
 		local j = jumplist[j_idx]
@@ -128,13 +134,10 @@ function M.show_jumplist(opts)
 		end
 		local fname_len = #filename
 
-		-- Filename
 		add_hl(bufnr, ns, "lualine_b_normal", line, 0, fname_len)
-		-- Line number
 		add_hl(bufnr, ns, "Number", line, fname_len, fname_len + 1)
 
-		-- Optional Tree-sitter highlight for snippet
-		local snippet_start = fname_len + 4 -- ":d — "
+		local snippet_start = fname_len + 4
 		local ok, parser = pcall(vim.treesitter.get_parser, j.bufnr)
 		if ok and parser then
 			local tree = parser:parse()[1]
@@ -152,7 +155,7 @@ function M.show_jumplist(opts)
 		end
 	end
 
-	-- Close after timeout
+	-- Auto-close after timeout
 	popup_timer = vim.loop.new_timer()
 	popup_timer:start(opts.timeout, 0, function()
 		vim.schedule(function()
