@@ -2,6 +2,8 @@
 local M = {}
 local popup_win = nil
 local popup_timer = nil
+local cursor_move_count = 0
+local cursor_autocmd_id = nil
 
 -- Helper: add highlight safely
 local function add_hl(bufnr, ns, hl_group, line, start_col, end_col)
@@ -10,20 +12,33 @@ local function add_hl(bufnr, ns, hl_group, line, start_col, end_col)
 	end
 end
 
--- Show jumplist popup
-function M.show_jumplist(opts)
-	opts = vim.tbl_extend("force", { reverse = true, timeout = 1200, context = 1, max_height = 10 }, opts or {})
-
-	-- Close previous popup & timer
+-- Clean up popup and associated resources
+local function cleanup_popup()
 	if popup_win and vim.api.nvim_win_is_valid(popup_win) then
 		vim.api.nvim_win_close(popup_win, true)
-		popup_win = nil
 	end
+	popup_win = nil
+
 	if popup_timer then
 		popup_timer:stop()
 		popup_timer:close()
 		popup_timer = nil
 	end
+
+	if cursor_autocmd_id then
+		vim.api.nvim_del_autocmd(cursor_autocmd_id)
+		cursor_autocmd_id = nil
+	end
+
+	cursor_move_count = 0
+end
+
+-- Show jumplist popup
+function M.show_jumplist(opts)
+	opts = vim.tbl_extend("force", { reverse = true, timeout = 1200, context = 1, max_height = 10 }, opts or {})
+
+	-- Close previous popup & cleanup
+	cleanup_popup()
 
 	local jumplist, idx = unpack(vim.fn.getjumplist())
 	if not jumplist or #jumplist == 0 then
@@ -155,19 +170,26 @@ function M.show_jumplist(opts)
 		end
 	end
 
+	-- Reset cursor movement counter
+	cursor_move_count = 0
+
+	-- Set up cursor movement detection
+	cursor_autocmd_id = vim.api.nvim_create_autocmd("CursorMoved", {
+		callback = function()
+			cursor_move_count = cursor_move_count + 1
+			-- Ignore the first cursor movement (from Ctrl-O/Ctrl-I)
+			-- Close popup on subsequent movements
+			if cursor_move_count > 1 then
+				cleanup_popup()
+			end
+		end,
+	})
+
 	-- Auto-close after timeout
 	popup_timer = vim.loop.new_timer()
 	popup_timer:start(opts.timeout, 0, function()
 		vim.schedule(function()
-			if popup_win and vim.api.nvim_win_is_valid(popup_win) then
-				vim.api.nvim_win_close(popup_win, true)
-			end
-			popup_win = nil
-			if popup_timer then
-				popup_timer:stop()
-				popup_timer:close()
-				popup_timer = nil
-			end
+			cleanup_popup()
 		end)
 	end)
 end
