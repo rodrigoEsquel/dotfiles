@@ -135,15 +135,19 @@ vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floa
 local jumplist_popup = require("customizations.jumplist-popup")
 
 local function do_jump(keys)
-  -- Convert to proper termcodes
-  local term = vim.api.nvim_replace_termcodes(keys, true, false, true)
-  -- Feed keys as if typed, preserving normal behavior
-  vim.api.nvim_feedkeys(term, "n", false)
-  -- Show popup *after* jump, using vim.schedule
-  vim.schedule(function()
-    jumplist_popup.show_jumplist()
-  end)
+	-- Convert to proper termcodes
+	local term = vim.api.nvim_replace_termcodes(keys .. "zz", true, false, true)
+	-- Feed keys as if typed, preserving normal behavior
+	vim.api.nvim_feedkeys(term, "n", false)
+	-- Show popup *after* jump, using vim.schedule
+	vim.schedule(function()
+		jumplist_popup.show_jumplist()
+	end)
 end
 
-vim.keymap.set("n", "<C-o>", function() do_jump("<C-o>") end, { noremap = true, silent = true })
-vim.keymap.set("n", "<C-i>", function() do_jump("<C-i>") end, { noremap = true, silent = true })
+vim.keymap.set("n", "<C-o>", function()
+	do_jump("<C-o>")
+end, { noremap = true, silent = true })
+vim.keymap.set("n", "<C-i>", function()
+	do_jump("<C-i>")
+end, { noremap = true, silent = true })
