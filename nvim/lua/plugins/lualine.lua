@@ -89,17 +89,17 @@ return {
 					{ winbar, padding = { left = 1, right = 0 } },
 				},
 				lualine_c = {
-					{ "fancy_diff", color = { bg = "#585b70" } },
-					{ diagnostics.error_ind, color = { fg = colors.diag.error, bg = "#585b70" } },
-					{ diagnostics.warn_ind, color = { fg = colors.diag.warning, bg = "#585b70" } },
-					{ diagnostics.info_ind, color = { fg = colors.diag.info, bg = "#585b70" } },
-					{ diagnostics.note_ind, color = { fg = colors.diag.hint, bg = "#585b70" } },
+					{ "fancy_diff", color = { bg = "NONE" } },
+					{ diagnostics.error_ind, color = { fg = colors.diag.error, bg = "NONE" } },
+					{ diagnostics.warn_ind, color = { fg = colors.diag.warning, bg = "NONE" } },
+					{ diagnostics.info_ind, color = { fg = colors.diag.info, bg = "NONE" } },
+					{ diagnostics.note_ind, color = { fg = colors.diag.hint, bg = "NONE" } },
 					{
 						function()
 							return " "
 						end,
 						padding = { left = 0, right = 0 },
-						color = { fg = colors.ui.bg, bg = "#585b70" },
+						color = { fg = colors.ui.bg, bg = "NONE" },
 					},
 				},
 				lualine_x = {},
