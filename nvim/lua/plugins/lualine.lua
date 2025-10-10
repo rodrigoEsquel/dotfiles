@@ -9,13 +9,20 @@ return {
 	},
 	config = function(_, opts)
 		vim.opt.laststatus = 0
+		local auto_theme_custom = require("lualine.themes.kanagawa")
+		auto_theme_custom.normal.c.bg = "NONE"
+		auto_theme_custom.normal.b.bg = "NONE"
+		auto_theme_custom.normal.a.bg = "NONE"
+		-- Set the custom theme in opts before setup
+		opts.theme = auto_theme_custom
 		require("lualine").setup(opts)
 		require("lualine").hide({
 			place = { "statusline" }, -- The segment this change applies to.
 			unhide = false, -- whether to re-enable lualine again/
 		})
-		vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
-		vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "Statusline", { link = "Normal", bg = "NONE" })
+		vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal", bg = "NONE" })
+		vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE", background = "NONE" })
 		local str = " "
 		vim.opt.statusline = str
 	end,
@@ -28,7 +35,10 @@ return {
 		return {
 			options = {
 				globalstatus = true,
-				theme = "auto",
+				on_colors = function(colors)
+					colors.bg_statusline = "NONE"
+				end,
+				theme = "kanagawa",
 				component_separators = "",
 				-- section_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
@@ -116,7 +126,7 @@ return {
 						function()
 							return " "
 						end,
-						color = { bg = "#1f1f28" },
+						color = { bg = "NONE" },
 					},
 				},
 				lualine_x = {},
@@ -144,8 +154,7 @@ return {
 
 								if #content > 20 then
 									content = content:sub(1, 17)
-									content = content .. 
-									"..."
+									content = content .. "..."
 								end
 
 								content = content:gsub("%%", "%%%%") -- This replaces % with %%
@@ -156,7 +165,7 @@ return {
 							end
 						end,
 						icon = "󱉨", -- clipboard icon
-						color = { fg = "#ff9e64" }, -- optional: customize color
+						color = { fg = "#ff9e64", bg = "NONE" }, -- optional: customize color
 					},
 					{ "fancy_macro" },
 					{ "overseer" },
