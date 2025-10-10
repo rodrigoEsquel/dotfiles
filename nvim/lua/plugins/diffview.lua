@@ -83,10 +83,10 @@ return {
 			noremap = true,
 		},
 		{
-			"<leader>gD",
+			"<leader>g<c-d>",
 			open_branch_diff,
 			-- get_diffview_name,
-			desc = "[G]it open branch [D]iff ",
+			desc = "[G]it open [B]ranch diff ",
 			noremap = true,
 		},
 		{
