@@ -1,41 +1,51 @@
 #!/bin/bash
 
+# Configuration
 DB_NAME="postgres"
 DB_USER="postgres"
 DB_PASSWORD="postgres"
 SQL_FILE="/home/rodrigo/Downloads/dev-20241008T080001.sql"
 
-
 # Export password to avoid it showing in process list
 export PGPASSWORD="$DB_PASSWORD"
 
-# Drop all tables in the public schema
-sudo -u postgres psql postgres <<EOF
-DO \$\$ DECLARE
-    r RECORD;
-BEGIN
-    -- Disable foreign key checks during deletion
-    SET CONSTRAINTS ALL DEFERRED;
-    
-    -- Drop all tables in public schema
-    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-        EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
-    END LOOP;
-    
-    -- Drop all sequences
-    FOR r IN (SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public') LOOP
-        EXECUTE 'DROP SEQUENCE IF EXISTS public.' || quote_ident(r.sequence_name) || ' CASCADE';
-    END LOOP;
-    
-    -- Drop all views
-    FOR r IN (SELECT viewname FROM pg_views WHERE schemaname = 'public') LOOP
-        EXECUTE 'DROP VIEW IF EXISTS public.' || quote_ident(r.viewname) || ' CASCADE';
-    END LOOP;
-END \$\$;
+echo "Starting database recreation process..."
+
+# Step 1: Clean up any remaining objects and terminate connections
+echo "Cleaning up any remaining objects in database '$DB_NAME'..."
+sudo -u postgres psql "$DB_NAME" <<EOF
+-- Drop all objects in public schema more aggressively
+DROP SCHEMA IF EXISTS public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
 EOF
 
-# Import the SQL file
-sudo -u postgres psql postgres < "$SQL_FILE"
+# Step 2: Terminate all connections to the target database
+echo "Terminating existing connections to database '$DB_NAME'..."
+sudo -u postgres psql -c "
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = '$DB_NAME'
+  AND pid <> pg_backend_pid();"
 
-# Unset password
+# Step 2: Drop the database
+echo "Dropping database '$DB_NAME'..."
+sudo -u postgres psql -c "DROP DATABASE IF EXISTS $DB_NAME;"
+
+# Step 3: Create a new database
+echo "Creating new database '$DB_NAME'..."
+sudo -u postgres psql -c "CREATE DATABASE $DB_NAME OWNER $DB_USER;"
+
+# Step 4: Import the SQL file
+echo "Importing data from '$SQL_FILE'..."
+if [ -f "$SQL_FILE" ]; then
+    sudo -u postgres psql "$DB_NAME" < "$SQL_FILE"
+    echo "Database recreation completed successfully!"
+else
+    echo "Error: SQL file '$SQL_FILE' not found!"
+    exit 1
+fi
+
+# Clean up
 unset PGPASSWORD
