@@ -8,6 +8,7 @@ local highlights = require("lualine.highlight")
 local component_icon = ""
 
 local function highlight(text, group)
+	-- vim.print(group)
 	return string.format("%%#%s#%s%%*", group, text)
 end
 
@@ -103,13 +104,17 @@ end
 
 local function create_reverse_highlight(existing_group)
 	local new_group = existing_group .. "_reverse"
-	local existing_hl = vim.api.nvim_get_hl_by_name(existing_group, true)
+	local hl = vim.api.nvim_get_hl(0, { name = new_group })
+	if next(hl) ~= nil then
+		return new_group
+	end
+	local existing_hl = vim.api.nvim_get_hl(0, { name = existing_group })
 
 	vim.api.nvim_set_hl(0, new_group, {
-		fg = existing_hl.background,
-		bg = existing_hl.foreground,
-		ctermfg = existing_hl.background,
-		ctermbg = existing_hl.foreground,
+		fg = existing_hl.bg,
+		bg = "NONE",
+		ctermfg = existing_hl.ctermbg,
+		ctermbg = "NONE",
 	})
 
 	return new_group
@@ -156,7 +161,7 @@ function M:update_status()
 			state = state .. hightlighted_item
 		end
 
-		-- state = state .. "%##"
+		-- add an empty string with Normal highlight gr
 		-- vim.g.harpoon_has_changed = false
 	end
 	return state
