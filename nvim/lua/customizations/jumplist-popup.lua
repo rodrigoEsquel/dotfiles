@@ -132,7 +132,8 @@ function M.show_jumplist(opts)
 		noautocmd = true,
 	}
 	popup_win = vim.api.nvim_open_win(bufnr, false, win_opts)
-	pcall(vim.api.nvim_win_set_option, popup_win, "winblend", 10)
+	pcall(vim.api.nvim_win_set_option, popup_win, "winblend", 0)
+	pcall(vim.api.nvim_win_set_option, popup_win, "winhighlight", "Normal:Normal,NormalFloat:Normal")
 
 	local ns = vim.api.nvim_create_namespace("jumplist_popup_ns")
 
@@ -149,7 +150,7 @@ function M.show_jumplist(opts)
 		end
 		local fname_len = #filename
 
-		add_hl(bufnr, ns, "lualine_b_normal", line, 0, fname_len)
+		add_hl(bufnr, ns, "@constant", line, 0, fname_len)
 		add_hl(bufnr, ns, "Number", line, fname_len, fname_len + 1)
 
 		local snippet_start = fname_len + 4
@@ -162,7 +163,7 @@ function M.show_jumplist(opts)
 					if node:type() == "identifier" then
 						local srow, scol, erow, ecol = node:range()
 						if srow == j.lnum - 1 then
-							add_hl(bufnr, ns, "Identifier", line, snippet_start + scol, snippet_start + ecol)
+							add_hl(bufnr, ns, "NormalFloat", line, snippet_start + scol, snippet_start + ecol)
 						end
 					end
 				end
