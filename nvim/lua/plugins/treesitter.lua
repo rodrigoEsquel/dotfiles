@@ -22,6 +22,7 @@ return {
 		require("treesitter-context").setup({
 			max_lines = 4,
 			min_window_height = 10,
+			trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
 		})
 
 		require("nvim-treesitter.configs").setup({
@@ -116,8 +117,8 @@ return {
 					local tag = comment:match("/%*%s*(%w+)%s*%*/")
 					if tag then
 						local language = tag:lower() == "svg" and "html"
-						    or vim.filetype.match({ filename = "a." .. tag })
-						    or tag:lower()
+							or vim.filetype.match({ filename = "a." .. tag })
+							or tag:lower()
 						metadata["injection.include-children"] = true
 						metadata["injection.language"] = language
 					end

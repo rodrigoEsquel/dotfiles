@@ -5,5 +5,8 @@ return {
 	build = function()
 		require("fundo").install()
 	end,
-	opts = {},
+	config = function()
+		vim.o.undofile = true
+		require("fundo").setup()
+	end,
 }

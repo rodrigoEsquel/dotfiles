@@ -14,12 +14,13 @@ return {
 			{
 				"<leader>g/",
 				':Git log -G""<left>',
-				desc = "Toggle [G]it sidebar",
+				desc = "Search [G]it in logs",
+				mode = {'n'}
 			},
 			{
 				"<leader>g/",
 				":'<,'>!Git log -G",
-				desc = "Toggle [G]it sidebar",
+				desc = "Search [G]it in logs",
 				mode = {'v'}
 			},
 			{

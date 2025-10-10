@@ -134,6 +134,30 @@ return {
 					harpoon_buffers,
 				},
 				lualine_x = {
+					{
+						function()
+							local reg = vim.v.register
+							local reg_display = reg == "" and '"' or reg == "%" and "%%" or reg
+							local content = vim.fn.getreg(reg == "" and '"' or reg)
+							if content and content ~= "" then
+								content = content:gsub("^%s+", ""):gsub("%s+$", ""):gsub("%s+", " ")
+
+								if #content > 20 then
+									content = content:sub(1, 17)
+									content = content .. 
+									"..."
+								end
+
+								content = content:gsub("%%", "%%%%") -- This replaces % with %%
+
+								return "[" .. reg_display .. "] " .. content
+							else
+								return reg_display
+							end
+						end,
+						icon = "󱉨", -- clipboard icon
+						color = { fg = "#ff9e64" }, -- optional: customize color
+					},
 					{ "fancy_macro" },
 					{ "overseer" },
 				},

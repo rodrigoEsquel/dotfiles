@@ -23,7 +23,7 @@ return {
 		},
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
-			--
+			{ title = "Vim", ft = "vim" },
 			{ title = "Git Commit", ft = "gitcommit" },
 			{ title = "DB Out", ft = "dbout" },
 			{ title = "Overseer", ft = "OverseerList" },
@@ -52,7 +52,7 @@ return {
 		},
 		left = {
 			{tittle = "DiffView Files", ft = "DiffviewFiles"},
-			{ title = "Git", ft = "git" },
+			-- { title = "Git", ft = "git" },
 			{title = "DB UI", ft = "dbui"},
 			{ title = "Scopes", ft = "dapui_scopes" },
 			-- keep showing floating window

@@ -1,3 +1,15 @@
+local function get_default_branch()
+	local handle = io.popen("git remote show origin | grep 'HEAD branch' | awk '{print $3}'")
+	-- check handle nil
+	if handle == nil then
+		return "master"
+	end
+	local result = handle:read("*a")
+	handle:close()
+	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
+	return response
+end
+
 return {
 	-- Adds git releated signs to the gutter, as well as utilities for managing changes
 	"lewis6991/gitsigns.nvim",
@@ -53,9 +65,11 @@ return {
 				end, { desc = "[G]it [B]lame line" })
 				map("n", "<leader>gB", gs.toggle_current_line_blame, { desc = "[G]it [B]lame toggle" })
 				map("n", "<leader>gd", gs.diffthis, { desc = "[G]it [D]iff this" })
-				-- map("n", "<leader>gD", function()
-				-- 	gs.diffthis("origin/main")
-				-- end, { desc = "[G]it [D]iff this to main" })
+				map("n", "<leader>gd", gs.diffthis, { desc = "[G]it [D]iff this" })
+				map("n", "<leader>gD", function()
+				     local branch = get_default_branch()
+					gs.diffthis("origin/" .. branch)
+				end, { desc = "[G]it [D]iff this to main" })
 				-- map('n', '<leader>td', gs.toggle_deleted)
 
 				-- Text object
