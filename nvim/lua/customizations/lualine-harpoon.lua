@@ -38,24 +38,33 @@ local function get_parent_dir(file_path)
 	end
 end
 
+local function truncate_string(str, max_length)
+	if #str <= max_length then
+		return str
+	end
+
+	local end_part_length = 10
+	local start_part_length = max_length - end_part_length - 3
+	local start_part = str:sub(1, start_part_length)
+	local end_part = str:sub(-end_part_length)
+	return start_part .. "..." .. end_part
+end
+
 local function process_harpoon_items(harpoon_files)
 	local filename_counts = {}
 	local processed_items = {}
-
 	for _, item in pairs(harpoon_files) do
 		local filename = get_filename(item.value)
 		if filename then
 			filename_counts[filename] = (filename_counts[filename] or 0) + 1
 		end
 	end
-
 	for index, item in pairs(harpoon_files) do
 		local file_path = item.value
 		local filename = get_filename(file_path)
 		local display_name = ""
 		local icon = ""
 		local isOil = file_path:match("oil://")
-
 		if filename and filename_counts[filename] > 1 then
 			local parent = get_parent_dir(file_path)
 			if parent then
@@ -67,6 +76,8 @@ local function process_harpoon_items(harpoon_files)
 			display_name = filename or file_path
 		end
 
+		display_name = truncate_string(display_name, 25)
+
 		if isOil then
 			icon = ""
 		else
@@ -75,7 +86,6 @@ local function process_harpoon_items(harpoon_files)
 				icon = ""
 			end
 		end
-
 		processed_items[index] = {
 			file_path = file_path,
 			display_name = display_name,
@@ -83,7 +93,6 @@ local function process_harpoon_items(harpoon_files)
 			is_current = is_current_file(file_path),
 		}
 	end
-
 	return processed_items
 end
 
