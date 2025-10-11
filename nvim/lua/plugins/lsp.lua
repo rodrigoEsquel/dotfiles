@@ -52,7 +52,17 @@ return {
 		},
 
 		-- Additional lua configuration, makes nvim stuff amazing!
-		"folke/neodev.nvim",
+		{
+			"folke/lazydev.nvim",
+			ft = "lua", -- only load on lua files
+			opts = {
+				library = {
+					-- See the configuration section for more details
+					-- Load luvit types when the `vim.uv` word is found
+					{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				},
+			},
+		},
 	},
 	config = function()
 		-- LSP settings.
@@ -77,7 +87,11 @@ return {
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
 			nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-			nmap("g<c-d>", '<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>', "[G]oto [D]efinition")
+			nmap(
+				"g<c-d>",
+				'<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>',
+				"[G]oto [D]efinition"
+			)
 			nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 			-- nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
@@ -180,8 +194,6 @@ return {
 			},
 		}
 
-		-- Setup neovim lua configuration
-		require("neodev").setup({})
 		-- require("java").setup()
 		require("neoconf").setup({})
 		require("ufo").setup()
@@ -200,27 +212,28 @@ return {
 
 		mason_lspconfig.setup({
 			ensure_installed = vim.tbl_keys(servers),
+
 		})
 
-		mason_lspconfig.setup_handlers({
-			function(server_name)
-				if server_name == "ts_ls" then
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = servers[server_name],
-						handlers = ts_handlers,
-					})
-				else
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = servers[server_name],
-						handlers = handlers,
-					})
-				end
-			end,
-		})
+		-- mason_lspconfig.setup_handlers({
+		-- 	function(server_name)
+		-- 		if server_name == "ts_ls" then
+		-- 			require("lspconfig")[server_name].setup({
+		-- 				capabilities = capabilities,
+		-- 				on_attach = on_attach,
+		-- 				settings = servers[server_name],
+		-- 				handlers = ts_handlers,
+		-- 			})
+		-- 		else
+		-- 			require("lspconfig")[server_name].setup({
+		-- 				capabilities = capabilities,
+		-- 				on_attach = on_attach,
+		-- 				settings = servers[server_name],
+		-- 				handlers = handlers,
+		-- 			})
+		-- 		end
+		-- 	end,
+		-- })
 
 		local format_is_enabled = false
 		vim.api.nvim_create_user_command("KickstartFormatToggle", function()
