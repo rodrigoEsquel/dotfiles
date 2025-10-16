@@ -80,7 +80,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Terminal Options",
 })
 
-vim.api.nvim_create_autocmd(
-	{ "FocusLost", "ModeChanged", "TextChanged", "BufEnter" },
-	{ desc = "autosave", pattern = "*", command = "silent! update" }
-)
+vim.api.nvim_create_autocmd({ "FocusLost", "ModeChanged", "TextChanged", "BufEnter" }, {
+	desc = "autosave",
+	pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.lua" },
+	command = "silent! update",
+})
