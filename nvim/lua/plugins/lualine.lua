@@ -9,12 +9,6 @@ return {
 	},
 	config = function(_, opts)
 		vim.opt.laststatus = 0
-		local auto_theme_custom = require("lualine.themes.kanagawa")
-		auto_theme_custom.normal.c.bg = "NONE"
-		auto_theme_custom.normal.b.bg = "NONE"
-		auto_theme_custom.normal.a.bg = "NONE"
-		-- Set the custom theme in opts before setup
-		opts.theme = auto_theme_custom
 		require("lualine").setup(opts)
 		require("lualine").hide({
 			place = { "statusline" }, -- The segment this change applies to.
@@ -22,6 +16,7 @@ return {
 		})
 		vim.api.nvim_set_hl(0, "Statusline", { link = "Normal", bg = "NONE" })
 		vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal", bg = "NONE" })
+		vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
 		vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE", background = "NONE" })
 		local str = " "
 		vim.opt.statusline = str
