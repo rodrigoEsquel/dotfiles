@@ -2,7 +2,7 @@ local devicons = require("nvim-web-devicons")
 
 local hl_divider = "lualine_b_replace"
 local hl_file = "lualine_b_normal"
-local hl_folder = "TabLineFill"
+local hl_folder = "lualine_b_command"
 
 local function create_highlight_group(file_type, guifg)
 	local highlight_group = "FileType" .. file_type
