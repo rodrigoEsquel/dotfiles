@@ -134,6 +134,13 @@ return {
 				},
 				lualine_b = {
 					{ "fancy_branch" },
+					{
+						function()
+							return ""
+						end,
+						padding = { left = 0, right = 0 },
+						color = { fg = "#252535", bg = "NONE" },
+					},
 				},
 				lualine_c = {
 					harpoon_buffers,
