@@ -67,9 +67,10 @@ return {
 				map("n", "<leader>gd", gs.diffthis, { desc = "[G]it [D]iff this" })
 				map("n", "<leader>gd", gs.diffthis, { desc = "[G]it [D]iff this" })
 				map("n", "<leader>gD", function()
-				     local branch = get_default_branch()
-					gs.diffthis("origin/" .. branch)
-				end, { desc = "[G]it [D]iff this to main" })
+					local branch = get_default_branch()
+					-- gs.diffthis("origin/" .. branch)
+					gs.diffthis(branch)
+				end, { desc = "[G]it [D]iff this to origin" })
 				-- map('n', '<leader>td', gs.toggle_deleted)
 
 				-- Text object
@@ -82,6 +83,5 @@ return {
 			vim.cmd("Git commit")
 		end, { noremap = false, desc = "[G]it [C]ommit" })
 		vim.api.nvim_set_keymap("n", "<leader>gp", ":Git pull<CR>", { noremap = false, desc = "[G]it [P]ull" })
-
 	end,
 }
