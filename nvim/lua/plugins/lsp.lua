@@ -212,7 +212,22 @@ return {
 
 		mason_lspconfig.setup({
 			ensure_installed = vim.tbl_keys(servers),
-
+			automatic_enable = true,
+			handlers = {
+				function(server_name)
+					local server = servers[server_name] or {}
+					-- This handles overriding only values explicitly passed
+					-- by the server configuration above. Useful when disabling
+					-- certain features of an LSP (for example, turning off formatting for ts_ls)
+					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+						on_attach = on_attach,
+						settings = servers[server_name],
+						handlers = handlers,
+					})
+				end,
+			},
 		})
 
 		-- mason_lspconfig.setup_handlers({
@@ -261,14 +276,56 @@ return {
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("kickstart-lsp-attach-format", { clear = true }),
 			-- This is where we attach the autoformatting for reasonable clients
-			callback = function(args)
-				local client_id = args.data.client_id
-				local client = vim.lsp.get_client_by_id(client_id)
-				local bufnr = args.buf
+			callback = function(event)
+				vim.print("LspAttach")
+				-- NOTE: Remember that Lua is a real programming language, and as such it is possible
+				-- to define small helper and utility functions so you don't have to repeat yourself.
+				--
+				-- In this case, we create a function that lets us more easily define mappings specific
+				-- for LSP related items. It sets the mode, buffer and description for us each time.
+				local nmap = function(keys, func, desc, mode)
+					mode = mode or "n"
+					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+				end
+				local client = vim.lsp.get_client_by_id(event.data.client_id)
+				local bufnr = event.buf
 
 				if client == nil then
 					return
 				end
+
+				-- local nmap = function(keys, func, desc)
+				-- 	if desc then
+				-- 		desc = "LSP: " .. desc
+				-- 	end
+				--
+				-- 	vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+				-- end
+
+				nmap("<leader>cn", vim.lsp.buf.rename, "[C]ode re[N]ame")
+				nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+
+				nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+				nmap(
+					"g<c-d>",
+					'<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>',
+					"[G]oto [D]efinition"
+				)
+				nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+				nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+				-- nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
+
+				-- nmap(
+				-- 	"<leader>sS",
+				-- 	require("telescope.builtin").lsp_dynamic_workspace_symbols,
+				-- 	"[W]orkspace [S]ymbols",
+				-- )
+
+				-- See `:help K` for why this keymap
+				-- nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+				vim.keymap.set({ "i" }, "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
+				-- Lesser used LSP functionality
+				nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
 				-- Only attach to clients that support document formatting
 				if not client.server_capabilities.documentFormattingProvider then
@@ -280,6 +337,10 @@ return {
 				if client.name == "ts_ls" then
 					return
 				end
+				-- Create a command `:Format` local to the LSP buffer
+				vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+					vim.lsp.buf.format()
+				end, { desc = "Format current buffer with LSP" })
 
 				-- Create an autocmd that will run *before* we save the buffer.
 				--  Run the formatting command for the LSP that has just attached.
