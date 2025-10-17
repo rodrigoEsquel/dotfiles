@@ -3,16 +3,14 @@ return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		-- Automatically install LSPs to stdpath for neovim
-		{
-			"williamboman/mason.nvim",
-			opts = {
-				registries = {
-					-- "github:nvim-java/mason-registry",
-					"github:mason-org/mason-registry",
-				},
-			},
-		},
-		"williamboman/mason-lspconfig.nvim",
+		-- Mason must be loaded before its dependents so we need to set it up here.
+		-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+		{ "mason-org/mason.nvim", opts = {} },
+		"mason-org/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+
+		-- Useful status updates for LSP.
+		{ "j-hui/fidget.nvim", opts = {} },
 		"folke/neoconf.nvim",
 		-- "nvim-java/lua-async-await",
 		-- "nvim-java/nvim-java-core",
@@ -74,44 +72,6 @@ return {
 			--
 			-- In this case, we create a function that lets us more easily define mappings specific
 			-- for LSP related items. It sets the mode, buffer and description for us each time.
-
-			local nmap = function(keys, func, desc)
-				if desc then
-					desc = "LSP: " .. desc
-				end
-
-				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-			end
-
-			nmap("<leader>cn", vim.lsp.buf.rename, "[C]ode re[N]ame")
-			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
-			nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-			nmap(
-				"g<c-d>",
-				'<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>',
-				"[G]oto [D]efinition"
-			)
-			nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-			nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-			-- nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
-
-			-- nmap(
-			-- 	"<leader>sS",
-			-- 	require("telescope.builtin").lsp_dynamic_workspace_symbols,
-			-- 	"[W]orkspace [S]ymbols",
-			-- )
-
-			-- See `:help K` for why this keymap
-			-- nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-			vim.keymap.set({ "i" }, "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-			-- Lesser used LSP functionality
-			nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-			-- Create a command `:Format` local to the LSP buffer
-			vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-				vim.lsp.buf.format()
-			end, { desc = "Format current buffer with LSP" })
 		end
 		-- LSP settings (for overriding per client)
 		local handlers = {
@@ -144,7 +104,7 @@ return {
 					end
 				end
 
-				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx)
 			end,
 		}
 
