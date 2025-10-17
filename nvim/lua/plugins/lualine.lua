@@ -18,6 +18,7 @@ return {
 		vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal", bg = "NONE" })
 		vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
 		vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE", background = "NONE" })
+		vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
 		local str = " "
 		vim.opt.statusline = str
 	end,
@@ -30,8 +31,8 @@ return {
 		return {
 			options = {
 				globalstatus = true,
-				on_colors = function(colors)
-					colors.bg_statusline = "NONE"
+				on_colors = function(c)
+					c.bg_statusline = "NONE"
 				end,
 				theme = "kanagawa",
 				component_separators = "",
@@ -143,7 +144,13 @@ return {
 					},
 				},
 				lualine_c = {
-					harpoon_buffers,
+					{ harpoon_buffers },
+					{
+						function()
+							return " "
+						end,
+						color = { fg = "NONE", bg = "NONE" },
+					},
 				},
 				lualine_x = {
 					{
