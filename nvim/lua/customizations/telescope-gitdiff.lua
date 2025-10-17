@@ -101,62 +101,15 @@ end
 
 -- Function to get the base branch
 local function get_base_branch()
-	-- First, try to get the default branch from origin
-	local handle = io.popen("git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'")
-	local branch = handle:read("*a"):gsub("%s+", "")
+	local handle = io.popen("git remote show origin | grep 'HEAD branch' | awk '{print $3}'")
+	-- check handle nil
+	if handle == nil then
+		return "master"
+	end
+	local result = handle:read("*a")
 	handle:close()
-
-	if branch and branch ~= "" then
-		return branch
-	end
-
-	-- Try to get the remote's default branch
-	local handle = io.popen("git remote show origin 2>/dev/null | grep 'HEAD branch' | cut -d' ' -f5")
-	local remote_branch = handle:read("*a"):gsub("%s+", "")
-	handle:close()
-
-	if remote_branch and remote_branch ~= "" then
-		return remote_branch
-	end
-
-	-- Get current branch and find merge base with common branches
-	local handle = io.popen("git branch --show-current 2>/dev/null")
-	local current_branch = handle:read("*a"):gsub("%s+", "")
-	handle:close()
-
-	if current_branch and current_branch ~= "" then
-		local branches = { "main", "master", "develop" }
-
-		for _, branch in ipairs(branches) do
-			-- Check if branch exists
-			local handle = io.popen("git show-ref --verify --quiet refs/heads/" .. branch .. " 2>/dev/null")
-			local result = handle:close()
-
-			if result then
-				-- Check if there's a merge base (meaning it's a potential base branch)
-				local handle = io.popen("git merge-base " .. branch .. " " .. current_branch .. " 2>/dev/null")
-				local merge_base = handle:read("*a"):gsub("%s+", "")
-				handle:close()
-
-				if merge_base and merge_base ~= "" then
-					return branch
-				end
-			end
-		end
-	end
-
-	-- Final fallback: check which common branch exists
-	local branches = { "main", "master", "develop" }
-	for _, branch in ipairs(branches) do
-		local handle = io.popen("git show-ref --verify --quiet refs/heads/" .. branch .. " 2>/dev/null")
-		local result = handle:close()
-		if result then
-			return branch
-		end
-	end
-
-	-- Ultimate fallback
-	return "main"
+	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
+	return response
 end
 
 -- Function to get files with diff from base branch
