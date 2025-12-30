@@ -1,0 +1,53 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  q w e r t y u i o p
+  a s d f g h j k l ;
+  z x c v b n m , . /
+  spc
+)
+
+(deflayer base
+  q     w     e     r     t     y     u     i     o     p
+  @_a   @_s   @_d   @_f   g     h     @_j   @_k   @_l   @_sc
+  z     x     c     v     b     n     m     ,     .     /
+  @spc
+)
+
+(deflayer symbols
+  1     2     3     4     5     6     7     8     9     0
+  _esc  _tab  _del  _bspc ret   left  _down _up   _rght _XX
+  XX    -     '     `     XX    XX    [     ]     =     \
+  _
+)
+
+(defalias
+  ;; Left hand home row mods
+  _a    (tap-hold 200 200 a lmet)
+  _s    (tap-hold 200 200 s lalt)
+  _d    (tap-hold 200 200 d lctl)
+  _f    (tap-hold 200 200 f lsft)
+  
+  ;; Right hand home row mods
+  _j    (tap-hold 200 200 j rsft)
+  _k    (tap-hold 200 200 k rctl)
+  _l    (tap-hold 200 200 l lalt)
+  _sc   (tap-hold 200 200 ; rmet)
+
+  ;; Left hand home row mods
+  _esc  (tap-hold 200 200 esc lmet)
+  _tab  (tap-hold 200 200 tab lalt)
+  _del  (tap-hold 200 200 del lctl)
+  _bspc (tap-hold 200 200 bspc lsft)
+  
+  ;; Right hand home row mods
+  _down (tap-hold 200 200 down rsft)
+  _up   (tap-hold 200 200 up rctl)
+  _rght (tap-hold 200 200 rght lalt)
+  _XX   (tap-hold 200 200 XX rmet)
+  
+  ;; Space activates symbols layer
+  spc (tap-hold 200 200 spc (layer-toggle symbols))
+)
