@@ -60,11 +60,6 @@ local function open_repo_history()
 	vim.cmd("LualineRenameTab git full history")
 end
 
-local function _get_diffview_name()
-	local fork_point = vim.cmd("Git merge-base --fork-point master")
-	vim.cmd("DiffviewOpen " .. fork_point)
-end
-
 return {
 	"sindrets/diffview.nvim",
 	event = { "BufEnter" },

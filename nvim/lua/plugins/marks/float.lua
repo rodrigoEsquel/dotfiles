@@ -60,7 +60,6 @@ local M = {
 			"gitcommit",
 			"harpoon",
 			"help",
-			"help",
 			"neo-tree",
 			"neotest-output-panel",
 			"neotest-summary",

@@ -70,19 +70,6 @@ return {
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end, { desc = "[H]arpoon [L]ist" })
 
-		-- vim.keymap.set("n", "<leader>hh", function()
-		-- 	harpoon:list():select(1)
-		-- end, { desc = "[H]arpoon file 1" })
-		-- vim.keymap.set("n", "<leader>ht", function()
-		-- 	harpoon:list():select(2)
-		-- end, { desc = "[H]arpoon file 2" })
-		-- vim.keymap.set("n", "<leader>hn", function()
-		-- 	harpoon:list():select(3)
-		-- end, { desc = "[H]arpoon file 3" })
-		-- vim.keymap.set("n", "<leader>hl", function()
-		-- 	harpoon:list():select(4)
-		-- end, { desc = "[H]arpoon file 4" })
-
 		vim.keymap.set("n", "[h", function()
 			harpoon:list():prev()
 		end, { desc = "[H]arpoon Previous" })
@@ -94,15 +81,9 @@ return {
 			local number = vim.fn.getcharstr()
 			local numeric_value = tonumber(number)
 
-			-- Check if the conversion was successful
 			if numeric_value then
 				harpoon:list():select(numeric_value)
-			else
-				-- print("Invalid number entered")
 			end
 		end, { remap = true })
-		-- vim.keymap.set("n", "<leader>ha", mark.add_file, { desc = "[H]arpoon [M]ark file" })
-		-- vim.keymap.set("n", "<leader>hc", mark.rm_file, { desc = "[H]arpoon [C]lear marked file" })
-		-- vim.keymap.set("n", "<leader>hr", mark.clear_all, { desc = "[H]arpoon [R]eset" })
 	end,
 }

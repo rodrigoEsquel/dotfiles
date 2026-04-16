@@ -15,7 +15,7 @@ return {
 			{ "<leader>h" , group = "+[H]arpoon" },
 			{ "<leader>n" , group = "+[N]otes" },
 			{ "<leader>r" , group = "+[R]un" },
-			{ "<leader>o" , group = "+[O]pen]" },
+			{ "<leader>o" , group = "+[O]pen" },
 			{ "<leader>s" , group = "+[S]earch" },
 			{ "<leader>q" , group = "+[Q]uickfix" },
 			{ "<leader>t" , group = "+[T]est" },

@@ -17,11 +17,9 @@ return {
 			top = { size = 15 },
 		},
 		exit_when_last = true,
-
 		close_when_all_hidden = false,
 		top = {},
 		bottom = {
-			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			{ title = "Vim", ft = "vim" },
 			{ title = "Git Commit", ft = "gitcommit" },
 			{ title = "DB Out", ft = "dbout" },
@@ -45,27 +43,18 @@ return {
 			{ title = "Fugitive", ft = "fugitive" },
 			{
 				ft = "help",
-				-- only show help buffers
 				filter = function(buf)
 					return vim.bo[buf].buftype == "help"
 				end,
 			},
 		},
 		left = {
-			{ tittle = "DiffView Files", ft = "DiffviewFiles" },
-			-- { title = "Git", ft = "git" },
+			{ title = "DiffView Files", ft = "DiffviewFiles" },
 			{ title = "DB UI", ft = "dbui" },
 			{ title = "Scopes", ft = "dapui_scopes" },
-			-- keep showing floating window
-			-- { title = "Telescope", ft = "TelescopePrompt" },
-			-- { title = "Telescope", ft = "TelescopeResults" },
-			-- { title = "Oil", ft = "oil" },
 			{ title = "Test", ft = "neotest-summary" },
 			{ title = "Undo-Tree", ft = "undotree" },
 			{ title = "Undo-Tree", ft = "nvim-undotree" },
-			-- { title = "Breakpoints", ft = "dapui_breakpoints" },
-			-- { title = "Stacks", ft = "dapui_stacks" },
-			-- { title = "Watches", ft = "dapui_watches" },
 			{
 				title = "Neo-Tree Git",
 				ft = "neo-tree",

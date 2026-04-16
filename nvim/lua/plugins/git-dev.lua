@@ -1,5 +1,5 @@
 local open_tab = require("plugins.open-tab")
-local input
+
 return {
 	"moyiz/git-dev.nvim",
 	event = "VeryLazy",
@@ -14,9 +14,8 @@ return {
 		{
 			"<leader>go",
 			function()
-				input = vim.fn.input("Repository name / URI: ")
+				local input = vim.fn.input("Repository name / URI: ")
 				local repository, branch = input:match("^(.-)/tree/(.*)$")
-				-- check if input exist and is a not empty strng
 				if input and input ~= "" then
 					open_tab(input, function()
 						if branch then

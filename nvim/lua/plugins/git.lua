@@ -1,5 +1,4 @@
 return {
-
 	{
 		"tpope/vim-fugitive",
 		lazy = false,
@@ -15,13 +14,13 @@ return {
 				"<leader>g/",
 				':Git log -G""<left>',
 				desc = "Search [G]it in logs",
-				mode = {'n'}
+				mode = "n",
 			},
 			{
 				"<leader>g/",
 				":'<,'>!Git log -G",
 				desc = "Search [G]it in logs",
-				mode = {'v'}
+				mode = "v",
 			},
 			{
 				"<leader>gs",

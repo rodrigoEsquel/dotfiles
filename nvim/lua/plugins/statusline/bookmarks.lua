@@ -10,7 +10,6 @@ local highlights = require("lualine.highlight")
 local component_icon = ""
 
 local function highlight(text, group)
-	-- vim.print(group)
 	return string.format("%%#%s#%s%%*", group, text)
 end
 
@@ -167,8 +166,6 @@ function M:update_status()
 			state = state .. hightlighted_item
 		end
 
-		-- add an empty string with Normal highlight gr
-		-- vim.g.harpoon_has_changed = false
 	end
 	return state
 end

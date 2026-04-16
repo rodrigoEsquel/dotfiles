@@ -1,17 +1,14 @@
 local function get_default_branch()
 	local handle = io.popen("git remote show origin | grep 'HEAD branch' | awk '{print $3}'")
-	-- check handle nil
 	if handle == nil then
 		return "master"
 	end
 	local result = handle:read("*a")
 	handle:close()
-	local response = result:gsub("%s+", "") -- Remove any trailing whitespace
-	return response
+	return result:gsub("%s+", "")
 end
 
 return {
-	-- Adds git releated signs to the gutter, as well as utilities for managing changes
 	"lewis6991/gitsigns.nvim",
 	config = function()
 		require("gitsigns").setup({
@@ -26,7 +23,6 @@ return {
 					vim.keymap.set(mode, l, r, opts)
 				end
 
-				-- Navigation
 				map("n", "]g", function()
 					if vim.wo.diff then
 						return "]g"
@@ -46,34 +42,24 @@ return {
 					end)
 					return "<Ignore>"
 				end, { expr = true })
-				-- Actions
-				-- map("n", "<leader>gs", gs.stage_buffer, { desc = "[G]it [S]tage buffer" })
+
 				map("v", "<leader>gs", function()
 					gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 				end, { desc = "[G]it [S]tage hunk" })
-				-- map("v", "<leader>gr", function()
-				--   gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-				-- end, { desc = "[G]it [R]eset hunk" })
 				map("n", "<leader>gu", function()
 					gs.undo_stage_hunk({ 1, vim.fn.line("$") })
 				end, { desc = "[G]it [U]ndo stage hunk" })
 				map("v", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]it [U]ndo stage hunk" })
-				-- map("n", "<leader>gr", gs.reset_buffer_index, { desc = "[G]it [R]eset buffer" })
-				-- map("v", "<leader>gd", gs.preview_hunk, { desc = "[G]it [P]review hunk" })
 				map("n", "<leader>gb", function()
 					gs.blame_line({ full = true })
 				end, { desc = "[G]it [B]lame line" })
 				map("n", "<leader>gB", gs.toggle_current_line_blame, { desc = "[G]it [B]lame toggle" })
 				map("n", "<leader>gd", gs.diffthis, { desc = "[G]it [D]iff this" })
-				map("n", "<leader>gd", gs.diffthis, { desc = "[G]it [D]iff this" })
 				map("n", "<leader>gD", function()
 					local branch = get_default_branch()
-					-- gs.diffthis("origin/" .. branch)
 					gs.diffthis(branch)
 				end, { desc = "[G]it [D]iff this to origin" })
-				-- map('n', '<leader>td', gs.toggle_deleted)
 
-				-- Text object
 				map({ "o", "x" }, "ig", ":<C-U>Gitsigns select_hunk<CR>")
 				map({ "o", "x" }, "ag", ":<C-U>Gitsigns select_hunk<CR>")
 			end,

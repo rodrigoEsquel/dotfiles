@@ -28,16 +28,7 @@ return {
 				enable = true,
 				additional_vim_regex_highlighting = false,
 			},
-			additional_vim_regex_highlighting = false,
 			indent = { enable = true, disable = { "python" } },
-			incremental_selection = {
-				enable = false, -- native v_an/v_in in 0.12
-				keymaps = {
-					init_selection = "<leader>v",
-					node_incremental = "<CR>",
-					node_decremental = "<BS>",
-				},
-			},
 			textobjects = {
 				select = {
 					enable = true,
@@ -77,7 +68,7 @@ return {
 		require("treesitter-context").setup({
 			max_lines = 6,
 			min_window_height = 10,
-			trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+			trim_scope = "outer",
 		})
 		vim.keymap.set("n", "<leader>cu", function()
 			require("treesitter-context").go_to_context()

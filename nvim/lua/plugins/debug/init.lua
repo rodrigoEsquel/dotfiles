@@ -1,10 +1,3 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
 local js_based_languages = {
 	"typescript",
 	"javascript",
@@ -131,13 +124,6 @@ return {
 				end,
 				desc = "[O]pen [S]cope",
 			},
-			-- {
-			-- 	"<leader>rg",
-			-- 	function()
-			-- 		require("dap").goto_()
-			-- 	end,
-			-- 	desc = "Go to Line (No Execute)",
-			-- },
 			{
 				"<leader>ri",
 				function()
@@ -145,41 +131,6 @@ return {
 				end,
 				desc = "Step Into",
 			},
-			-- {
-			-- 	"<leader>rj",
-			-- 	function()
-			-- 		require("dap").down()
-			-- 	end,
-			-- 	desc = "Down",
-			-- },
-			-- {
-			-- 	"<leader>rk",
-			-- 	function()
-			-- 		require("dap").up()
-			-- 	end,
-			-- 	desc = "Up",
-			-- },
-			-- {
-			-- 	"<leader>rl",
-			-- 	function()
-			-- 		require("dap").run_last()
-			-- 	end,
-			-- 	desc = "Run Last",
-			-- },
-			-- {
-			-- 	"<leader>rp",
-			-- 	function()
-			-- 		require("dap").pause()
-			-- 	end,
-			-- 	desc = "Pause",
-			-- },
-			-- {
-			-- 	"<leader>rr",
-			-- 	function()
-			-- 		require("dap").repl.toggle()
-			-- 	end,
-			-- 	desc = "Toggle REPL",
-			-- },
 			{
 				"<leader>rs",
 				function()
@@ -252,8 +203,6 @@ return {
 					} }
 				},
 				config = function(_, opts)
-					-- setup dap config by VsCode launch.json file
-					-- require("dap.ext.vscode").load_launchjs()
 					local dap = require("dap")
 					local dapui = require("dapui")
 					require("nvim-dap-repl-highlights").setup()
@@ -301,8 +250,6 @@ return {
 					-- see mason-nvim-dap README for more information
 					handlers = {},
 
-					-- You'll need to check that you have the required things installed
-					-- online, please don't ask me how to install them :)
 					ensure_installed = {
 						-- Update this to ensure that you have the debuggers for the langs you want
 					},
