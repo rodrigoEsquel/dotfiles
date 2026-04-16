@@ -9,8 +9,6 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 
-		-- Useful status updates for LSP.
-		{ "j-hui/fidget.nvim", opts = {} },
 		"folke/neoconf.nvim",
 		-- "nvim-java/lua-async-await",
 		-- "nvim-java/nvim-java-core",
@@ -42,13 +40,6 @@ return {
 				vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
 			end,
 		},
-		-- Useful status updates for LSP
-		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-		{
-			"j-hui/fidget.nvim",
-			opts = {},
-		},
-
 		-- Additional lua configuration, makes nvim stuff amazing!
 		{
 			"folke/lazydev.nvim",
@@ -107,6 +98,7 @@ return {
 				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx)
 			end,
 		}
+		local lspconfig_util = require("lspconfig.util")
 
 		-- Enable the following language servers
 		--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -145,6 +137,32 @@ return {
 					},
 				},
 			},
+			oxlint = {},
+			eslint = {
+				root_dir = function(fname)
+					local oxlint_root = lspconfig_util.root_pattern(".oxlintrc.json")(fname)
+					if oxlint_root then
+						return nil
+					end
+
+					return lspconfig_util.root_pattern(
+						".eslintrc",
+						".eslintrc.js",
+						".eslintrc.cjs",
+						".eslintrc.mjs",
+						".eslintrc.json",
+						".eslintrc.yaml",
+						".eslintrc.yml",
+						"eslint.config.js",
+						"eslint.config.cjs",
+						"eslint.config.mjs",
+						"eslint.config.ts",
+						"eslint.config.mts",
+						"eslint.config.cts",
+						"package.json"
+					)(fname)
+				end,
+			},
 
 			lua_ls = {
 				Lua = {
@@ -158,9 +176,11 @@ return {
 		require("neoconf").setup({})
 		require("ufo").setup()
 
-		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+		local ok, blink = pcall(require, "blink.cmp")
+		if ok then
+			capabilities = blink.get_lsp_capabilities(capabilities)
+		end
 
 		capabilities.textDocument.foldingRange = {
 			dynamicRegistration = false,
@@ -254,25 +274,36 @@ return {
 					return
 				end
 
-				-- local nmap = function(keys, func, desc)
-				-- 	if desc then
-				-- 		desc = "LSP: " .. desc
-				-- 	end
-				--
-				-- 	vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-				-- end
+				-- Native document highlights (replacing vim-illuminate)
+				if client:supports_method("textDocument/documentHighlight") then
+					local hl_group = vim.api.nvim_create_augroup("lsp-document-highlight-" .. bufnr, { clear = true })
+					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+						buffer = bufnr,
+						group = hl_group,
+						callback = vim.lsp.buf.document_highlight,
+					})
+					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+						buffer = bufnr,
+						group = hl_group,
+						callback = vim.lsp.buf.clear_references,
+					})
+				end
 
 				nmap("<leader>cn", vim.lsp.buf.rename, "[C]ode re[N]ame")
 				nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-				nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-				nmap(
-					"g<c-d>",
-					'<cmd>vsplit | lua require("telescope.builtin").lsp_definitions()<cr><cr>',
-					"[G]oto [D]efinition"
-				)
-				nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-				nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+				nmap("gd", function()
+					require("snacks").picker.lsp_definitions()
+				end, "[G]oto [D]efinition")
+				nmap("g<c-d>", function()
+					require("snacks").picker.lsp_definitions({ jump = { cmd = "vsplit" } })
+				end, "[G]oto [D]efinition")
+				nmap("gR", function()
+					require("snacks").picker.lsp_references()
+				end, "[G]oto [R]eferences")
+				nmap("gI", function()
+					require("snacks").picker.lsp_implementations()
+				end, "[G]oto [I]mplementation")
 				-- nmap("gt", require("telescope.builtin").lsp_type_definitions, "[T]ype Definition")
 
 				-- nmap(
@@ -312,7 +343,7 @@ return {
 							return
 						end
 
-						require("customizations.format-file-saving-marks")()
+						require("plugins.marks.format")()
 					end,
 				})
 			end,

@@ -82,10 +82,15 @@ vim.keymap.set("i", "<c-l>", "<del>")
 -- )
 
 vim.keymap.set("n", "<leader>cc", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[C]ode [C]hange" })
-vim.keymap.set("n", "<leader>c<space>", require("customizations.format-file-saving-marks"), { desc = "[C]ode Format" })
+vim.keymap.set("n", "<leader>c<space>", require("plugins.marks.format"), { desc = "[C]ode Format" })
 
-vim.keymap.set("n", "<leader>da", ":diffthis<CR>", { desc = "[D]iff [A]dd" })
-vim.keymap.set("n", "<leader>do", ":diffoff<CR>", { desc = "[D]iff [O]ff" })
+vim.keymap.set("n", "<leader>dt", function()
+	if vim.wo.diff then
+		vim.cmd("diffoff")
+	else
+		vim.cmd("diffthis")
+	end
+end, { desc = "[D]iff [T]oggle" })
 
 -- open a floating window with a terminal
 local open_terminal = function()
@@ -132,22 +137,4 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
-local jumplist_popup = require("customizations.jumplist-popup")
-
-local function do_jump(keys)
-	-- Convert to proper termcodes
-	local term = vim.api.nvim_replace_termcodes(keys .. "zz", true, false, true)
-	-- Feed keys as if typed, preserving normal behavior
-	vim.api.nvim_feedkeys(term, "n", false)
-	-- Show popup *after* jump, using vim.schedule
-	vim.schedule(function()
-		jumplist_popup.show_jumplist()
-	end)
-end
-
-vim.keymap.set("n", "<C-o>", function()
-	do_jump("<C-o>")
-end, { noremap = true, silent = true })
-vim.keymap.set("n", "<C-i>", function()
-	do_jump("<C-i>")
-end, { noremap = true, silent = true })
+-- Jumplist keymaps moved to plugins/jumplist/init.lua

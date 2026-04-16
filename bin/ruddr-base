@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BRANCH="${1:-$(ruddr-branch)}"
+
+# If branch starts with issue-<number>, extract that
+if [[ "$BRANCH" =~ ^issue-([0-9]+) ]]; then
+  echo "issue-${BASH_REMATCH[1]}"
+elif [[ "$BRANCH" =~ ^([0-9]+) ]]; then
+  echo "issue-$BRANCH"
+else
+  echo "$BRANCH"
+fi

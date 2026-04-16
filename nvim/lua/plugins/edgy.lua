@@ -19,8 +19,7 @@ return {
 		exit_when_last = true,
 
 		close_when_all_hidden = false,
-		top = {
-		},
+		top = {},
 		bottom = {
 			-- { ft = "WhichKey", title = "WhichKey" }, No working as intended
 			{ title = "Vim", ft = "vim" },
@@ -38,6 +37,8 @@ return {
 		},
 		right = {
 			{ ft = "Avante", title = "Avante" },
+			{ ft = "codex", title = "Codex" },
+			{ ft = "sidekick_terminal", title = "Sidekick" },
 			{ ft = "AvanteSelectedFiles", title = "Avante Selected Files" },
 			{ ft = "AvanteInput", title = "Avante Input" },
 			{ ft = "terminal-vsplit", title = "Terminal" },
@@ -51,9 +52,9 @@ return {
 			},
 		},
 		left = {
-			{tittle = "DiffView Files", ft = "DiffviewFiles"},
+			{ tittle = "DiffView Files", ft = "DiffviewFiles" },
 			-- { title = "Git", ft = "git" },
-			{title = "DB UI", ft = "dbui"},
+			{ title = "DB UI", ft = "dbui" },
 			{ title = "Scopes", ft = "dapui_scopes" },
 			-- keep showing floating window
 			-- { title = "Telescope", ft = "TelescopePrompt" },
@@ -61,6 +62,7 @@ return {
 			-- { title = "Oil", ft = "oil" },
 			{ title = "Test", ft = "neotest-summary" },
 			{ title = "Undo-Tree", ft = "undotree" },
+			{ title = "Undo-Tree", ft = "nvim-undotree" },
 			-- { title = "Breakpoints", ft = "dapui_breakpoints" },
 			-- { title = "Stacks", ft = "dapui_stacks" },
 			-- { title = "Watches", ft = "dapui_watches" },

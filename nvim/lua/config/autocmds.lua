@@ -1,4 +1,4 @@
-local open_tab = require("customizations.open-tab")
+local open_tab = require("plugins.open-tab")
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })

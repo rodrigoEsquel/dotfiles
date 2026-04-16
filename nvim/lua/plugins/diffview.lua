@@ -83,10 +83,18 @@ return {
 			noremap = true,
 		},
 		{
-			"<leader>g<c-d>",
+			"<leader>gR",
 			open_branch_diff,
-			-- get_diffview_name,
-			desc = "[G]it open [B]ranch diff ",
+			desc = "[G]it [R]eview branch diff",
+			noremap = true,
+		},
+		{
+			"<leader>gr",
+			function()
+				vim.cmd("DiffviewOpen")
+				vim.cmd("LualineRenameTab git local diff")
+			end,
+			desc = "[G]it [r]eview local changes",
 			noremap = true,
 		},
 		{

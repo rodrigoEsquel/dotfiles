@@ -4,6 +4,7 @@ return {
 		local wk = require("which-key")
 		wk.setup()
 		wk.add({
+			{ "<leader>a" , group = "+[A]gent" },
 			{ "<leader>]" , group = "+Next" },
 			{ "<leader>[" , group = "+Previous" },
 			{ "<leader>b" , group = "+[B]uffer" },

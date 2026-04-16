@@ -1,4 +1,4 @@
-local open_tab = require("customizations.open-tab")
+local open_tab = require("plugins.open-tab")
 
 local function open_test_tab()
 	open_tab("test", function()
@@ -20,7 +20,7 @@ return {
 		},
 		{
 			"thenbe/neotest-playwright",
-			dependencies = "nvim-telescope/telescope.nvim",
+			dependencies = {},
 		},
 	},
 	config = function()
