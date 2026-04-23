@@ -1,8 +1,5 @@
 return {
 	"folke/edgy.nvim",
-	dependencies = {
-		"nvim-neo-tree/neo-tree.nvim",
-	},
 	event = "VeryLazy",
 	init = function()
 		vim.opt.splitkeep = "screen"
@@ -55,15 +52,6 @@ return {
 			{ title = "Test", ft = "neotest-summary" },
 			{ title = "Undo-Tree", ft = "undotree" },
 			{ title = "Undo-Tree", ft = "nvim-undotree" },
-			{
-				title = "Neo-Tree Git",
-				ft = "neo-tree",
-				filter = function(buf)
-					return vim.b[buf].neo_tree_source == "git_status"
-				end,
-				pinned = true,
-				open = "Neotree position=right git_status",
-			},
 		},
 	},
 }

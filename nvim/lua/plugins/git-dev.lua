@@ -1,4 +1,4 @@
-local open_tab = require("plugins.open-tab")
+local open_tab = require("utils.open-tab")
 
 return {
 	"moyiz/git-dev.nvim",

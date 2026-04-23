@@ -50,6 +50,12 @@ local function open_branch_diff()
 	vim.cmd("LualineRenameTab git diff")
 end
 
+local function open_unpushed_diff()
+	local current_branch = get_current_branch()
+	vim.cmd("DiffviewOpen origin/" .. current_branch)
+	vim.cmd("LualineRenameTab git unpushed")
+end
+
 local function open_file_history()
 	vim.cmd("DiffviewFileHistory %")
 	vim.cmd("LualineRenameTab git file history")
@@ -90,6 +96,21 @@ return {
 				vim.cmd("LualineRenameTab git local diff")
 			end,
 			desc = "[G]it [r]eview local changes",
+			noremap = true,
+		},
+		{
+			"<leader>gS",
+			function()
+				vim.cmd("DiffviewOpen --cached")
+				vim.cmd("LualineRenameTab git staged")
+			end,
+			desc = "[G]it review [S]taged changes",
+			noremap = true,
+		},
+		{
+			"<leader>gU",
+			open_unpushed_diff,
+			desc = "[G]it review [U]npushed changes",
 			noremap = true,
 		},
 		{

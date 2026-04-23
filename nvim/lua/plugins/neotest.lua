@@ -1,4 +1,4 @@
-local open_tab = require("plugins.open-tab")
+local open_tab = require("utils.open-tab")
 
 local function open_test_tab()
 	open_tab("test", function()
