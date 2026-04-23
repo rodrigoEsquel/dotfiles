@@ -1,0 +1,28 @@
+#!/bin/bash
+# Jump to the tmux pane running a server on port 3000
+
+SERVER_PID=$(lsof -iTCP:3000 -sTCP:LISTEN -t 2>/dev/null | head -1)
+
+if [ -z "$SERVER_PID" ]; then
+  tmux display-message "No server running on port 3000"
+  exit 1
+fi
+
+# Build a map of tmux pane PIDs -> pane targets
+declare -A PANE_MAP
+while IFS=' ' read -r pid target; do
+  PANE_MAP[$pid]="$target"
+done < <(tmux list-panes -a -F '#{pane_pid} #{session_name}:#{window_index}.#{pane_index}')
+
+# Walk up the process tree from the server PID to find its tmux pane
+PID=$SERVER_PID
+while [ "$PID" -gt 1 ] 2>/dev/null; do
+  if [ -n "${PANE_MAP[$PID]}" ]; then
+    tmux switch-client -t "${PANE_MAP[$PID]}"
+    exit 0
+  fi
+  PID=$(ps -o ppid= -p "$PID" 2>/dev/null | tr -d ' ')
+done
+
+tmux display-message "Server on :3000 found (PID $SERVER_PID) but not in a tmux pane"
+exit 1

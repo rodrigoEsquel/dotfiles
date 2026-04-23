@@ -1,0 +1,23 @@
+#!/bin/sh
+# Pick unattached tmux session to switch to. C-d kills selected session.
+
+list() {
+  tmux list-sessions -F '#{session_id} #{?session_attached,,#{session_name}}' 2>/dev/null |
+    awk 'NF==2 { sub(/^\$/, "", $1); printf "%-5s %s\n", $1, $2 }'
+}
+
+case "$1" in
+  --list) list; exit 0 ;;
+esac
+
+line="$(
+  list | fzf --reverse \
+    --header 'id  | name' \
+    --footer 'C-d: kill session' \
+    --bind "ctrl-d:execute-silent(tmux kill-session -t {2} 2>/dev/null)+reload($0 --list)"
+)"
+
+[ -z "$line" ] && exit 0
+
+name="$(printf "%s" "$line" | awk '{print $2}')"
+tmux switch-client -t "$name"
