@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Manage Claude tmux notification flags shown on status-right.
+# Usage:
+#   claude-tmux-notify add <pane_id> <event> <label>
+#   claude-tmux-notify clear <pane_id>
+#   claude-tmux-notify render
+
+set -eu
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-notify"
+mkdir -p "$cache_dir"
+
+safe_pane() {
+	printf '%s' "$1" | tr -c 'A-Za-z0-9%_-' '_'
+}
+
+render() {
+	local out=""
+	shopt -s nullglob
+	for f in "$cache_dir"/pane-*; do
+		local fname pane event label style
+		fname="${f##*/pane-}"
+		pane="$(sed -n '1p' "$f")"
+		event="$(sed -n '2p' "$f")"
+		label="$(sed -n '3p' "$f")"
+		[ -z "$pane" ] && continue
+		[ -z "$label" ] && label="claude"
+		case "$event" in
+			notification) style="#[fg=#DCA561,bold]" ;;
+			stop)         style="#[fg=#76946A,bold]" ;;
+			subagent_stop) style="#[fg=#7e9cd8,bold]" ;;
+			*)            style="#[fg=#C8C093,bold]" ;;
+		esac
+		out+="#[range=user|claude:${pane}]${style} ● ${label} #[norange,nobold] "
+	done
+	printf '%s' "$out"
+}
+
+publish() {
+	local rendered
+	rendered="$(render)"
+	tmux set-option -g "@claude-notify" "$rendered" 2>/dev/null || true
+	tmux refresh-client -S 2>/dev/null || true
+}
+
+cmd="${1:-}"
+case "$cmd" in
+	add)
+		pane="${2:-}"
+		event="${3:-stop}"
+		label="${4:-claude}"
+		[ -z "$pane" ] && exit 0
+		key="$(safe_pane "$pane")"
+		printf '%s\n%s\n%s\n' "$pane" "$event" "$label" > "$cache_dir/pane-$key"
+		publish
+		;;
+	clear)
+		pane="${2:-}"
+		[ -z "$pane" ] && exit 0
+		key="$(safe_pane "$pane")"
+		rm -f "$cache_dir/pane-$key"
+		publish
+		;;
+	render)
+		render
+		;;
+	*)
+		echo "usage: $0 add|clear|render ..." >&2
+		exit 2
+		;;
+esac

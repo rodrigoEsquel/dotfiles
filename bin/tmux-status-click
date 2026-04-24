@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Dispatch tmux status-line clicks.
+# Usage: tmux-status-click <button> <range> <session_path>
+button="${1:-}"
+range="${2:-}"
+session_path="${3:-}"
+
+case "$button" in
+  1)
+    case "$range" in
+      win:*)  tmux select-window -t:="${range#win:}" ;;
+      path)   open "$session_path" ;;
+      ses:*)  tmux switch-client -t "${range#ses:}" ;;
+      claude:*)
+        pane="${range#claude:}"
+        sess="$(tmux display-message -p -t "$pane" '#{session_name}' 2>/dev/null)"
+        [ -n "$sess" ] && tmux switch-client -t "$sess"
+        tmux select-window -t "$pane" 2>/dev/null || true
+        tmux select-pane -t "$pane" 2>/dev/null || true
+        "$HOME/dotfiles/bin/claude-tmux-notify" clear "$pane" >/dev/null 2>&1 || true
+        ;;
+    esac
+    ;;
+  3)
+    case "$range" in
+      win:*)
+        idx="${range#win:}"
+        tmux confirm-before -p "kill window $idx? (y/n)" "kill-window -t:=$idx"
+        ;;
+      ses:*)
+        name="${range#ses:}"
+        tmux confirm-before -p "kill session $name? (y/n)" "kill-session -t $name"
+        ;;
+      claude:*)
+        pane="${range#claude:}"
+        "$HOME/dotfiles/bin/claude-tmux-notify" clear "$pane" >/dev/null 2>&1 || true
+        ;;
+    esac
+    ;;
+esac
+exit 0
