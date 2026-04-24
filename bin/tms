@@ -1,0 +1,57 @@
+#!/bin/sh
+
+default_path3="$HOME/dotfiles"
+projects_path="$(find "$HOME/Work" "$HOME/Code" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)"
+
+if [ $# -eq 1 ]; then
+  selected="$1"
+else
+  export projects_path default_path3
+
+  src='
+    sessions="$(tmux list-sessions -F "#{session_name} #{session_id}" 2>/dev/null)"
+    printf "%s\n%s\n" "$projects_path" "$default_path3" |
+      sed "/^$/d" |
+      while IFS= read -r p; do
+        n="${p##*/}"
+        id="$(printf "%s\n" "$sessions" | awk -v k="$n" "\$1==k {print \$2}")"
+        if [ -n "$id" ]; then
+          printf "%-5s * %s\n" "$id" "$p"
+        else
+          printf "%-5s   %s\n" "" "$p"
+        fi
+      done
+  '
+
+  line="$(sh -c "$src" | fzf --reverse)"
+
+  if [ -z "$line" ]; then
+    echo "No directory selected"
+    exit 1
+  fi
+
+  selected="$(printf "%s" "$line" | awk '{print $NF}')"
+fi
+
+if [ -z "$selected" ]; then
+  echo "No directory selected"
+  exit 1
+fi
+
+tmux_running="$(pgrep tmux)"
+selected_name="${selected##*/}"
+
+if [ -z "${TMUX:-}" ] && [ -z "$tmux_running" ]; then
+  tmux new-session -As "$selected_name" -c "$selected"
+  exit 0
+fi
+
+for session in $(tmux list-sessions -F '#S' 2>/dev/null); do
+  if [ "$selected_name" = "$session" ]; then
+    tmux switch-client -t "$selected_name"
+    exit 0
+  fi
+done
+
+tmux new-session -ds "$selected_name" -c "$selected"
+tmux switch-client -t "$selected_name"
