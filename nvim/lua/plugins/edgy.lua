@@ -10,7 +10,7 @@ return {
 		options = {
 			left = { size = 40 },
 			bottom = { size = 15 },
-			right = { size = 60 },
+			right = { size = 0.4 },
 			top = { size = 15 },
 		},
 		exit_when_last = true,
@@ -31,11 +31,7 @@ return {
 			{ title = "Trouble", ft = "trouble" },
 		},
 		right = {
-			{ ft = "Avante", title = "Avante" },
-			{ ft = "codex", title = "Codex" },
-			{ ft = "sidekick_terminal", title = "Sidekick" },
-			{ ft = "AvanteSelectedFiles", title = "Avante Selected Files" },
-			{ ft = "AvanteInput", title = "Avante Input" },
+			{ ft = "snacks_terminal", title = "Agent" },
 			{ ft = "terminal-vsplit", title = "Terminal" },
 			{ title = "Fugitive", ft = "fugitive" },
 			{

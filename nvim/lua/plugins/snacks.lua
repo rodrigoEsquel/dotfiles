@@ -54,5 +54,16 @@ return {
 		{ "<leader>sb", function() require("snacks").picker.git_branches() end, desc = "[S]earch git [B]ranches" },
 		{ "<leader>s<space>", function() require("snacks").picker.resume() end, desc = "Resume [S]earch" },
 		{ "<leader>sS", git_diff_base, desc = "Git diff files" },
+		{
+			"<leader>aa",
+			function()
+				require("snacks").terminal.toggle(nil, {
+					cwd = vim.fn.getcwd(),
+					win = { position = "right", width = 0.4 },
+				})
+			end,
+			desc = "Toggle agent terminal",
+			mode = { "n", "t" },
+		},
 	},
 }

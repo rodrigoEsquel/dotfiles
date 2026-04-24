@@ -80,6 +80,30 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Terminal Options",
 })
 
+local function redraw_term()
+	local chan = vim.bo.channel
+	if chan and chan > 0 then
+		vim.api.nvim_chan_send(chan, "\x0c")
+	end
+end
+
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter", "VimResized" }, {
+	group = term_group,
+	pattern = "term://*",
+	callback = function()
+		vim.schedule(redraw_term)
+	end,
+	desc = "Redraw terminal TUI on focus/resize",
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = term_group,
+	callback = function()
+		vim.keymap.set({ "n", "t" }, "<C-g>l", redraw_term, { buffer = 0, desc = "Redraw terminal" })
+	end,
+	desc = "Manual terminal redraw keybind",
+})
+
 vim.api.nvim_create_autocmd({ "FocusLost", "ModeChanged", "TextChanged", "BufEnter" }, {
 	desc = "autosave",
 	pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.lua" },
