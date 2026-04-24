@@ -1,4 +1,11 @@
 (defcfg
+  macos-dev-names-include (
+    "Apple Internal Keyboard / Trackpad"
+    "Wireless Receiver"
+    "Logitech USB Receiver"
+    "USB Receiver"
+    "SANWA BT KEYBOARD"
+  )
   process-unmapped-keys yes
 )
 
@@ -10,16 +17,16 @@
 )
 
 (deflayer base
-  q     w     e     r     t     y     u     i     o     p
-  @_a   @_s   @_d   @_f   g     h     @_j   @_k   @_l   @_sc
-  z     x     c     v     b     n     m     ,     .     /
+  q      w      e      r      t      y      u      i      o      p
+  @_a    @_s    @_d    @_f    g      h      @_j    @_k    @_l    @_sc
+  z      x      c      v      b      n      m      ,      .      /
   @spc
 )
 
 (deflayer symbols
-  1     2     3     4     5     6     7     8     9     0
-  _esc  _tab  _del  _bspc ret   left  _down _up   _rght _XX
-  XX    -     '     `     XX    XX    [     ]     =     \
+  1      2      3      4      5      6      7      8      9      0
+  @_grv  @_min  @_quo  @_lbr  ]      left   @_down @_up   @_rght @_bsl
+  esc    tab    del    bspc   ret    =      XX     XX     XX     XX
   _
 )
 
@@ -37,17 +44,17 @@
   _sc   (tap-hold 200 200 ; rmet)
 
   ;; Left hand home row mods
-  _esc  (tap-hold 200 200 esc lmet)
-  _tab  (tap-hold 200 200 tab lalt)
-  _del  (tap-hold 200 200 del lctl)
-  _bspc (tap-hold 200 200 bspc lsft)
+  _grv  (tap-hold 200 200 ` lmet)
+  _min  (tap-hold 200 200 - lalt)
+  _quo  (tap-hold 200 200 ' lctl)
+  _lbr  (tap-hold 200 200 [ lsft)
   
   ;; Right hand home row mods
   _down (tap-hold 200 200 down rsft)
   _up   (tap-hold 200 200 up rctl)
   _rght (tap-hold 200 200 rght lalt)
-  _XX   (tap-hold 200 200 XX rmet)
-  
+  _bsl  (tap-hold 200 200 \ rmet)
+ 
   ;; Space activates symbols layer
   spc (tap-hold 200 200 spc (layer-toggle symbols))
 )
