@@ -72,11 +72,27 @@ local function make_on_open(pane)
 	end
 end
 
+local function edgy_visible()
+	local ok, edgy = pcall(require, "edgy")
+	if not ok then
+		return false
+	end
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if edgy.get_win(win) then
+			return true
+		end
+	end
+	return false
+end
+
 function M.notify(event, cwd, tmux_pane)
 	local p = presets[event] or { text = tostring(event), level = vim.log.levels.INFO, timeout = 4000 }
 	local text = "Claude " .. p.text
 	local pane = (tmux_pane and tmux_pane ~= "") and tmux_pane or nil
 	vim.schedule(function()
+		if edgy_visible() then
+			return
+		end
 		vim.notify(text, p.level, {
 			title = "Claude Code",
 			timeout = p.timeout,
