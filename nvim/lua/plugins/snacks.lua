@@ -55,7 +55,7 @@ return {
 		{ "<leader>s<space>", function() require("snacks").picker.resume() end, desc = "Resume [S]earch" },
 		{ "<leader>sS", git_diff_base, desc = "Git diff files" },
 		{
-			"<leader>aa",
+			"<leader>a",
 			function()
 				require("snacks").terminal.toggle(nil, {
 					cwd = vim.fn.getcwd(),

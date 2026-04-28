@@ -8,7 +8,7 @@ return {
 	end,
 	opts = {
 		options = {
-			left = { size = 40 },
+			left = { size = 60 },
 			bottom = { size = 15 },
 			right = { size = 0.4 },
 			top = { size = 15 },
@@ -31,7 +31,6 @@ return {
 			{ title = "Trouble", ft = "trouble" },
 		},
 		right = {
-			{ ft = "snacks_terminal", title = "Agent" },
 			{ ft = "terminal-vsplit", title = "Terminal" },
 			{ title = "Fugitive", ft = "fugitive" },
 			{
@@ -43,6 +42,7 @@ return {
 		},
 		left = {
 			{ title = "DiffView Files", ft = "DiffviewFiles" },
+			{ ft = "snacks_terminal", title = "Agent" },
 			{ title = "DB UI", ft = "dbui" },
 			{ title = "Scopes", ft = "dapui_scopes" },
 			{ title = "Test", ft = "neotest-summary" },

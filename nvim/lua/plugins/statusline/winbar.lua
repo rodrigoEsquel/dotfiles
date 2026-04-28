@@ -1,5 +1,24 @@
 local ok, devicons = pcall(require, "nvim-web-devicons")
 
+local function get_diffview_winbar()
+	local lib_ok, lib = pcall(require, "diffview.lib")
+	if not lib_ok then
+		return nil
+	end
+	local view = lib.get_current_view()
+	if not view or not view.cur_layout then
+		return nil
+	end
+	local cur_winid = vim.api.nvim_get_current_win()
+	for _, key in ipairs({ "a", "b", "c", "d" }) do
+		local w = view.cur_layout[key]
+		if w and w.id == cur_winid and w.file and w.file.winbar then
+			return w.file.winbar
+		end
+	end
+	return nil
+end
+
 local hl_divider = "lualine_b_replace"
 local hl_file = "lualine_b_normal"
 local hl_folder = "lualine_b_command"
@@ -100,6 +119,11 @@ local function highlight(text, group)
 end
 
 return function()
+	local diffview_label = get_diffview_winbar()
+	if diffview_label then
+		return diffview_label
+	end
+
 	local props = {
 		buf = vim.api.nvim_get_current_buf(),
 		file_path = vim.fn.expand("%:p"),
